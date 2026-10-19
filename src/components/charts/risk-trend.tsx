@@ -18,11 +18,13 @@ type Props = {
   /** "glance" is the small non-interactive overview version; "full" has range chips and a selected-point line. */
   variant: "glance" | "full";
   controls?: React.ReactNode;
+  /** Rendered between the chart note and the selected-point line (event markers, trust context). */
+  after?: React.ReactNode;
 };
 
 const RANGES = ["1M", "3M", "6M", "1Y", "all"] as const;
 
-export function RiskTrend({ items, baseline, now, patientName, variant, controls }: Props) {
+export function RiskTrend({ items, baseline, now, patientName, variant, controls, after }: Props) {
   const { t, locale } = useT();
   const [range, setRange] = useState<(typeof RANGES)[number]>("3M");
   const first = items.length ? Math.min(...items.map((i) => i.t)) : now;
@@ -58,10 +60,11 @@ export function RiskTrend({ items, baseline, now, patientName, variant, controls
           domain={[0, 100]} ticks={[100, 75, 50, 25]} baseline={baseline} range={[start, to]} axis={monthAxis(start, to, locale)}
           alt={t("trends.chartAlt", { name: patientName, n: items[items.length - 1]?.v ?? 0, when: items[items.length - 1]?.when ?? "", lo: baseline[0], hi: baseline[1] })}
           tableCaption={t("trends.tableCaption")} headers={[t("trends.eventDate"), t("result.indexTitle")]}
-          selectedId={full ? selected?.id : items[items.length - 1]?.id} onSelect={full ? setSelectedId : undefined} height={full ? 248 : 168}
+          selectedId={full ? selected?.id : items[items.length - 1]?.id} onSelect={full ? setSelectedId : undefined} height={full ? 248 : 168} tooltip={full ? "fixed" : "none"}
         />
       )}
       <p className="text-[10px] leading-[1.45] text-ink-muted">{t("trends.missing")}</p>
+      {after}
       {full && selected && <p className="text-[11px] text-ink-muted" aria-live="polite">{t("trends.selected", { when: selected.when, n: selected.v, band: t(`risk.${selected.band}`), lo: baseline[0], hi: baseline[1] })}</p>}
     </div>
   );

@@ -6,13 +6,13 @@ const fmt = (l: Locale, o: Intl.DateTimeFormatOptions) => new Intl.DateTimeForma
 
 export function formatSubmitted(iso: string, locale: Locale, at: string) {
   const d = new Date(iso);
-  const date = fmt(locale, { day: "numeric", month: "short", year: "numeric" }).format(d).replace(/\./g, "");
+  const date = fmt(locale, { day: "numeric", month: "short", year: "numeric" }).format(d).replace(/\./g, "").replace("Sept", "Sep");
   const time = fmt(locale, { hour: "2-digit", minute: "2-digit", hour12: false }).format(d);
   return `${date} ${at} ${time}`;
 }
 
 export const formatTime = (iso: string, locale: Locale) => fmt(locale, { hour: "2-digit", minute: "2-digit", hour12: false }).format(new Date(iso));
-export const formatShortDate = (iso: string, locale: Locale) => fmt(locale, { day: "numeric", month: "short" }).format(new Date(iso)).replace(/\./g, "");
+export const formatShortDate = (iso: string, locale: Locale) => fmt(locale, { day: "numeric", month: "short" }).format(new Date(iso)).replace(/\./g, "").replace("Sept", "Sep");
 export const formatLongDate = (iso: string, locale: Locale) => fmt(locale, { weekday: "long", day: "numeric", month: "long", year: "numeric" }).format(new Date(iso));
 
 const dayKey = (iso: string) => fmt("en", { year: "numeric", month: "2-digit", day: "2-digit" }).format(new Date(iso));
@@ -26,6 +26,6 @@ export function relativeDayTime(iso: string, now: string, locale: Locale, labels
   return `${formatShortDate(iso, locale)} · ${time}`;
 }
 
-export const formatDateTime = (iso: string, locale: Locale) => `${fmt(locale, { day: "2-digit", month: "short", year: "numeric" }).format(new Date(iso)).replace(/\./g, "")} · ${formatTime(iso, locale)}`;
-export const formatDay = (iso: string, locale: Locale) => fmt(locale, { day: "2-digit", month: "short" }).format(new Date(iso)).replace(/\./g, "");
-export const formatDayYear = (iso: string, locale: Locale) => fmt(locale, { day: "numeric", month: "short", year: "numeric" }).format(new Date(iso)).replace(/\./g, "");
+export const formatDateTime = (iso: string, locale: Locale) => `${fmt(locale, { day: "2-digit", month: "short", year: "numeric" }).format(new Date(iso)).replace(/\./g, "").replace("Sept", "Sep")} · ${formatTime(iso, locale)}`;
+export const formatDay = (iso: string, locale: Locale) => fmt(locale, { day: "2-digit", month: "short" }).format(new Date(iso)).replace(/\./g, "").replace("Sept", "Sep");
+export const formatDayYear = (iso: string, locale: Locale) => fmt(locale, { day: "numeric", month: "short", year: "numeric" }).format(new Date(iso)).replace(/\./g, "").replace("Sept", "Sep");

@@ -33,7 +33,7 @@ export const Field = forwardRef<HTMLInputElement, FieldProps>(function Field({ l
   );
 });
 
-type SelectProps = { label: string; options: string[]; error?: string; className?: string } & Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "className">;
+type SelectProps = { label: string; options: (string | { value: string; label: string })[]; error?: string; className?: string } & Omit<React.SelectHTMLAttributes<HTMLSelectElement>, "className">;
 
 export const SelectField = forwardRef<HTMLSelectElement, SelectProps>(function SelectField({ label, options, error, className, id, ...props }, ref) {
   const auto = useId();
@@ -43,7 +43,7 @@ export const SelectField = forwardRef<HTMLSelectElement, SelectProps>(function S
       <label htmlFor={fieldId} className="text-[12px] font-medium leading-[1.45] tracking-[-0.01em] text-ink">{label}</label>
       <div className="relative">
         <select ref={ref} id={fieldId} aria-invalid={!!error} className={cn(inputBase, "appearance-none pr-10", error && "[--edge:var(--risk-high)]")} {...props}>
-          {options.map((o) => <option key={o}>{o}</option>)}
+          {options.map((o) => { const v = typeof o === "string" ? { value: o, label: o } : o; return <option key={v.value} value={v.value}>{v.label}</option>; })}
         </select>
         <ChevronDown size={16} className="pointer-events-none absolute right-[13px] top-[15px] text-ink-muted" aria-hidden />
       </div>

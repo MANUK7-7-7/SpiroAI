@@ -7,7 +7,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeading } from "@/components/ui/card";
 import { DEMO_NOW } from "@/config/demo";
 import { metricOrder } from "@/config/metrics";
-import { formatDateTime, formatDayYear } from "@/lib/format";
+import { formatDateTime, formatDay } from "@/lib/format";
+import { reviewLabelKey } from "@/data/repositories/results";
 import { getT } from "@/lib/i18n/server";
 import { loadProfile } from "@/lib/profile-data";
 
@@ -23,6 +24,8 @@ export default async function TrendsTab({ params, searchParams }: { params: Prom
     const b = p.history!.baseline.metrics[m]!;
     return [m, { baseline: b.mean, sd: b.sd, points: records.filter((r) => r.result.quality?.level !== "poor").map((r) => ({ id: r.result.id, t: Date.parse(r.result.createdAt), v: r.result.features![key] as number, when: formatDateTime(r.result.createdAt, locale) })) }];
   })) as MetricSeries) : undefined;
+  const last = records[records.length - 1];
+  const lastLabel = last ? reviewLabelKey(last) : undefined;
   const first = items.length ? Math.min(...items.map((i) => i.t)) : now;
   const compare = records.length >= 2 ? `/patients/${id}/compare?a=${records[records.length - 2].result.id}&b=${records[records.length - 1].result.id}` : undefined;
 
@@ -34,23 +37,28 @@ export default async function TrendsTab({ params, searchParams }: { params: Prom
           <EmptyPanel message={t("trends.empty")} />
         ) : (
           <RiskTrend items={items} baseline={p.history.baselineBand} now={now} patientName={p.patient.name} variant="full"
-            controls={<div className="flex gap-2"><Button size="sm" href={compare}>{t("trends.compare")}</Button></div>} />
-        )}
-        {p.events.length > 0 && (
-          <ul className="flex flex-wrap gap-3" aria-label={t("trends.addEvent")}>
-            {[...p.events].sort((a, b) => a.date.localeCompare(b.date)).map((e) => (
-              <li key={e.id} className="flex flex-col gap-1 rounded-[16px] bg-surface-soft px-4 py-3 text-[11px] leading-[1.45]">
-                <span className="font-medium text-cobalt">● {formatDayYear(`${e.date}T12:00:00-03:00`, locale).replace(/\s\d{4}$/, "")}</span>
-                <span>{t(`trends.marker.${e.type}`)}{e.detail ? ` · ${e.detail}` : ""}</span>
-              </li>
-            ))}
-          </ul>
-        )}
-        {records.length > 0 && (
-          <div className="flex flex-col gap-[10px] text-[12px] leading-[1.45]">
-            <div className="flex flex-wrap gap-5 text-ink-muted"><p>{t("overview.confidence", { n: Math.round((records[records.length - 1].result.confidence ?? 0) * 100) })}</p><p>{t("overview.quality", { q: t(`quality.${records[records.length - 1].result.quality?.level ?? "good"}`) })}</p></div>
-            <p className="font-medium text-cobalt">{t("common.disclaimer")}</p>
-          </div>
+            controls={<div className="flex gap-2"><Button size="sm" href={compare}>{t("trends.compare")}</Button><Button size="sm" variant="primary" href="#add-event">{t("trends.addEvent")}</Button></div>}
+            after={
+              <>
+                {p.events.length > 0 && (
+                  <ul className="grid grid-cols-4 gap-4" aria-label={t("trends.addEvent")}>
+                    {[...p.events].sort((a, b) => a.date.localeCompare(b.date)).map((e) => (
+                      <li key={e.id} className="flex flex-col gap-1 rounded-[16px] bg-surface-soft p-4 text-[11px] leading-[1.45]">
+                        <span className="font-medium text-cobalt">● {formatDay(`${e.date}T12:00:00-03:00`, locale)}</span>
+                        <span>{t(`trends.marker.${e.type}`)}{e.detail ? ` · ${e.detail}` : ""}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+                {last && (
+                  <div className="flex flex-col gap-[10px] text-[12px] leading-[1.45]">
+                    <div className="flex flex-wrap gap-5 text-ink-muted"><p>{t("overview.confidence", { n: Math.round((last.result.confidence ?? 0) * 100) })}</p><p>{t("overview.quality", { q: t(`quality.${last.result.quality?.level ?? "good"}`) })}</p></div>
+                    <p className="font-medium text-cobalt">{t("common.disclaimer")}</p>
+                    <p className="text-ink-muted">{t("overview.final", { j: t(lastLabel!.key, lastLabel!.vars) })}</p>
+                  </div>
+                )}
+              </>
+            } />
         )}
       </Card>
       <div className="flex items-start gap-6">
@@ -58,7 +66,7 @@ export default async function TrendsTab({ params, searchParams }: { params: Prom
           <CardHeading title={t("trends.metricsTitle")} description={t("trends.metricsSub")} />
           {series && items.length ? <MetricTrend series={series} from={Math.min(first, now - 76 * 86_400_000)} to={now} /> : <EmptyPanel message={t("trends.empty")} />}
         </Card>
-        <div className="w-[350px] shrink-0"><EventForm patientId={id} defaultDate={DEMO_NOW.slice(0, 10)} /></div>
+        <div id="add-event" className="w-[350px] shrink-0"><EventForm patientId={id} defaultDate={DEMO_NOW.slice(0, 10)} /></div>
       </div>
     </ProfileFrame>
   );

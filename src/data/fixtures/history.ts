@@ -85,7 +85,9 @@ function build(p: Patient, specs: Spec[], base: typeof jamesBase, sd: typeof jam
     };
     return { result, testCode: `T-${testBase + i}`, recording, review };
   });
-  return { baseline, baselineBand: [Math.min(...specs.slice(0, 6).map((s) => s.risk)), Math.max(...specs.slice(0, 6).map((s) => s.risk))], records };
+  const early = specs.slice(0, 6).map((s) => s.risk);
+  const band: [number, number] = p.id === "p-001" ? [28, 38] : [Math.max(0, Math.min(...early) - 2), Math.min(100, Math.max(...early) + 2)];
+  return { baseline, baselineBand: band, records };
 }
 
 const cache = new Map<string, PatientHistory>();

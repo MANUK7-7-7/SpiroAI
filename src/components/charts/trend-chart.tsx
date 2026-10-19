@@ -21,6 +21,8 @@ type Props = {
   /** Gaps longer than this many days are drawn dashed: no recordings in between. */
   gapDays?: number;
   headers: [string, string];
+  /** "fixed" pins the exact-value tooltip to the top-right corner like the design; "none" hides it. */
+  tooltip?: "fixed" | "none";
 };
 
 const PAD = { l: 34, r: 10, t: 10, b: 24 };
@@ -29,7 +31,7 @@ const PAD = { l: 34, r: 10, t: 10, b: 24 };
  * Time series with a personal-baseline band, dashed segments for missing data, an exact-value
  * tooltip, keyboard selection (arrow keys) and a text alternative (hidden table).
  */
-export function TrendChart({ points, domain, ticks, tickLabel = String, baseline, range, axis, alt, tableCaption, selectedId, onSelect, height = 248, gapDays = 10, headers }: Props) {
+export function TrendChart({ points, domain, ticks, tickLabel = String, baseline, range, axis, alt, tableCaption, selectedId, onSelect, height = 248, gapDays = 10, headers, tooltip = "fixed" }: Props) {
   const wrap = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(780);
   useEffect(() => {
@@ -56,9 +58,6 @@ export function TrendChart({ points, domain, ticks, tickLabel = String, baseline
     if (next) { e.preventDefault(); onSelect(next.id); }
   };
 
-  const tipW = 132;
-  const tipX = selected ? Math.min(Math.max(x(selected.t) - tipW / 2, PAD.l), width - PAD.r - tipW) : 0;
-  const tipY = selected ? (y(selected.v) < PAD.t + 60 ? y(selected.v) + 12 : y(selected.v) - 60) : 0;
 
   return (
     <div ref={wrap} className="relative w-full" onKeyDown={onKey}>
@@ -83,8 +82,8 @@ export function TrendChart({ points, domain, ticks, tickLabel = String, baseline
           );
         })}
       </svg>
-      {selected && (
-        <div aria-hidden className="pointer-events-none absolute rounded-input bg-ink p-[10px] text-[11px] leading-[1.45] text-on-accent" style={{ left: tipX, top: tipY, width: tipW }}>
+      {selected && tooltip === "fixed" && (
+        <div aria-hidden className="pointer-events-none absolute right-5 top-3 rounded-input bg-ink p-[10px] text-[11px] leading-[1.45] text-on-accent">
           <p>{selected.when}</p>
           <p>{selected.valueLabel}</p>
         </div>

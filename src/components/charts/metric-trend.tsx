@@ -33,8 +33,8 @@ export function MetricTrend({ series, from, to }: { series: MetricSeries; from: 
         {metricOrder.map((m) => <FilterChip key={m} label={t(`result.metricNames.${m}`)} selected={m === metric} onClick={() => setMetric(m)} className="font-normal tracking-normal" />)}
       </div>
       <div className="flex flex-col gap-1 leading-[1.45]">
-        <p className="text-[14px] font-medium tracking-[-0.01em]">{t("trends.metricLine", { name, value: fmt(latest.v) })}</p>
-        <p className="text-[12px] text-ink-muted">{t("trends.delta", { arrow: delta >= 0 ? "↑" : "↓", delta: fmt(Math.abs(delta)) })}</p>
+        <p className="font-display text-[28px] font-medium tracking-[-0.035em]">{t("trends.metricLine", { name, value: fmt(latest.v) })}</p>
+        <p className="text-[12px] text-cobalt">{t("trends.delta", { arrow: delta >= 0 ? "↑" : "↓", delta: fmt(Math.abs(delta)) })}</p>
       </div>
       <TrendChart
         points={s.points.map((p) => ({ ...p, valueLabel: `${name} ${fmt(p.v)}` }))} domain={[lo, hi]} ticks={ticks} tickLabel={(v) => v.toFixed(cat.decimals)}

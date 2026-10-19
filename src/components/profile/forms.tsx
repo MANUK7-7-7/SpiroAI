@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeading } from "@/components/ui/card";
-import { Field } from "@/components/ui/field";
+import { Field, SelectField } from "@/components/ui/field";
 import { useT } from "@/lib/i18n/client";
 
 const area = "min-h-[76px] w-full resize-y rounded-input bg-surface-soft p-[13px] text-[14px] leading-[1.45] shadow-[inset_0_0_0_1px_var(--line)] outline-none placeholder:text-ink-muted focus:bg-surface focus:shadow-[inset_0_0_0_1px_var(--cobalt)]";
@@ -55,12 +55,7 @@ export function EventForm({ patientId, defaultDate }: { patientId: string; defau
   return (
     <Card>
       <CardHeading title={t("trends.eventTitle")} />
-      <div className="flex flex-col gap-[7px]">
-        <label htmlFor="ev-type" className="text-[12px] font-medium leading-[1.45]">{t("trends.eventType")}</label>
-        <select id="ev-type" value={type} onChange={(e) => setType(e.target.value as (typeof TYPES)[number])} className="min-h-[46px] w-full rounded-input bg-surface-soft p-[13px] text-[14px] shadow-[inset_0_0_0_1px_var(--line)] outline-none focus:shadow-[inset_0_0_0_1px_var(--cobalt)]">
-          {TYPES.map((k) => <option key={k} value={k}>{t(`trends.eventTypes.${k}`)}</option>)}
-        </select>
-      </div>
+      <SelectField label={t("trends.eventType")} value={type} onChange={(e) => setType(e.target.value as (typeof TYPES)[number])} options={TYPES.map((k) => ({ value: k, label: t(`trends.eventTypes.${k}`) }))} />
       <Field label={t("trends.eventDate")} type="date" value={date} onChange={(e) => setDate(e.target.value)} />
       <Field label={t("trends.eventDetails")} value={detail} onChange={(e) => setDetail(e.target.value)} placeholder="" maxLength={200} />
       {state === "saved" && <Alert state="success" title={t("trends.eventSaved")} />}
