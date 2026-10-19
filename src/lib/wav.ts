@@ -45,7 +45,8 @@ export function measureWav(info: WavInfo, task: AudioTaskId): RecordingMeasureme
   const sorted = [...rms].sort((a, b) => a - b);
   const floor = sorted[Math.floor(sorted.length * 0.1)] ?? 0;
   const noiseFloorDb = db(floor);
-  const voiced = rms.filter((r) => db(r) > noiseFloorDb + 10).length;
+  // Voiced: clearly above the room noise, or simply loud enough to be speech (a steady vowel has no quiet frames to compare with).
+  const voiced = rms.filter((r) => db(r) > noiseFloorDb + 10 || db(r) > -40).length;
   return { task, durationSec: mono.length / sampleRate, noiseFloorDb: Math.round(noiseFloorDb * 10) / 10, peakDb: Math.round(db(peak) * 10) / 10, clippedRatio: clipped / Math.max(1, mono.length), voicedRatio: voiced / Math.max(1, rms.length) };
 }
 

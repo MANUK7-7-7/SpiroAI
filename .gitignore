@@ -3,3 +3,7 @@ node_modules
 next-env.d.ts
 *.tsbuildinfo
 .env*.local
+
+tests/e2e/.tmp
+test-results
+playwright-report
