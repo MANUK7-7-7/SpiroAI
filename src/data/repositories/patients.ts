@@ -6,8 +6,21 @@ import { store, nextId, recordAudit } from "../store";
 import { bandOf } from "./settings";
 import { patientSchema, type Patient } from "../schemas";
 
-/** Bands follow the institution thresholds saved in Settings, not the fixture defaults. */
-export const allPatients = (): Patient[] => [...store.patients, ...patientsFixture].map((p) => (p.latest ? { ...p, latest: { ...p.latest, band: bandOf(p.latest.riskIndex) } } : p));
+const judgmentOf = (id: string) => (store.reviews.has(id) ? (store.reviews.get(id)!.judgment === "agree" ? "agreed" : "disagreed") : "pending") as "pending" | "agreed" | "disagreed";
+
+/**
+ * Bands follow the institution thresholds saved in Settings, not the fixture defaults.
+ * Patient edits (consent from an accepted invite) and the latest live result overlay the fixtures.
+ */
+export const allPatients = (): Patient[] =>
+  [...store.patients, ...patientsFixture].map((base) => {
+    const p = { ...base, ...store.patientPatch.get(base.id) };
+    const live = [...store.liveRecords].reverse().find((r) => r.result.patientId === p.id && r.result.status === "ready");
+    const latest = live
+      ? { resultId: live.result.id, riskIndex: live.result.riskIndex!, band: live.result.band!, confidence: live.result.confidence!, quality: live.result.quality!.level, judgment: judgmentOf(live.result.id), at: live.result.createdAt, trend: live.result.changeVsBaseline ?? 0 }
+      : p.latest;
+    return latest ? { ...p, latest: { ...latest, band: bandOf(latest.riskIndex) } } : p;
+  });
 
 export type PatientQuery = {
   q?: string;

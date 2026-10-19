@@ -1425,5 +1425,154 @@
       "success": "Section saved · Changes applied",
       "note": "Loading, empty, error and saved treatments apply individually to Profile, Notifications, Alert thresholds, Team & institution, Security and Help & legal. Each section has its own save action."
     }
+  },
+  "rec": {
+    "title": "Voice recording",
+    "patientTitle": "Your voice recording",
+    "assistedTitle": "Assisted recording",
+    "step": "Step {n} of {total}",
+    "hello": "Hello {name}",
+    "intro": "Two short voice tasks, about three minutes. Your doctor reviews the recording. No score is shown here.",
+    "tips": {
+      "title": "Before you start",
+      "room": "Sit in a quiet room with doors and windows closed.",
+      "distance": "Keep the microphone about 30 cm from your mouth.",
+      "mic": "Use a computer with its built-in microphone or a wired headset.",
+      "noaudio": "Close other apps that use the microphone or play sound."
+    },
+    "consent": {
+      "title": "Your consent",
+      "body": "SpiroAI records your voice to support respiratory screening. Your doctor reviews every result and keeps final judgment. You can withdraw consent at any time by contacting your clinic.",
+      "check": "I agree to the recording of my voice for respiratory screening support, reviewed by my doctor.",
+      "required": "Consent is needed before recording.",
+      "continue": "Continue",
+      "already": "Consent already recorded for this invitation.",
+      "assisted": "The patient has given consent for this recording in the clinic.",
+      "assistedNote": "Consent is recorded in the audit log with your name.",
+      "revoked": "Consent was revoked. Recording is locked for this patient."
+    },
+    "invalid": {
+      "title": "This link is not valid",
+      "body": "The invitation link may have expired or been mistyped. Ask your clinic to send a new invitation.",
+      "home": "Go to SpiroAI"
+    },
+    "unsupported": {
+      "title": "This browser cannot record",
+      "body": "Use a current version of Chrome, Edge, Firefox or Safari on a computer. Recording needs a secure (https) connection."
+    },
+    "perm": {
+      "title": "Allow microphone access",
+      "body": "Your browser will ask for permission. Voice processing such as noise reduction and echo cancellation is turned off, so your voice is captured as it is.",
+      "allow": "Allow microphone",
+      "mic": "Microphone",
+      "remembered": "Last used microphone selected",
+      "denied": "Microphone access is blocked",
+      "deniedBody": "Click the lock icon next to the address, set Microphone to Allow, then reload this page.",
+      "deniedAction": "Try again",
+      "none": "No microphone found",
+      "noneBody": "Connect a microphone or headset, then try again.",
+      "busy": "The microphone is in use",
+      "busyBody": "Close other apps or tabs that use the microphone, then try again.",
+      "error": "The microphone could not start",
+      "errorBody": "Check the device in your system settings and try again."
+    },
+    "check": {
+      "title": "Microphone check",
+      "body": "Stay silent for three seconds. We measure room noise and signal level.",
+      "start": "Start check",
+      "measuring": "Measuring… {s}s",
+      "level": "Input level",
+      "noise": "Room noise {db} dB",
+      "good": "Microphone check passed",
+      "goodBody": "Room noise and level are suitable.",
+      "noisy": "The room is too noisy",
+      "noisyBody": "Move to a quieter room or close the window, then check again.",
+      "clip": "The signal is too loud",
+      "clipBody": "Move slightly away from the microphone or lower the input volume, then check again.",
+      "quiet": "No sound detected",
+      "quietBody": "The microphone may be muted. Check the input device and volume.",
+      "again": "Check again",
+      "continue": "Continue to recording",
+      "settings": "Applied settings",
+      "echo": "Echo cancellation",
+      "noiseSup": "Noise suppression",
+      "agc": "Auto gain",
+      "off": "Off",
+      "on": "On"
+    },
+    "task": {
+      "vowel": {
+        "name": "Sustained vowel",
+        "body": "Take a deep breath, then say “aaah” in a steady voice for as long as is comfortable.",
+        "hint": "At least {min} seconds. Stop when you run out of breath."
+      },
+      "reading": {
+        "name": "Reading passage",
+        "body": "Read the text below aloud at your usual pace and volume.",
+        "text": "The north wind and the sun were arguing about which of them was stronger, when a traveller came along wrapped in a warm cloak. They agreed that the one who first made the traveller take his cloak off should be considered stronger.",
+        "hint": "At least {min} seconds. Read until the end of the passage."
+      },
+      "start": "Start recording",
+      "stop": "Stop",
+      "recording": "Recording {s}s",
+      "tooShort": "Keep going: at least {min} seconds are needed.",
+      "auto": "Recording stopped at the maximum length.",
+      "interrupted": "Recording was interrupted. Please record again."
+    },
+    "review": {
+      "title": "Review this recording",
+      "body": "Listen back. If it sounds clear, keep it. Otherwise record it again.",
+      "play": "Play",
+      "pause": "Pause",
+      "again": "Record again",
+      "keep": "Use this recording",
+      "length": "Length {s} s",
+      "next": "Next task",
+      "all": "Send to my doctor",
+      "allAssisted": "Send for analysis"
+    },
+    "upload": {
+      "sending": "Sending securely… {pct}%",
+      "retry": "Upload interrupted. Your recording is kept on this page.",
+      "retryAction": "Retry upload",
+      "title": "Sending your recording"
+    },
+    "done": {
+      "title": "Recording received",
+      "body": "Your doctor will review it and contact you if needed. Results are not shown here, and this is not a diagnosis.",
+      "repeatTitle": "Please record again",
+      "repeatBody": "We could not use this recording. Find a quieter room and repeat both tasks.",
+      "repeatAction": "Record again",
+      "failedBody": "Received. Your care team will follow up. You do not need to do anything else.",
+      "processing": "Checking the recording quality…",
+      "close": "You can close this page.",
+      "disclaimer": "Screening support, not a diagnosis. Your doctor has final judgment."
+    },
+    "assisted": {
+      "patient": "Patient",
+      "consentTitle": "Before recording",
+      "start": "Start recording",
+      "uploaded": "Recording uploaded",
+      "processing": "Analysis in progress…",
+      "ready": "Result ready",
+      "openResult": "Open result",
+      "repeatTitle": "Recording quality too low",
+      "repeatBody": "The quality check rejected the recording ({reasons}). Repeat the test.",
+      "failedTitle": "Analysis could not complete",
+      "failedBody": "The recording is safe. Retry the analysis.",
+      "retry": "Retry analysis",
+      "unavailable": "Analysis not available yet",
+      "unavailableBody": "The recording is saved. It will be analysed once the model is available.",
+      "back": "Back to patient",
+      "another": "Record again",
+      "reasonLabels": {
+        "TOO_NOISY": "too much noise",
+        "TOO_SHORT": "too short",
+        "CLIPPING": "clipping",
+        "WRONG_TASK": "wrong task",
+        "LOW_SAMPLE_RATE": "low sample rate",
+        "MISSING_TASK": "missing task"
+      }
+    }
   }
 }

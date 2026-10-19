@@ -11,7 +11,7 @@ import { LOW_CONFIDENCE } from "@/config/review";
 import { metricCatalog, metricOrder } from "@/config/metrics";
 import { parseDemoState } from "@/data/demo-state";
 import { getRecord, reviewLabelKey } from "@/data/repositories/results";
-import { historyFor } from "@/data/fixtures/history";
+import { recordsFor } from "@/data/repositories/screening";
 import { formatDateTime, formatDay, formatTime } from "@/lib/format";
 import { getT } from "@/lib/i18n/server";
 import { signPath } from "@/lib/signed-url";
@@ -30,9 +30,9 @@ export default async function ResultPage({ params, searchParams }: { params: Pro
   const r = record.result;
   const rec = record.recording;
   const label = reviewLabelKey(record);
-  const history = historyFor(patient.id);
-  const idx = history?.records.findIndex((x) => x.result.id === id) ?? -1;
-  const prevRaw = idx > 0 ? history!.records.slice(0, idx).reverse().find((x) => x.result.status === "ready" && x.result.quality?.level !== "poor")?.result : undefined;
+  const history = { records: recordsFor(patient.id) };
+  const idx = history.records.findIndex((x) => x.result.id === id) ?? -1;
+  const prevRaw = idx > 0 ? history.records.slice(0, idx).reverse().find((x) => x.result.status === "ready" && x.result.quality?.level !== "poor")?.result : undefined;
   const prev = prevRaw && { ...prevRaw, band: bandOf(prevRaw.riskIndex!) };
   const returnHref = "/dashboard";
   const total = rec.vowelSec + rec.readingSec;
@@ -129,7 +129,7 @@ export default async function ResultPage({ params, searchParams }: { params: Pro
             <CardHeading title={t("result.audioTitle")} description={t("result.audioSub", { quality: quality, db: rec.noiseDb, sec: total })} />
             <AudioPlayer label={t("result.vowel")} recordingId={rec.recordingId} task="sustained_vowel" durationSec={rec.vowelSec} src={signPath(`/api/audio/${rec.recordingId}/sustained_vowel`)} waveform={rec.waveform} />
             <AudioPlayer label={t("result.reading")} recordingId={rec.recordingId} task="reading_passage" durationSec={rec.readingSec} src={signPath(`/api/audio/${rec.recordingId}/reading_passage`)} waveform={[...rec.waveform].reverse()} />
-            <p className="text-[11px] text-ink-muted">{t("result.syntheticAudio")}</p>
+            {rec.source === "mobile_app" && <p className="text-[11px] text-ink-muted">{t("result.syntheticAudio")}</p>}
           </Card>
           {outcome && (
             <OutcomeCard t={t} kind={outcome} action={outcome === "concerning" ? <Button href="?panel=action">{t("result.action")}</Button> : outcome === "unreliable" ? <Button href="?panel=action&type=repeat">{t("result.viewInstructions")}</Button> : <Button href={returnHref}>{t("result.returnQueue")}</Button>} />

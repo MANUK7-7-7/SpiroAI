@@ -1425,5 +1425,154 @@
       "success": "Sección guardada · Cambios aplicados",
       "note": "Los tratamientos de carga, vacío, error y guardado se aplican por separado a Perfil, Notificaciones, Umbrales de alerta, Equipo e institución, Seguridad y Ayuda y legales. Cada sección tiene su propia acción de guardado."
     }
+  },
+  "rec": {
+    "title": "Grabación de voz",
+    "patientTitle": "Tu grabación de voz",
+    "assistedTitle": "Grabación asistida",
+    "step": "Paso {n} de {total}",
+    "hello": "Hola {name}",
+    "intro": "Dos tareas de voz cortas, de unos tres minutos. Tu médico revisa la grabación. Aquí no se muestra ningún puntaje.",
+    "tips": {
+      "title": "Antes de empezar",
+      "room": "Ubicate en una sala silenciosa, con puertas y ventanas cerradas.",
+      "distance": "Mantené el micrófono a unos 30 cm de tu boca.",
+      "mic": "Usá una computadora con su micrófono integrado o auriculares con cable.",
+      "noaudio": "Cerrá otras aplicaciones que usen el micrófono o reproduzcan sonido."
+    },
+    "consent": {
+      "title": "Tu consentimiento",
+      "body": "SpiroAI graba tu voz como apoyo al cribado respiratorio. Tu médico revisa cada resultado y conserva el juicio final. Podés retirar tu consentimiento en cualquier momento comunicándote con tu clínica.",
+      "check": "Acepto que se grabe mi voz como apoyo al cribado respiratorio, con revisión de mi médico.",
+      "required": "Se necesita tu consentimiento antes de grabar.",
+      "continue": "Continuar",
+      "already": "El consentimiento de esta invitación ya está registrado.",
+      "assisted": "El paciente dio su consentimiento para esta grabación en la clínica.",
+      "assistedNote": "El consentimiento queda registrado en la auditoría con tu nombre.",
+      "revoked": "Se revocó el consentimiento. La grabación está bloqueada para este paciente."
+    },
+    "invalid": {
+      "title": "Este enlace no es válido",
+      "body": "La invitación puede haber vencido o estar mal copiada. Pedile a tu clínica que envíe una nueva.",
+      "home": "Ir a SpiroAI"
+    },
+    "unsupported": {
+      "title": "Este navegador no puede grabar",
+      "body": "Usá una versión actual de Chrome, Edge, Firefox o Safari en una computadora. Grabar requiere una conexión segura (https)."
+    },
+    "perm": {
+      "title": "Permitir el acceso al micrófono",
+      "body": "Tu navegador va a pedir permiso. El procesamiento de voz, como la reducción de ruido y la cancelación de eco, está desactivado: tu voz se captura tal como es.",
+      "allow": "Permitir micrófono",
+      "mic": "Micrófono",
+      "remembered": "Se seleccionó el último micrófono usado",
+      "denied": "El acceso al micrófono está bloqueado",
+      "deniedBody": "Hacé clic en el candado junto a la dirección, poné Micrófono en Permitir y recargá esta página.",
+      "deniedAction": "Intentar de nuevo",
+      "none": "No se encontró ningún micrófono",
+      "noneBody": "Conectá un micrófono o auriculares y probá de nuevo.",
+      "busy": "El micrófono está en uso",
+      "busyBody": "Cerrá otras aplicaciones o pestañas que usen el micrófono y probá de nuevo.",
+      "error": "No se pudo iniciar el micrófono",
+      "errorBody": "Revisá el dispositivo en la configuración del sistema y probá de nuevo."
+    },
+    "check": {
+      "title": "Prueba de micrófono",
+      "body": "Mantené silencio durante tres segundos. Medimos el ruido ambiente y el nivel de señal.",
+      "start": "Iniciar prueba",
+      "measuring": "Midiendo… {s} s",
+      "level": "Nivel de entrada",
+      "noise": "Ruido ambiente {db} dB",
+      "good": "Prueba de micrófono superada",
+      "goodBody": "El ruido ambiente y el nivel son adecuados.",
+      "noisy": "La sala tiene demasiado ruido",
+      "noisyBody": "Pasá a una sala más silenciosa o cerrá la ventana y repetí la prueba.",
+      "clip": "La señal es demasiado fuerte",
+      "clipBody": "Alejate un poco del micrófono o bajá el volumen de entrada y repetí la prueba.",
+      "quiet": "No se detecta sonido",
+      "quietBody": "Puede que el micrófono esté silenciado. Revisá el dispositivo de entrada y el volumen.",
+      "again": "Repetir prueba",
+      "continue": "Continuar a la grabación",
+      "settings": "Configuración aplicada",
+      "echo": "Cancelación de eco",
+      "noiseSup": "Supresión de ruido",
+      "agc": "Control automático de ganancia",
+      "off": "Desactivado",
+      "on": "Activado"
+    },
+    "task": {
+      "vowel": {
+        "name": "Vocal sostenida",
+        "body": "Respirá hondo y decí “aaah” con voz firme durante el mayor tiempo cómodo.",
+        "hint": "Al menos {min} segundos. Detenete cuando te quedes sin aire."
+      },
+      "reading": {
+        "name": "Texto de lectura",
+        "body": "Leé en voz alta el texto de abajo, a tu ritmo y volumen habituales.",
+        "text": "El viento del norte y el sol discutían sobre cuál de los dos era más fuerte, cuando llegó un viajero envuelto en una capa abrigada. Acordaron que sería considerado más fuerte quien primero lograra que el viajero se quitara la capa.",
+        "hint": "Al menos {min} segundos. Leé hasta el final del texto."
+      },
+      "start": "Iniciar grabación",
+      "stop": "Detener",
+      "recording": "Grabando {s} s",
+      "tooShort": "Seguí un poco más: se necesitan al menos {min} segundos.",
+      "auto": "La grabación se detuvo al llegar a la duración máxima.",
+      "interrupted": "La grabación se interrumpió. Grabá de nuevo."
+    },
+    "review": {
+      "title": "Revisá esta grabación",
+      "body": "Escuchala. Si se oye clara, conservala. Si no, grabala de nuevo.",
+      "play": "Reproducir",
+      "pause": "Pausar",
+      "again": "Grabar de nuevo",
+      "keep": "Usar esta grabación",
+      "length": "Duración {s} s",
+      "next": "Siguiente tarea",
+      "all": "Enviar a mi médico",
+      "allAssisted": "Enviar para análisis"
+    },
+    "upload": {
+      "sending": "Enviando de forma segura… {pct}%",
+      "retry": "Se interrumpió el envío. Tu grabación se conserva en esta página.",
+      "retryAction": "Reintentar envío",
+      "title": "Enviando tu grabación"
+    },
+    "done": {
+      "title": "Grabación recibida",
+      "body": "Tu médico la revisará y se comunicará con vos si hace falta. Aquí no se muestran resultados y esto no es un diagnóstico.",
+      "repeatTitle": "Grabá de nuevo, por favor",
+      "repeatBody": "No pudimos usar esta grabación. Buscá una sala más silenciosa y repetí las dos tareas.",
+      "repeatAction": "Grabar de nuevo",
+      "failedBody": "Recibida. Tu equipo de atención va a hacer el seguimiento. No necesitás hacer nada más.",
+      "processing": "Verificando la calidad de la grabación…",
+      "close": "Podés cerrar esta página.",
+      "disclaimer": "Apoyo al cribado, no un diagnóstico. Tu médico tiene el juicio final."
+    },
+    "assisted": {
+      "patient": "Paciente",
+      "consentTitle": "Antes de grabar",
+      "start": "Iniciar grabación",
+      "uploaded": "Grabación enviada",
+      "processing": "Análisis en curso…",
+      "ready": "Resultado listo",
+      "openResult": "Abrir resultado",
+      "repeatTitle": "Calidad de grabación insuficiente",
+      "repeatBody": "El control de calidad rechazó la grabación ({reasons}). Repetí la prueba.",
+      "failedTitle": "No se pudo completar el análisis",
+      "failedBody": "La grabación está a salvo. Reintentá el análisis.",
+      "retry": "Reintentar análisis",
+      "unavailable": "Análisis aún no disponible",
+      "unavailableBody": "La grabación está guardada. Se analizará cuando el modelo esté disponible.",
+      "back": "Volver al paciente",
+      "another": "Grabar de nuevo",
+      "reasonLabels": {
+        "TOO_NOISY": "demasiado ruido",
+        "TOO_SHORT": "muy corta",
+        "CLIPPING": "saturación",
+        "WRONG_TASK": "tarea incorrecta",
+        "LOW_SAMPLE_RATE": "frecuencia de muestreo baja",
+        "MISSING_TASK": "falta una tarea"
+      }
+    }
   }
 }
