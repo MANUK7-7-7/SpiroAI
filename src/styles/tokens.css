@@ -1,0 +1,27 @@
+/* SpiroAI / Colour: values from Figma variables. Never hard-code hex in components. */
+:root {
+  --canvas: #eceef1;
+  --surface: #ffffff;
+  --surface-soft: #f4f5f7;
+  --surface-sunken: #eef0f3;
+  --ink: #111214;
+  --ink-muted: #6b7079;
+  --line: #e4e6eb;
+  --cobalt: #2450e5;
+  --cobalt-deep: #1a3bb3;
+  --cobalt-tint: #e8edfd;
+  --cobalt-tint-strong: #c9d5fa;
+  --cobalt-faint: #dce3fb;
+  --risk-high: #d2393f;
+  --risk-high-tint: #fcecec;
+  --risk-moderate: #2450e5;
+  --risk-moderate-tint: #e8edfd;
+  --scrim: rgb(14 16 20 / 0.36);
+  --on-accent: #ffffff;
+
+  --radius-shell: 40px;
+  --radius-panel: 32px;
+  --radius-card: 28px;
+  --radius-item: 22px;
+  --radius-input: 14px;
+}
