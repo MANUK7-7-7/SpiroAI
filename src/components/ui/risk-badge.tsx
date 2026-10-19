@@ -1,7 +1,7 @@
 import { CircleCheck, CircleAlert, TriangleAlert } from "lucide-react";
+import type { RiskBand } from "@/config/risk-bands";
 import { cn } from "@/lib/cn";
 
-export type RiskBand = "low" | "moderate" | "high";
 
 const look = {
   low: { box: "bg-surface-sunken text-ink-muted", Icon: CircleCheck },

@@ -40,7 +40,8 @@
     "cancel": "Cancel",
     "footer": "SpiroAI · Professional voice screening support · Fictional demonstration, not clinically validated.",
     "disclaimer": "Screening support, not a diagnosis",
-    "required": "Required fields marked *"
+    "required": "Required fields marked *",
+    "sampleNotice": "Fictional sample data · AI model, example ranges and thresholds are clinically unvalidated. Screening support, not a diagnosis. Doctor has final judgment."
   },
   "public": {
     "forProfessionals": "For healthcare professionals"
@@ -232,5 +233,220 @@
     "unavailable": "Biometrics are not available on this device",
     "unavailableBody": "Use your password and two-factor code instead.",
     "note": "Static tablet adaptation · Biometric availability depends on the device. Session timeout still applies."
+  },
+  "states": {
+    "loading": "LOADING",
+    "empty": "EMPTY",
+    "error": "ERROR",
+    "success": "SUCCESS",
+    "retry": "Retry",
+    "recorded": "State change is recorded where applicable.",
+    "loadingSecurely": "{screen} · Loading securely…",
+    "boardTitle": "Access · State library",
+    "boardSubtitle": "Distinct designed treatments for each screen · Static companions, not working interactions.",
+    "flowA": {
+      "s01": {
+        "title": "S01 · Welcome",
+        "empty": "New here? See how voice monitoring supports your practice.",
+        "emptyAction": "How it works",
+        "error": "Welcome content could not load.",
+        "success": "Secure session restored · Continue to dashboard"
+      },
+      "s02": {
+        "title": "S02 · Sign-up",
+        "empty": "Your professional profile is not complete yet.",
+        "emptyAction": "Continue saved application",
+        "error": "Could not submit your application. Entries are saved.",
+        "success": "Application submitted · Progress saved"
+      },
+      "s03": {
+        "title": "S03 · Verification",
+        "empty": "No license document uploaded. Upload is optional.",
+        "emptyAction": "Upload document",
+        "error": "We could not retrieve your verification status.",
+        "success": "License verified · Welcome email sent"
+      },
+      "s04": {
+        "title": "S04 · Log in & 2FA",
+        "empty": "Enter your professional email to start securely.",
+        "emptyAction": "Create account",
+        "error": "Unable to log in. Check your credentials and try again.",
+        "success": "Identity confirmed · Returning to your previous screen"
+      }
+    },
+    "validationTitle": "Verification, validation & secure access",
+    "blurTitle": "S02 · Validation on blur",
+    "blurError": "Enter a complete email address.",
+    "dupTitle": "This email is already registered",
+    "dupBody": "Log in to continue, or reset your password.",
+    "submitting": "Submitting…",
+    "submitNote": "Submit is disabled while sending. Form progress is saved.",
+    "outcomesTitle": "S02 / S03 · Verification outcomes",
+    "verifiedTitle": "Verified · Welcome to SpiroAI",
+    "verifiedBody": "Welcome email sent. Your first-time dashboard tour is ready.",
+    "goDashboard": "Go to dashboard",
+    "pendingTitle": "Pending · In review",
+    "pendingBody": "Usually under 24 hours. We’ll email and push status changes.",
+    "rejectedTitle": "Rejected · License number not found",
+    "rejectedBody": "Check the matrícula and country, then resubmit.",
+    "editDetails": "Edit professional details",
+    "lockTitle": "S03 / S04 · More information & lock",
+    "moreTitle": "More information required",
+    "moreBody": "Please upload a clearer photo of your license, including its expiry date.",
+    "tooMany": "Too many attempts",
+    "tooManyBody": "Login temporarily locked for 15 minutes. Security email sent.",
+    "expiredTitle": "Session expired",
+    "expiredBody": "Log in again to return to the result you were reviewing.",
+    "loginSecurely": "Log in securely",
+    "sampleFooter": "Fictional sample data · Clinical examples are unvalidated · Every result retains confidence, recording quality, the screening disclaimer and the doctor’s final judgment."
+  },
+  "app": {
+    "workspace": "DOCTOR WORKSPACE",
+    "nav": {
+      "dashboard": "Dashboard",
+      "patients": "Patients",
+      "alerts": "Alerts",
+      "messages": "Messages",
+      "settings": "Settings"
+    },
+    "clinic": "Professional workspace",
+    "principle": [
+      "A clearer signal.",
+      "Your clinical judgment."
+    ],
+    "verified": "Verified professional",
+    "search": "Search patient name or ID",
+    "sample": "SAMPLE WORKSPACE",
+    "notifications": "Notifications",
+    "account": "Account",
+    "sessionExpired": "Your session expired due to inactivity."
+  },
+  "quality": {
+    "good": "Good",
+    "fair": "Fair",
+    "poor": "Poor"
+  },
+  "dashboard": {
+    "greeting": "Good morning, Dr. Morales",
+    "addPatient": "Add patient",
+    "kpi": {
+      "active": "Active patients",
+      "activeLink": "View patient panel ↗",
+      "alerts": "Open alerts",
+      "alertsLink": "{n} high priority · View alerts ↗",
+      "results": "Results to review",
+      "resultsLink": "{n} received this morning ↗",
+      "overdue": "Overdue tests",
+      "overdueLink": "View overdue patients ↗"
+    },
+    "queue": {
+      "title": "Your priority queue",
+      "subtitle": "Severity first · Start with the patients who need your attention",
+      "legend": "PATIENT / WHAT CHANGED",
+      "attention": "{n} NEED ATTENTION",
+      "detail": "{when} · AI {conf}% · Quality {quality} · Judgment {judgment}",
+      "reviewAll": "Review all {n} results",
+      "disclaimer": "Screening support, not a diagnosis · Doctor has final judgment.",
+      "empty": "No results need your attention right now.",
+      "error": "We could not load your priority queue."
+    },
+    "activity": {
+      "title": "Recent activity",
+      "subtitle": "The latest from your patient panel",
+      "empty": "No recent activity yet.",
+      "error": "We could not load recent activity.",
+      "test_completed": "{name} completed a test",
+      "invite_accepted": "{name} accepted her invite",
+      "plan_updated": "{name}’s plan was updated",
+      "testDetail": "{when} · {band} {score} · AI {conf}% · {quality} quality · Doctor review {judgment}",
+      "inviteDetail": "{when} · Consent received · First recording scheduled",
+      "planDetail": "{when} · {frequency}",
+      "freq": {
+        "weekly_0900": "Weekly at 09:00"
+      }
+    },
+    "distribution": {
+      "title": "Patient risk distribution",
+      "subtitle": "Latest available result · {n} active patients",
+      "note": "{n} patients have no recording yet and are not included.",
+      "empty": "No results yet to show a distribution."
+    },
+    "focus": {
+      "title": "Today’s focus",
+      "line1": "Small follow-ups.",
+      "line2": "Meaningful care.",
+      "body": "You have {n} pending clinical actions. Keep your patient’s next step clear.",
+      "cta": "View pending actions"
+    },
+    "today": "Today",
+    "yesterday": "Yesterday"
+  },
+  "judgment": {
+    "pending": "pending",
+    "agreed": "agreed",
+    "disagreed": "disagreed"
+  },
+  "rules": {
+    "risk_rise": "Risk rose {points} pts in {weeks} weeks",
+    "sustained_deviation": "Sustained deviation from baseline",
+    "missed_tests": "{count} scheduled tests missed",
+    "poor_quality": "{count} poor-quality recordings in a row"
+  },
+  "patients": {
+    "eyebrow": "PATIENT PANEL · {active} ACTIVE / {invites} INVITES PENDING",
+    "title": "Your patients",
+    "add": "Add patient",
+    "search": "Search by patient name or ID",
+    "sort": "Sort: {by}",
+    "sortBy": {
+      "risk": "risk ↓",
+      "last": "last test",
+      "name": "name",
+      "adherence": "adherence"
+    },
+    "filters": {
+      "risk": "Risk level",
+      "status": "Diagnosed / At risk",
+      "gold": "GOLD stage",
+      "last": "Last test date",
+      "invite": "Invite pending",
+      "clear": "Clear filters"
+    },
+    "options": {
+      "last7": "Last 7 days",
+      "last30": "Last 30 days",
+      "diagnosed": "Diagnosed",
+      "at_risk": "At risk",
+      "goldN": "GOLD {n}"
+    },
+    "cols": {
+      "patient": "Patient",
+      "status": "Status",
+      "risk": "Latest risk",
+      "trend": "Trend",
+      "last": "Last test",
+      "adherence": "Adherence"
+    },
+    "years": "{n} years",
+    "statusDiagnosed": "Diagnosed · GOLD {gold}",
+    "statusAtRisk": "At risk",
+    "statusDiagnosedNoGold": "Diagnosed",
+    "ai": "AI {conf}% · Quality {quality}",
+    "judgment": "Judgment {judgment}",
+    "requestTest": "Request test",
+    "message": "Message ···",
+    "invitePending": "Invite pending",
+    "noRecording": "No recording yet",
+    "resend": "Resend",
+    "showing": "Showing {from}–{to} of {total} patients",
+    "prev": "Previous",
+    "next": "Next",
+    "hint": "Other sort options: last test, name, adherence. Filters are kept when returning from a profile.",
+    "disclaimer": "Screening support, not a diagnosis · All results require the doctor’s final judgment.",
+    "empty": "No patients match these filters.",
+    "emptyAction": "Clear filters",
+    "emptyPanel": "Your patient panel is empty. Invite your first patient to start monitoring.",
+    "emptyPanelAction": "Add patient",
+    "error": "We could not load your patients."
   }
 }

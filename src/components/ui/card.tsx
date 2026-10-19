@@ -2,7 +2,7 @@ import { cn } from "@/lib/cn";
 
 export function Card({ children, className, tint }: { children: React.ReactNode; className?: string; tint?: boolean }) {
   return (
-    <div className={cn("flex flex-col gap-[18px] rounded-card border border-line p-6", tint ? "bg-cobalt-tint" : "bg-surface", className)}>
+    <div className={cn("flex flex-col gap-[18px] rounded-card p-6 shadow-[inset_0_0_0_1px_var(--line)]", tint ? "bg-cobalt-tint" : "bg-surface", className)}>
       {children}
     </div>
   );

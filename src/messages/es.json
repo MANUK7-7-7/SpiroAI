@@ -40,7 +40,8 @@
     "cancel": "Cancelar",
     "footer": "SpiroAI · Apoyo profesional al screening por voz · Demostración ficticia, sin validación clínica.",
     "disclaimer": "Apoyo al screening, no es un diagnóstico",
-    "required": "Los campos obligatorios están marcados con *"
+    "required": "Los campos obligatorios están marcados con *",
+    "sampleNotice": "Datos de muestra ficticios · El modelo de IA, los rangos de ejemplo y los umbrales no están validados clínicamente. Apoyo al screening, no es un diagnóstico. El médico tiene la decisión final."
   },
   "public": {
     "forProfessionals": "Para profesionales de la salud"
@@ -232,5 +233,220 @@
     "unavailable": "La biometría no está disponible en este dispositivo",
     "unavailableBody": "Usá tu contraseña y el código de dos pasos.",
     "note": "Adaptación estática para tablet · La disponibilidad biométrica depende del dispositivo. El tiempo de sesión sigue aplicando."
+  },
+  "states": {
+    "loading": "CARGANDO",
+    "empty": "VACÍO",
+    "error": "ERROR",
+    "success": "ÉXITO",
+    "retry": "Reintentar",
+    "recorded": "El cambio de estado se registra cuando corresponde.",
+    "loadingSecurely": "{screen} · Cargando de forma segura…",
+    "boardTitle": "Acceso · Biblioteca de estados",
+    "boardSubtitle": "Tratamientos diseñados para cada pantalla · Complementos estáticos, no interacciones funcionales.",
+    "flowA": {
+      "s01": {
+        "title": "S01 · Bienvenida",
+        "empty": "¿Sos nuevo? Mirá cómo el monitoreo por voz apoya tu práctica.",
+        "emptyAction": "Cómo funciona",
+        "error": "No se pudo cargar el contenido de bienvenida.",
+        "success": "Sesión segura restaurada · Continuá al panel"
+      },
+      "s02": {
+        "title": "S02 · Registro",
+        "empty": "Tu perfil profesional todavía no está completo.",
+        "emptyAction": "Continuar solicitud guardada",
+        "error": "No se pudo enviar tu solicitud. Tus datos están guardados.",
+        "success": "Solicitud enviada · Progreso guardado"
+      },
+      "s03": {
+        "title": "S03 · Verificación",
+        "empty": "No se subió ningún documento de matrícula. Subirlo es opcional.",
+        "emptyAction": "Subir documento",
+        "error": "No pudimos obtener el estado de tu verificación.",
+        "success": "Matrícula verificada · Email de bienvenida enviado"
+      },
+      "s04": {
+        "title": "S04 · Inicio de sesión y 2FA",
+        "empty": "Ingresá tu email profesional para comenzar de forma segura.",
+        "emptyAction": "Crear cuenta",
+        "error": "No se pudo iniciar sesión. Revisá tus credenciales e intentá de nuevo.",
+        "success": "Identidad confirmada · Volviendo a tu pantalla anterior"
+      }
+    },
+    "validationTitle": "Verificación, validación y acceso seguro",
+    "blurTitle": "S02 · Validación al salir del campo",
+    "blurError": "Ingresá una dirección de email completa.",
+    "dupTitle": "Este email ya está registrado",
+    "dupBody": "Iniciá sesión para continuar o restablecé tu contraseña.",
+    "submitting": "Enviando…",
+    "submitNote": "El envío se desactiva mientras se envía. El progreso del formulario queda guardado.",
+    "outcomesTitle": "S02 / S03 · Resultados de la verificación",
+    "verifiedTitle": "Verificada · Bienvenido a SpiroAI",
+    "verifiedBody": "Email de bienvenida enviado. Tu recorrido inicial por el panel está listo.",
+    "goDashboard": "Ir al panel",
+    "pendingTitle": "Pendiente · En revisión",
+    "pendingBody": "Suele demorar menos de 24 horas. Te avisaremos por email y notificación.",
+    "rejectedTitle": "Rechazada · Número de matrícula no encontrado",
+    "rejectedBody": "Revisá la matrícula y el país y volvé a enviar.",
+    "editDetails": "Editar datos profesionales",
+    "lockTitle": "S03 / S04 · Más información y bloqueo",
+    "moreTitle": "Se requiere más información",
+    "moreBody": "Subí una foto más clara de tu matrícula, con su fecha de vencimiento.",
+    "tooMany": "Demasiados intentos",
+    "tooManyBody": "Inicio de sesión bloqueado por 15 minutos. Enviamos un email de seguridad.",
+    "expiredTitle": "Sesión vencida",
+    "expiredBody": "Iniciá sesión de nuevo para volver al resultado que estabas revisando.",
+    "loginSecurely": "Iniciar sesión de forma segura",
+    "sampleFooter": "Datos de muestra ficticios · Los ejemplos clínicos no están validados · Cada resultado conserva confianza, calidad de grabación, el descargo de screening y el juicio final del médico."
+  },
+  "app": {
+    "workspace": "ESPACIO MÉDICO",
+    "nav": {
+      "dashboard": "Panel",
+      "patients": "Pacientes",
+      "alerts": "Alertas",
+      "messages": "Mensajes",
+      "settings": "Ajustes"
+    },
+    "clinic": "Espacio profesional",
+    "principle": [
+      "Una señal más clara.",
+      "Tu criterio clínico."
+    ],
+    "verified": "Profesional verificado",
+    "search": "Buscar paciente por nombre o ID",
+    "sample": "ESPACIO DE MUESTRA",
+    "notifications": "Notificaciones",
+    "account": "Cuenta",
+    "sessionExpired": "Tu sesión venció por inactividad."
+  },
+  "quality": {
+    "good": "Buena",
+    "fair": "Aceptable",
+    "poor": "Mala"
+  },
+  "dashboard": {
+    "greeting": "Buen día, Dra. Morales",
+    "addPatient": "Agregar paciente",
+    "kpi": {
+      "active": "Pacientes activos",
+      "activeLink": "Ver panel de pacientes ↗",
+      "alerts": "Alertas abiertas",
+      "alertsLink": "{n} de prioridad alta · Ver alertas ↗",
+      "results": "Resultados por revisar",
+      "resultsLink": "{n} recibidos esta mañana ↗",
+      "overdue": "Controles atrasados",
+      "overdueLink": "Ver pacientes atrasados ↗"
+    },
+    "queue": {
+      "title": "Tu cola de prioridades",
+      "subtitle": "Primero lo más grave · Empezá por los pacientes que necesitan tu atención",
+      "legend": "PACIENTE / QUÉ CAMBIÓ",
+      "attention": "{n} NECESITAN ATENCIÓN",
+      "detail": "{when} · IA {conf}% · Calidad {quality} · Juicio {judgment}",
+      "reviewAll": "Revisar los {n} resultados",
+      "disclaimer": "Apoyo al screening, no es un diagnóstico · El médico tiene la decisión final.",
+      "empty": "Ningún resultado necesita tu atención por ahora.",
+      "error": "No pudimos cargar tu cola de prioridades."
+    },
+    "activity": {
+      "title": "Actividad reciente",
+      "subtitle": "Lo último de tu panel de pacientes",
+      "empty": "Todavía no hay actividad reciente.",
+      "error": "No pudimos cargar la actividad reciente.",
+      "test_completed": "{name} completó un test",
+      "invite_accepted": "{name} aceptó su invitación",
+      "plan_updated": "Se actualizó el plan de {name}",
+      "testDetail": "{when} · {band} {score} · IA {conf}% · Calidad {quality} · Revisión médica {judgment}",
+      "inviteDetail": "{when} · Consentimiento recibido · Primera grabación programada",
+      "planDetail": "{when} · {frequency}",
+      "freq": {
+        "weekly_0900": "Semanal a las 09:00"
+      }
+    },
+    "distribution": {
+      "title": "Distribución de riesgo de pacientes",
+      "subtitle": "Último resultado disponible · {n} pacientes activos",
+      "note": "{n} pacientes todavía no tienen grabación y no están incluidos.",
+      "empty": "Todavía no hay resultados para mostrar una distribución."
+    },
+    "focus": {
+      "title": "El foco de hoy",
+      "line1": "Pequeños seguimientos.",
+      "line2": "Cuidado que importa.",
+      "body": "Tenés {n} acciones clínicas pendientes. Mantené claro el próximo paso de tu paciente.",
+      "cta": "Ver acciones pendientes"
+    },
+    "today": "Hoy",
+    "yesterday": "Ayer"
+  },
+  "judgment": {
+    "pending": "pendiente",
+    "agreed": "de acuerdo",
+    "disagreed": "en desacuerdo"
+  },
+  "rules": {
+    "risk_rise": "El riesgo subió {points} pts en {weeks} semanas",
+    "sustained_deviation": "Desviación sostenida de la línea de base",
+    "missed_tests": "{count} controles programados omitidos",
+    "poor_quality": "{count} grabaciones de mala calidad seguidas"
+  },
+  "patients": {
+    "eyebrow": "PANEL DE PACIENTES · {active} ACTIVOS / {invites} INVITACIONES PENDIENTES",
+    "title": "Tus pacientes",
+    "add": "Agregar paciente",
+    "search": "Buscar por nombre o ID de paciente",
+    "sort": "Orden: {by}",
+    "sortBy": {
+      "risk": "riesgo ↓",
+      "last": "último test",
+      "name": "nombre",
+      "adherence": "adherencia"
+    },
+    "filters": {
+      "risk": "Nivel de riesgo",
+      "status": "Diagnosticado / En riesgo",
+      "gold": "Estadio GOLD",
+      "last": "Fecha del último test",
+      "invite": "Invitación pendiente",
+      "clear": "Borrar filtros"
+    },
+    "options": {
+      "last7": "Últimos 7 días",
+      "last30": "Últimos 30 días",
+      "diagnosed": "Diagnosticado",
+      "at_risk": "En riesgo",
+      "goldN": "GOLD {n}"
+    },
+    "cols": {
+      "patient": "Paciente",
+      "status": "Estado",
+      "risk": "Último riesgo",
+      "trend": "Tendencia",
+      "last": "Último test",
+      "adherence": "Adherencia"
+    },
+    "years": "{n} años",
+    "statusDiagnosed": "Diagnosticado · GOLD {gold}",
+    "statusAtRisk": "En riesgo",
+    "statusDiagnosedNoGold": "Diagnosticado",
+    "ai": "IA {conf}% · Calidad {quality}",
+    "judgment": "Juicio {judgment}",
+    "requestTest": "Pedir test",
+    "message": "Mensaje ···",
+    "invitePending": "Invitación pendiente",
+    "noRecording": "Sin grabación todavía",
+    "resend": "Reenviar",
+    "showing": "Mostrando {from}–{to} de {total} pacientes",
+    "prev": "Anterior",
+    "next": "Siguiente",
+    "hint": "Otros órdenes: último test, nombre, adherencia. Los filtros se conservan al volver de un perfil.",
+    "disclaimer": "Apoyo al screening, no es un diagnóstico · Todos los resultados requieren el juicio final del médico.",
+    "empty": "Ningún paciente coincide con estos filtros.",
+    "emptyAction": "Borrar filtros",
+    "emptyPanel": "Tu panel de pacientes está vacío. Invitá a tu primer paciente para empezar a monitorear.",
+    "emptyPanelAction": "Agregar paciente",
+    "error": "No pudimos cargar tus pacientes."
   }
 }
