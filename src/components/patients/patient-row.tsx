@@ -28,7 +28,7 @@ export function PatientRow({ p, t, locale }: { p: Patient; t: T; locale: Locale 
 
   const r = p.latest;
   const status = p.status === "diagnosed" ? (p.gold ? t("patients.statusDiagnosed", { gold: p.gold }) : t("patients.statusDiagnosedNoGold")) : t("patients.statusAtRisk");
-  const arrow = !r ? "" : r.trend > 0 ? "↑" : r.trend < 0 ? "↓" : "→";
+  const arrow = !r ? "" : r.trend > 1 ? "↑" : r.trend < -1 ? "↓" : "→";
   return (
     <div className={cn(patientColumns, "items-center border-b border-line px-3 py-[18px]")}>
       <Link href={`/patients/${p.id}`} className="flex flex-col gap-1">

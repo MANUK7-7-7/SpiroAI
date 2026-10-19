@@ -2,7 +2,7 @@ import type { ScreeningResult } from "@/ai/result";
 import { DemoError, simulateLatency, type DemoState } from "../demo-state";
 import { historyFor, type ResultRecord } from "../fixtures/history";
 import { clinicalFor, planFor } from "../fixtures/profile";
-import { patientsFixture } from "../fixtures/patients";
+import { allPatients } from "./patients";
 import { store, nextId, recordAudit } from "../store";
 import { clinicalReviewSchema, type Alert, type ChartEvent, type ClinicalData, type ClinicalReview, type MonitoringPlan, type Note, type Patient } from "../schemas";
 
@@ -25,7 +25,7 @@ export async function getRecord(resultId: string, demo?: DemoState): Promise<{ r
   if (demo === "error") throw new DemoError();
   const patientId = resultId.match(/^r-(p-\d+)-\d+$/)?.[1];
   if (!patientId) return undefined;
-  const patient = patientsFixture.find((p) => p.id === patientId);
+  const patient = allPatients().find((p) => p.id === patientId);
   const all = historyFor(patientId)?.records ?? [];
   const i = all.findIndex((r) => r.result.id === resultId);
   if (!patient || i < 0) return undefined;
@@ -67,7 +67,7 @@ export type Profile = { patient: Patient; latest?: ResultView; plan?: Monitoring
 export async function getProfile(patientId: string, demo?: DemoState): Promise<Profile | undefined> {
   await simulateLatency(200);
   if (demo === "error") throw new DemoError();
-  const patient = patientsFixture.find((p) => p.id === patientId);
+  const patient = allPatients().find((p) => p.id === patientId);
   if (!patient) return undefined;
   const history = historyFor(patientId);
   return {

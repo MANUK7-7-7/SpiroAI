@@ -1,13 +1,19 @@
-import type { Alert, ChartEvent, ClinicalReview, Note } from "./schemas";
+import type { Alert, ChartEvent, ClinicalReview, Note, Patient } from "./schemas";
 import { alertsSeed, eventsFixture, notesFixture } from "./fixtures/profile";
 
 export type AuditEvent = { id: string; at: string; actor: string; action: string; subject: string; detail?: string };
 
-type Store = { reviews: Map<string, ClinicalReview>; notes: Note[]; events: ChartEvent[]; alerts: Alert[]; audit: AuditEvent[]; counter: number };
+export type Invite = { token: string; patientId: string; createdAt: string; acceptedAt?: string };
+
+type Store = { patients: Patient[]; invites: Map<string, Invite>; reviews: Map<string, ClinicalReview>; notes: Note[]; events: ChartEvent[]; alerts: Alert[]; audit: AuditEvent[]; counter: number };
 
 // Survives hot reloads in dev. Replace with Postgres/Prisma behind the same functions.
 const g = globalThis as unknown as { __spiroStore?: Store };
-export const store: Store = (g.__spiroStore ??= { reviews: new Map(), notes: [...notesFixture], events: [...eventsFixture], alerts: [...alertsSeed], audit: [], counter: 100 });
+export const store: Store = (g.__spiroStore ??= { patients: [], invites: new Map(), reviews: new Map(), notes: [...notesFixture], events: [...eventsFixture], alerts: [...alertsSeed], audit: [], counter: 100 });
+
+// Older hot-reloaded stores may lack newer collections.
+store.patients ??= [];
+store.invites ??= new Map();
 
 export const nextId = (prefix: string) => `${prefix}-${++store.counter}`;
 

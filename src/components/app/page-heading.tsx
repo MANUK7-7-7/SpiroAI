@@ -1,7 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Title } from "@/components/ui/title";
 
-export function PageHeading({ eyebrow, title, size = 30, action }: { eyebrow?: string; title: string; size?: number; action?: { label: string; href: string; icon?: React.ReactNode } }) {
+export function PageHeading({ eyebrow, title, size = 30, action }: { eyebrow?: React.ReactNode; title: string; size?: number; action?: { label: string; href: string; icon?: React.ReactNode } }) {
   return (
     <div className="flex items-center gap-6">
       <div className="flex min-w-0 flex-1 flex-col gap-[5px]">

@@ -10,7 +10,7 @@ import { useT } from "@/lib/i18n/client";
 const SORTS = ["risk", "last", "name", "adherence"] as const;
 
 /** Filters live in the URL, so they are kept when returning from a patient profile. */
-export function PatientsToolbar() {
+export function PatientsToolbar({ variant = "desktop" }: { variant?: "desktop" | "tablet" }) {
   const { t } = useT();
   const router = useRouter();
   const pathname = usePathname();
@@ -26,6 +26,17 @@ export function PatientsToolbar() {
   };
   const sort = (params.get("sort") as (typeof SORTS)[number]) ?? "risk";
 
+  if (variant === "tablet") {
+    const anyFilter = ["risk", "status", "gold", "last", "invite", "q"].some((k) => params.get(k));
+    return (
+      <div className="flex flex-wrap gap-2">
+        <FilterChip selected={!anyFilter} label={t("tablet.all")} onClick={() => start(() => router.replace(pathname))} className="font-medium tracking-normal" />
+        <DropdownChip label={t("tablet.risk")} value={params.get("risk") ?? undefined} onChange={(v) => set({ risk: v })} options={(["low", "moderate", "high"] as const).map((b) => ({ value: b, label: t(`risk.${b}`) }))} />
+        <DropdownChip label={t("tablet.status")} value={params.get("status") ?? undefined} onChange={(v) => set({ status: v })} options={[{ value: "diagnosed", label: t("patients.options.diagnosed") }, { value: "at_risk", label: t("patients.options.at_risk") }]} />
+        <DropdownChip label={t("patients.sort", { by: t(`patients.sortBy.${sort}`) })} display={t("patients.sort", { by: t(`patients.sortBy.${sort}`) })} value={sort} onChange={(v) => set({ sort: v && v !== "risk" ? v : undefined })} options={SORTS.map((s) => ({ value: s, label: t(`patients.sortBy.${s}`) }))} />
+      </div>
+    );
+  }
   return (
     <>
       <div className="flex items-start gap-5">

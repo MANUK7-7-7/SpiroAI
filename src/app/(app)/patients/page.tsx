@@ -1,6 +1,7 @@
 import { Plus } from "lucide-react";
 import { EmptyPanel } from "@/components/app/data-state";
 import { PageHeading } from "@/components/app/page-heading";
+import { PatientCard } from "@/components/patients/patient-card";
 import { PatientRow, patientColumns } from "@/components/patients/patient-row";
 import { Pagination } from "@/components/patients/pagination";
 import { PatientsToolbar } from "@/components/patients/patients-toolbar";
@@ -35,11 +36,17 @@ export default async function PatientsPage({ searchParams }: { searchParams: Pro
   return (
     <>
       <PageHeading
-        eyebrow={t("patients.eyebrow", { active: data.counts.active, invites: data.counts.invitesPending })}
+        eyebrow={<><span className="hidden lg:inline">{t("patients.eyebrow", { active: data.counts.active, invites: data.counts.invitesPending })}</span><span className="lg:hidden">{t("tablet.workspaceCount", { n: data.counts.active + data.counts.invitesPending })}</span></>}
         title={t("patients.title")}
         action={{ label: t("patients.add"), href: "/patients/new", icon: <Plus size={16} strokeWidth={2} aria-hidden /> }}
       />
-      <Card>
+      <div className="flex flex-col gap-4 lg:hidden">
+        <PatientsToolbar variant="tablet" />
+        {data.items.length === 0 ? <EmptyPanel message={filtered ? t("patients.empty") : t("patients.emptyPanel")} action={filtered ? t("patients.emptyAction") : t("patients.emptyPanelAction")} href={filtered ? "/patients" : "/patients/new"} /> : data.items.map((p) => <PatientCard key={p.id} p={p} t={t} locale={locale} />)}
+        <Pagination page={data.page} pageCount={pageCount} hrefFor={hrefFor} labels={{ prev: t("patients.prev"), next: t("patients.next") }} summary={t("patients.showing", { from, to: Math.min(data.page * data.pageSize, data.total), total: data.total })} />
+        <p className="text-[11px] leading-[1.45] text-ink-muted">{t("tablet.bottomNote")}</p>
+      </div>
+      <Card className="hidden lg:flex">
         <PatientsToolbar />
         <div className="flex flex-col">
           <div className={cn(patientColumns, "px-3 py-[14px] text-[11px] font-medium leading-[1.45] text-ink-muted bg-surface-soft")}>
