@@ -25,3 +25,7 @@ export function relativeDayTime(iso: string, now: string, locale: Locale, labels
   if (dayKey(iso) === dayKey(yesterday)) return `${labels.yesterday} · ${time}`;
   return `${formatShortDate(iso, locale)} · ${time}`;
 }
+
+export const formatDateTime = (iso: string, locale: Locale) => `${fmt(locale, { day: "2-digit", month: "short", year: "numeric" }).format(new Date(iso)).replace(/\./g, "")} · ${formatTime(iso, locale)}`;
+export const formatDay = (iso: string, locale: Locale) => fmt(locale, { day: "2-digit", month: "short" }).format(new Date(iso)).replace(/\./g, "");
+export const formatDayYear = (iso: string, locale: Locale) => fmt(locale, { day: "numeric", month: "short", year: "numeric" }).format(new Date(iso)).replace(/\./g, "");

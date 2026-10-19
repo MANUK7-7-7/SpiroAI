@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import { cn } from "@/lib/cn";
 
 const icons = { dashboard: LayoutDashboard, patients: Users, alerts: Bell, messages: MessageSquare, settings: Settings } as const;
-type Item = { href: string; match?: string; icon: keyof typeof icons; label: string; badge?: number };
+type Item = { href: string; match?: string | string[]; icon: keyof typeof icons; label: string; badge?: number };
 
 export function SidebarNav({ items }: { items: Item[]; alertCount?: number }) {
   const pathname = usePathname();
@@ -14,7 +14,8 @@ export function SidebarNav({ items }: { items: Item[]; alertCount?: number }) {
     <nav aria-label="Primary" className="flex flex-col gap-2">
       {items.map(({ href, match, icon, label, badge }) => {
         const Icon = icons[icon];
-        const active = pathname === (match ?? href) || pathname.startsWith(`${match ?? href}/`);
+        const prefixes = Array.isArray(match) ? match : [match ?? href];
+        const active = prefixes.some((m) => pathname === m || pathname.startsWith(`${m}/`));
         return (
           <Link
             key={href}

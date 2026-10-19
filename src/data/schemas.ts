@@ -107,3 +107,102 @@ export const patientSchema = z.object({
   featured: z.number().optional(),
 });
 export type Patient = z.infer<typeof patientSchema>;
+
+// ---------------------------------------------------------------------------------------------
+// Results, reviews, events, plans, alerts. Results themselves live in src/ai/result.ts.
+// ---------------------------------------------------------------------------------------------
+export const reviewOutcomeSchema = z.enum(["no_concern", "follow_up", "repeat_requested", "unreliable"]);
+
+export const clinicalReviewSchema = z.object({
+  id: z.string(),
+  resultId: z.string(),
+  clinicianId: z.string(),
+  clinicianName: z.string(),
+  /** The doctor's judgment of the AI output. Stored as labelled feedback. */
+  judgment: z.enum(["agree", "disagree"]),
+  note: z.string().max(2000),
+  outcome: reviewOutcomeSchema,
+  /** Feedback is exported to the AI team only when this is true, and only de-identified. */
+  shareDeidentifiedFeedback: z.boolean(),
+  at: z.string().datetime({ offset: true }),
+});
+export type ClinicalReview = z.infer<typeof clinicalReviewSchema>;
+
+export const recordingSummarySchema = z.object({
+  recordingId: z.string(),
+  source: z.enum(["mobile_app", "web_patient", "web_assisted"]),
+  deviceLabel: z.string(),
+  microphoneCheck: z.enum(["passed", "failed", "skipped"]),
+  vowelSec: z.number(),
+  readingSec: z.number(),
+  noiseDb: z.number(),
+  receivedAt: z.string().datetime({ offset: true }),
+  /** Peak levels sampled for the waveform display. */
+  waveform: z.array(z.number()).length(56),
+});
+export type RecordingSummary = z.infer<typeof recordingSummarySchema>;
+
+export const chartEventSchema = z.object({
+  id: z.string(),
+  patientId: z.string(),
+  date: z.string(),
+  type: z.enum(["medication", "spirometry", "doctor_note", "exacerbation", "other"]),
+  detail: z.string(),
+});
+export type ChartEvent = z.infer<typeof chartEventSchema>;
+
+export const alertSchema = z.object({
+  id: z.string(),
+  patientId: z.string(),
+  patientName: z.string(),
+  severity: z.enum(["high", "moderate", "info"]),
+  rule: z.string(),
+  params: z.record(z.string(), z.union([z.string(), z.number()])).default({}),
+  resultId: z.string().optional(),
+  state: z.enum(["open", "resolved", "dismissed"]),
+  firedAt: z.string().datetime({ offset: true }),
+  resolvedAt: z.string().datetime({ offset: true }).optional(),
+  dismissedReason: z.string().optional(),
+});
+export type Alert = z.infer<typeof alertSchema>;
+
+export const monitoringPlanSchema = z.object({
+  patientId: z.string(),
+  frequency: z.enum(["daily", "weekly", "biweekly", "monthly"]),
+  weekday: z.number().min(0).max(6).optional(),
+  time: z.string(),
+  sensitivity: z.enum(["standard", "high", "low"]),
+  reminders: z.object({ push: z.boolean(), email: z.boolean(), sms: z.boolean() }),
+  durationWeeks: z.number(),
+  nextTestAt: z.string().datetime({ offset: true }),
+  reviewOn: z.string(),
+  adherence: z.object({ done: z.number(), scheduled: z.number() }),
+});
+export type MonitoringPlan = z.infer<typeof monitoringPlanSchema>;
+
+export const clinicalDataSchema = z.object({
+  patientId: z.string(),
+  diagnosis: z.string(),
+  goldStage: z.number().min(1).max(4).optional(),
+  fev1Fvc: z.string(),
+  fev1Pct: z.number(),
+  previousSpirometry: z.string(),
+  medications: z.array(z.object({ name: z.string(), detail: z.string(), role: z.string() })),
+  smoking: z.string(),
+  stopped: z.string().optional(),
+  comorbidities: z.string(),
+  allergies: z.string(),
+  updatedBy: z.string(),
+  updatedOn: z.string(),
+});
+export type ClinicalData = z.infer<typeof clinicalDataSchema>;
+
+export const noteSchema = z.object({
+  id: z.string(),
+  patientId: z.string(),
+  author: z.string(),
+  at: z.string().datetime({ offset: true }),
+  text: z.string(),
+  linkedResultId: z.string().optional(),
+});
+export type Note = z.infer<typeof noteSchema>;

@@ -10,6 +10,8 @@ type Props = {
   onClick?: React.MouseEventHandler;
   type?: "button" | "submit";
   disabled?: boolean;
+  /** Arrow circle on primary buttons. Default: on for md, off for the compact sm size (as designed). */
+  arrow?: boolean;
   children: React.ReactNode;
   className?: string;
 };
@@ -17,8 +19,9 @@ type Props = {
 const radii = { input: "rounded-input", lg: "rounded-[18px]", pill: "rounded-full" } as const;
 
 /** Primary carries the white arrow circle; never also put an arrow in the label. */
-export function Button({ variant = "secondary", size = "md", radius = "input", href, children, className, disabled, type = "button", onClick }: Props) {
+export function Button({ variant = "secondary", size = "md", radius = "input", href, children, className, disabled, type = "button", onClick, arrow }: Props) {
   const primary = variant === "primary";
+  const showArrow = primary && (arrow ?? size === "md");
   const cls = cn(
     "inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors",
     size === "md" ? "h-11 gap-3 text-[14px] tracking-[-0.01em]" : "h-[34px] gap-2 text-[12px] tracking-[-0.01em]",
@@ -26,11 +29,11 @@ export function Button({ variant = "secondary", size = "md", radius = "input", h
     disabled
       ? "cursor-not-allowed bg-surface-sunken px-5 text-ink-muted"
       : primary
-        ? cn("bg-cobalt text-on-accent hover:bg-cobalt-deep", size === "md" ? "pl-5 pr-[5px]" : "pl-4 pr-[3px]")
+        ? cn("bg-cobalt text-on-accent hover:bg-cobalt-deep", size === "md" ? "pl-5 pr-[5px]" : showArrow ? "pl-3 pr-[3px]" : "px-3")
         : cn("border border-line bg-surface text-ink hover:bg-surface-soft", size === "md" ? "px-[18px]" : "px-3"),
     className,
   );
-  const arrow = primary && !disabled && (
+  const arrowEl = showArrow && !disabled && (
     <span className={cn("flex items-center justify-center rounded-full bg-surface text-cobalt", size === "md" ? "size-[34px]" : "size-7")}>
       <ArrowUpRight size={16} strokeWidth={2} aria-hidden />
     </span>
@@ -39,14 +42,14 @@ export function Button({ variant = "secondary", size = "md", radius = "input", h
     return (
       <Link href={href} className={cls}>
         {children}
-        {arrow}
+        {arrowEl}
       </Link>
     );
   }
   return (
     <button type={type} onClick={onClick} disabled={disabled} className={cls}>
       {children}
-      {arrow}
+      {arrowEl}
     </button>
   );
 }
