@@ -71,7 +71,7 @@ export async function getProfile(patientId: string, demo?: DemoState): Promise<P
   if (!patient) return undefined;
   const history = historyFor(patientId);
   return {
-    patient, latest: await getLatestRecord(patientId), plan: planFor(patientId), history,
+    patient, latest: await getLatestRecord(patientId), plan: store.plans.get(patientId) ?? planFor(patientId), history,
     alerts: store.alerts.filter((a) => a.patientId === patientId && a.state === "open"), events: store.events.filter((e) => e.patientId === patientId),
     clinical: clinicalFor(patientId), notes: store.notes.filter((n) => n.patientId === patientId), recordCount: history?.records.length ?? 0,
   };

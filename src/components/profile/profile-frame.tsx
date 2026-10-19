@@ -11,7 +11,7 @@ export type ProfileTab = "overview" | "tests" | "trends" | "clinical" | "notes";
 const href = (id: string, tab: ProfileTab) => (tab === "overview" ? `/patients/${id}` : `/patients/${id}/${tab}`);
 
 /** Heading + identity card + tabs shared by every patient profile tab. */
-export async function ProfileFrame({ patient, tab, title, alertCount, headingAction, children }: { patient: Patient; tab: ProfileTab; title?: string; alertCount: number; headingAction?: React.ReactNode; children: React.ReactNode }) {
+export async function ProfileFrame({ patient, tab, crumb, title, alertCount, headingAction, children }: { patient: Patient; tab: ProfileTab | null; crumb?: string; title?: string; alertCount: number; headingAction?: React.ReactNode; children: React.ReactNode }) {
   const { t } = await getT();
   const tabs: ProfileTab[] = ["overview", "tests", "trends", "clinical", "notes"];
   const sub = [patient.code, t("profile.years", { n: patient.age }), patient.status === "diagnosed" ? (patient.gold ? t("profile.diagnosedCopd", { gold: patient.gold }) : t("profile.diagnosed")) : t("profile.atRisk")].join(" · ");
@@ -20,7 +20,7 @@ export async function ProfileFrame({ patient, tab, title, alertCount, headingAct
     <>
       <div className="flex items-center gap-6">
         <div className="flex min-w-0 flex-1 flex-col gap-[5px]">
-          <p className="text-[12px] leading-[1.45] tracking-[-0.005em] text-ink-muted">{t("profile.crumb", { name: patient.name.toUpperCase(), code: patient.code })}</p>
+          <p className="text-[12px] leading-[1.45] tracking-[-0.005em] text-ink-muted">{crumb ?? t("profile.crumb", { name: patient.name.toUpperCase(), code: patient.code })}</p>
           <Title size={30}>{title ?? t("profile.title")}</Title>
         </div>
         {headingAction}
@@ -45,11 +45,11 @@ export async function ProfileFrame({ patient, tab, title, alertCount, headingAct
           {!patient.invitePending && <Button size="sm" href={`/patients/${patient.id}/record`}>{t("profile.recordNow")}</Button>}
         </div>
       </div>
-      <nav aria-label="Patient profile" className="flex gap-2 border-b border-line pb-3">
+      {tab && <nav aria-label="Patient profile" className="flex gap-2 border-b border-line pb-3">
         {tabs.map((k) => (
           <Link key={k} href={href(patient.id, k)} aria-current={k === tab ? "page" : undefined} className={cn("rounded-input px-[15px] py-[10px] text-[13px] font-medium leading-[1.45] tracking-[-0.01em]", k === tab ? "bg-ink text-on-accent" : "text-ink-muted hover:text-ink")}>{t(`profile.tabs.${k}`)}</Link>
         ))}
-      </nav>
+      </nav>}
       {children}
       <p className="text-[11px] leading-[1.45] text-ink-muted">{t("common.sampleNotice")}</p>
     </>

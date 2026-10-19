@@ -153,6 +153,8 @@ export type ChartEvent = z.infer<typeof chartEventSchema>;
 
 export const alertSchema = z.object({
   id: z.string(),
+  /** Clinic-facing code, e.g. AL-304. */
+  code: z.string(),
   patientId: z.string(),
   patientName: z.string(),
   severity: z.enum(["high", "moderate", "info"]),
@@ -163,6 +165,10 @@ export const alertSchema = z.object({
   firedAt: z.string().datetime({ offset: true }),
   resolvedAt: z.string().datetime({ offset: true }).optional(),
   dismissedReason: z.string().optional(),
+  /** Who resolved or dismissed it. */
+  resolvedBy: z.string().optional(),
+  /** Shown on resolved alerts, e.g. "Patient completed the scheduled recording." */
+  resolution: z.string().optional(),
 });
 export type Alert = z.infer<typeof alertSchema>;
 
@@ -206,3 +212,43 @@ export const noteSchema = z.object({
   linkedResultId: z.string().optional(),
 });
 export type Note = z.infer<typeof noteSchema>;
+
+export const clinicalActionSchema = z.object({
+  id: z.string(),
+  patientId: z.string(),
+  alertId: z.string().optional(),
+  resultId: z.string().optional(),
+  kinds: z.array(z.enum(["spirometry", "follow_up_visit", "referral", "adjust_frequency", "repeat_test"])).min(1),
+  followUp: z.object({ date: z.string(), time: z.string() }).optional(),
+  messageToPatient: z.string().max(2000).optional(),
+  internalNote: z.string().max(2000).optional(),
+  notified: z.boolean(),
+  /** Every action is initiated and confirmed by a clinician. */
+  confirmedBy: z.string(),
+  status: z.enum(["pending", "completed"]),
+  at: z.string().datetime({ offset: true }),
+});
+export type ClinicalAction = z.infer<typeof clinicalActionSchema>;
+
+export const messageSchema = z.object({
+  id: z.string(),
+  conversationId: z.string(),
+  from: z.enum(["clinician", "patient", "system"]),
+  text: z.string().max(2000),
+  at: z.string().datetime({ offset: true }),
+  /** Template used, if any. Templates carry the "not for emergencies" line. */
+  template: z.string().optional(),
+  delivery: z.enum(["sent", "delivered", "read", "failed"]).default("sent"),
+});
+export type Message = z.infer<typeof messageSchema>;
+
+export const conversationSchema = z.object({
+  id: z.string(),
+  patientId: z.string(),
+  patientName: z.string(),
+  patientCode: z.string(),
+  unread: z.number(),
+  /** A revoked consent locks messaging. */
+  locked: z.boolean().default(false),
+});
+export type Conversation = z.infer<typeof conversationSchema>;

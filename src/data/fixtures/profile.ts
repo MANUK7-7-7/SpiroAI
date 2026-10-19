@@ -53,7 +53,20 @@ export const notesFixture: Note[] = [
   { id: "n-3", patientId: "p-001", author: "Dr. Elena Morales", at: "2026-09-15T10:15:00-03:00", text: "Started tiotropium. Discussed monitoring schedule and consent." },
 ];
 
+const generatedResolved: Alert[] = Array.from({ length: 15 }, (_, i) => ({
+  id: `a-r${i + 1}`, code: `AL-${280 - i}`, patientId: "p-100", patientName: ["Lucía González", "Mateo Rodríguez", "Valentina Fernández", "Santiago López", "Camila Martínez"][i % 5],
+  severity: "moderate" as const, rule: ["missed_tests", "sustained_deviation", "poor_quality"][i % 3], params: { count: 2, results: 3 }, state: "resolved" as const,
+  firedAt: `2026-10-${String(11 - (i % 9)).padStart(2, "0")}T09:30:00-03:00`, resolvedAt: `2026-10-${String(11 - (i % 9)).padStart(2, "0")}T15:00:00-03:00`, resolvedBy: "Dr. Elena Morales", resolution: "Reviewed with the patient. No further action needed.",
+}));
+
 export const alertsSeed: Alert[] = [
-  { id: "a-1", patientId: "p-001", patientName: "James Wilson", severity: "high", rule: "risk_rise", params: { points: 18, weeks: 2 }, resultId: "r-p-001-12", state: "open", firedAt: "2026-10-16T08:42:00-03:00" },
-  { id: "a-2", patientId: "p-001", patientName: "James Wilson", severity: "moderate", rule: "sustained_deviation", params: { results: 3 }, resultId: "r-p-001-12", state: "open", firedAt: "2026-10-16T08:42:00-03:00" },
+  { id: "a-304", code: "AL-304", patientId: "p-001", patientName: "James Wilson", severity: "high", rule: "risk_rise", params: { points: 18, weeks: 2 }, resultId: "r-p-001-11", state: "open", firedAt: "2026-10-16T08:42:00-03:00" },
+  { id: "a-306", code: "AL-306", patientId: "p-001", patientName: "James Wilson", severity: "moderate", rule: "sustained_deviation", params: { results: 3 }, resultId: "r-p-001-11", state: "open", firedAt: "2026-10-16T08:42:00-03:00" },
+  { id: "a-303", code: "AL-303", patientId: "p-002", patientName: "Maria Chen", severity: "moderate", rule: "sustained_deviation", params: { results: 3 }, resultId: "r-p-002-8", state: "open", firedAt: "2026-10-16T07:15:00-03:00" },
+  { id: "a-302", code: "AL-302", patientId: "p-003", patientName: "Robert Davis", severity: "moderate", rule: "missed_tests", params: { count: 2 }, resultId: "r-p-003-8", state: "open", firedAt: "2026-10-15T09:00:00-03:00" },
+  { id: "a-301", code: "AL-301", patientId: "p-005", patientName: "David Brown", severity: "info", rule: "poor_quality", params: { count: 2 }, resultId: "r-p-005-8", state: "open", firedAt: "2026-10-15T08:10:00-03:00" },
+  { id: "a-r-1", code: "AL-299", patientId: "p-001", patientName: "James Wilson", severity: "info", rule: "poor_quality", params: { count: 1 }, state: "dismissed", firedAt: "2026-10-14T13:50:00-03:00", resolvedAt: "2026-10-14T14:10:00-03:00", resolvedBy: "Dr. Elena Morales", dismissedReason: "Recording issue confirmed by phone. Repeat scheduled." },
+  { id: "a-r-2", code: "AL-298", patientId: "p-004", patientName: "Ana Garcia", severity: "moderate", rule: "missed_tests", params: { count: 2 }, state: "resolved", firedAt: "2026-10-13T09:00:00-03:00", resolvedAt: "2026-10-13T11:30:00-03:00", resolvedBy: "Dr. Elena Morales", resolution: "Patient completed the scheduled recording." },
+  { id: "a-r-3", code: "AL-297", patientId: "p-002", patientName: "Maria Chen", severity: "moderate", rule: "sustained_deviation", params: { results: 3 }, state: "resolved", firedAt: "2026-10-12T09:00:00-03:00", resolvedAt: "2026-10-12T10:15:00-03:00", resolvedBy: "Dr. Elena Morales", resolution: "Clinical follow-up booked. Action remains pending in profile." },
+  ...generatedResolved,
 ];
