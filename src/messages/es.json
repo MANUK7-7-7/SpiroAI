@@ -1,0 +1,236 @@
+{
+  "welcome": {
+    "eyebrow": "SCREENING RESPIRATORIO BASADO EN LA VOZ",
+    "headline": "Señales tempranas de EPOC en la voz de tus pacientes",
+    "body": "Una grabación breve. Una imagen más clara. Incorporá el monitoreo respiratorio remoto a tu práctica diaria, con vos al mando.",
+    "create": "Crear cuenta profesional",
+    "login": "Iniciar sesión",
+    "how": "Cómo funciona ↗",
+    "tags": {
+      "remote": "Monitoreo remoto",
+      "alerts": "Alertas tempranas",
+      "missed": "Menos casos sin detectar",
+      "licensed": "Profesionales matriculados",
+      "consent": "Basado en el consentimiento",
+      "judgment": "Primero el criterio clínico"
+    },
+    "pins": {
+      "biomarkers": "Biomarcadores de voz",
+      "baseline": "Línea de base personal",
+      "followup": "Seguimiento clínico"
+    },
+    "trend": {
+      "title": "Puntaje de riesgo de voz",
+      "baseline": "Base 18",
+      "today": "Hoy 23 / 100",
+      "note": "Ilustrativo · sin datos de pacientes · no es un diagnóstico"
+    },
+    "extra": "Una señal adicional, no un diagnóstico",
+    "footer": "SpiroAI · Apoyo profesional al screening por voz · Demostración ficticia, sin validación clínica."
+  },
+  "risk": {
+    "low": "Bajo",
+    "moderate": "Moderado",
+    "high": "Alto"
+  },
+  "common": {
+    "login": "Iniciar sesión",
+    "next": "Siguiente",
+    "back": "Atrás",
+    "cancel": "Cancelar",
+    "footer": "SpiroAI · Apoyo profesional al screening por voz · Demostración ficticia, sin validación clínica.",
+    "disclaimer": "Apoyo al screening, no es un diagnóstico",
+    "required": "Los campos obligatorios están marcados con *"
+  },
+  "public": {
+    "forProfessionals": "Para profesionales de la salud"
+  },
+  "howItWorks": {
+    "title": "Una grabación de voz se convierte en una conversación clínica",
+    "subtitle": "Cómo SpiroAI apoya tu flujo de trabajo",
+    "steps": [
+      {
+        "title": "Invitar y obtener consentimiento",
+        "body": "Tu paciente se une desde la app móvil y controla su consentimiento."
+      },
+      {
+        "title": "Grabar y evaluar",
+        "body": "Una /a/ sostenida y una lectura breve son analizadas por un modelo de IA independiente."
+      },
+      {
+        "title": "Revisar y decidir",
+        "body": "Inspeccioná riesgo, confianza, calidad y tendencias. Vos elegís el próximo paso."
+      }
+    ],
+    "confidence": "Confianza de la IA: se muestra en cada resultado",
+    "quality": "Calidad de la grabación: se verifica antes de interpretar",
+    "judgment": "Juicio final: siempre del médico tratante",
+    "create": "Crear cuenta profesional",
+    "note": "Modal estático complementario de S01 · No se muestran datos reales de pacientes antes de iniciar sesión. Las sesiones guardadas omiten la bienvenida y vuelven al Panel."
+  },
+  "signup": {
+    "steps": {
+      "account": "Cuenta",
+      "professional": "Datos profesionales",
+      "terms": "Términos"
+    },
+    "intro": {
+      "title": "Un mejor monitoreo empieza con confianza",
+      "body": "Sumate a un espacio de trabajo pensado para profesionales de la salud matriculados. Tu identidad ayuda a proteger a cada paciente que atendés.",
+      "saved": "Progreso guardado en este dispositivo. Atrás y Siguiente conservan tus datos."
+    },
+    "already": "¿Ya tenés cuenta?",
+    "stepOf": "PASO {n} DE 3 · Los campos obligatorios están marcados con *",
+    "account": {
+      "title": "Creá tu cuenta profesional",
+      "name": "Nombre completo *",
+      "namePh": "Dra. Elena Morales",
+      "email": "Email profesional *",
+      "emailPh": "elena.morales@riverside.example",
+      "emailHint": "Usá el email que revisás en tu consultorio.",
+      "password": "Contraseña *",
+      "strength": [
+        "Muy corta",
+        "Débil",
+        "Aceptable",
+        "Buena",
+        "Fuerte · 12+ caracteres, letras, números y símbolos"
+      ]
+    },
+    "professional": {
+      "title": "Tus datos profesionales",
+      "license": "Número de matrícula *",
+      "licensePh": "MP-48291",
+      "licenseHint": "Verificamos tu matrícula para proteger a los pacientes y restringir el acceso clínico.",
+      "specialty": "Especialidad *",
+      "institution": "Institución / clínica *",
+      "institutionPh": "Clínica Riverside",
+      "country": "País *",
+      "city": "Ciudad *",
+      "cityPh": "Buenos Aires",
+      "specialties": [
+        "Neumonología",
+        "Clínica médica general",
+        "Medicina interna",
+        "Geriatría",
+        "Otra"
+      ],
+      "countries": [
+        "Argentina",
+        "Chile",
+        "Uruguay",
+        "España",
+        "Otro"
+      ],
+      "alertTitle": "Tu acceso clínico seguirá restringido hasta la verificación",
+      "alertBody": "Después de los controles automáticos de registros puede haber una revisión manual."
+    },
+    "terms": {
+      "title": "Revisá y dá tu conformidad",
+      "alertTitle": "Tu rol es esencial",
+      "alertBody": "SpiroAI apoya el screening. No diagnostica EPOC ni reemplaza la espirometría y tu evaluación clínica.",
+      "tos": "Acepto los Términos de servicio profesionales.",
+      "dpa": "Acepto el acuerdo de procesamiento de datos de salud.",
+      "medical": "Entiendo el descargo médico y conservo la responsabilidad clínica final.",
+      "links": [
+        "Términos de servicio ↗",
+        "Acuerdo de procesamiento de datos ↗",
+        "Descargo médico ↗"
+      ],
+      "readyTitle": "Listo para la verificación",
+      "submit": "Enviar para verificación",
+      "mustAccept": "Necesario para continuar"
+    },
+    "errors": {
+      "name": "Ingresá tu nombre completo",
+      "email": "Ingresá un email válido",
+      "password": "Usá al menos 12 caracteres",
+      "required": "Este campo es obligatorio"
+    }
+  },
+  "pending": {
+    "title": "Tu solicitud está en buenas manos",
+    "subtitle": "Estamos verificando tu matrícula profesional. Suele demorar menos de 24 horas.",
+    "card": "Verificación profesional",
+    "meta": "Solicitud {id} · Enviada el {date}",
+    "tracker": [
+      "Enviada",
+      "En revisión",
+      "Aprobada"
+    ],
+    "upload": {
+      "title": "Ayudanos a verificar más rápido",
+      "body": "Foto de matrícula opcional · JPG, PNG o PDF · Hasta 10 MB",
+      "button": "Subir documento"
+    },
+    "notify": "Te enviaremos un email y una notificación cuando cambie tu estado.",
+    "explore": {
+      "title": "Explorá mientras esperás",
+      "subtitle": "DEMO DE SOLO LECTURA · Paciente ficticio, sin acciones clínicas",
+      "profile": "Perfil de monitoreo ilustrativo",
+      "profileBody": "Grabación de voz de muestra y una línea de base personal",
+      "badge": "23 · Bajo",
+      "confidence": "Confianza de la IA: 94%",
+      "quality": "Calidad de la grabación: Buena",
+      "final": "Juicio final: solo demo · sin decisiones de atención",
+      "cta": "Explorar demo",
+      "support": "Contactar a soporte"
+    }
+  },
+  "login": {
+    "title": "De vuelta con las personas a tu cuidado",
+    "intro": "Un espacio de trabajo seguro para una imagen más conectada de la salud respiratoria.",
+    "sharedTitle": "Pensado para computadoras compartidas de la clínica",
+    "sharedBody": "Para proteger la privacidad de tus pacientes, las sesiones inactivas se cierran automáticamente.",
+    "welcome": "Bienvenido de nuevo, doctor",
+    "subtitle": "Iniciá sesión en tu espacio profesional",
+    "email": "Email",
+    "password": "Contraseña",
+    "forgot": "¿Olvidaste tu contraseña?",
+    "submit": "Iniciar sesión",
+    "newTo": "¿Sos nuevo en SpiroAI?",
+    "create": "Crear cuenta",
+    "encrypted": "Tu conexión está cifrada. A continuación sigue la verificación en dos pasos.",
+    "invalid": "Revisá tu email y contraseña e intentá de nuevo.",
+    "demo": "Acceso demo: cualquier email y una contraseña de 8+ caracteres. Solo datos ficticios."
+  },
+  "twofa": {
+    "title": "Un paso más para cuidar la seguridad",
+    "subtitle": "Ingresá el código de 6 dígitos de tu app de autenticación.",
+    "subtitleSms": "Ingresá el código de 6 dígitos que enviamos por SMS.",
+    "tabAuth": "Autenticador",
+    "tabSms": "SMS",
+    "trust": "Confiar en este dispositivo por 30 días",
+    "trustNote": "Confiá solo en un dispositivo que no compartas con otro personal.",
+    "submit": "Verificar y continuar",
+    "useSms": "Usar SMS en su lugar · Enviar código a ••• ••• 0138",
+    "useAuth": "Usar el autenticador en su lugar",
+    "back": "Volver al inicio de sesión",
+    "expires": "El código vence en {time}",
+    "expired": "El código venció. Pedí uno nuevo.",
+    "wrong": "Ese código no es correcto. Revisalo e intentá de nuevo.",
+    "demo": "Código demo: 482916"
+  },
+  "reset": {
+    "title": "Restablecé tu contraseña",
+    "subtitle": "Te enviaremos un enlace seguro de restablecimiento a tu email.",
+    "email": "Email profesional",
+    "submit": "Enviar email de restablecimiento",
+    "sentTitle": "Si existe una cuenta, ya va en camino un enlace de restablecimiento",
+    "sentBody": "Revisá tu bandeja de entrada y la carpeta de spam. El enlace vence en 30 minutos.",
+    "back": "Volver al inicio de sesión",
+    "resend": "Reenviar email",
+    "note": "Complemento de S04 · La confirmación nunca revela si un email está registrado."
+  },
+  "biometric": {
+    "title": "Bienvenida de nuevo, Elena",
+    "body": "Usá la autenticación biométrica de esta tablet para desbloquear tu espacio profesional.",
+    "continue": "Continuar con biometría",
+    "password": "Usar contraseña en su lugar",
+    "alertTitle": "Un dispositivo de confianza, no compartido",
+    "alertBody": "La biometría es opcional. La contraseña y el 2FA siguen disponibles.",
+    "unavailable": "La biometría no está disponible en este dispositivo",
+    "unavailableBody": "Usá tu contraseña y el código de dos pasos.",
+    "note": "Adaptación estática para tablet · La disponibilidad biométrica depende del dispositivo. El tiempo de sesión sigue aplicando."
+  }
+}

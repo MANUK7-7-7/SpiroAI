@@ -14,7 +14,11 @@
       "consent": "Consent-led",
       "judgment": "Clinical judgment first"
     },
-    "pins": { "biomarkers": "Voice biomarkers", "baseline": "Personal baseline", "followup": "Clinical follow-up" },
+    "pins": {
+      "biomarkers": "Voice biomarkers",
+      "baseline": "Personal baseline",
+      "followup": "Clinical follow-up"
+    },
     "trend": {
       "title": "Voice risk score",
       "baseline": "Baseline 18",
@@ -24,5 +28,209 @@
     "extra": "An extra signal, not a diagnosis",
     "footer": "SpiroAI · Professional voice screening support · Fictional demonstration, not clinically validated."
   },
-  "risk": { "low": "Low", "moderate": "Moderate", "high": "High" }
+  "risk": {
+    "low": "Low",
+    "moderate": "Moderate",
+    "high": "High"
+  },
+  "common": {
+    "login": "Log in",
+    "next": "Next",
+    "back": "Back",
+    "cancel": "Cancel",
+    "footer": "SpiroAI · Professional voice screening support · Fictional demonstration, not clinically validated.",
+    "disclaimer": "Screening support, not a diagnosis",
+    "required": "Required fields marked *"
+  },
+  "public": {
+    "forProfessionals": "For healthcare professionals"
+  },
+  "howItWorks": {
+    "title": "A voice recording becomes a clinical conversation",
+    "subtitle": "How SpiroAI supports your workflow",
+    "steps": [
+      {
+        "title": "Invite & get consent",
+        "body": "Your patient joins the mobile app and controls their consent."
+      },
+      {
+        "title": "Record & screen",
+        "body": "A sustained /a/ and short reading are analyzed by a separate AI model."
+      },
+      {
+        "title": "Review & decide",
+        "body": "Inspect risk, confidence, quality and trends. You choose the next step."
+      }
+    ],
+    "confidence": "AI confidence: Shown with every result",
+    "quality": "Recording quality: Checked before interpretation",
+    "judgment": "Final judgment: Always the treating doctor",
+    "create": "Create professional account",
+    "note": "Static modal companion to S01 · No actual patient data is shown before login. Saved sessions skip welcome and return to Dashboard."
+  },
+  "signup": {
+    "steps": {
+      "account": "Account",
+      "professional": "Professional data",
+      "terms": "Terms"
+    },
+    "intro": {
+      "title": "Better monitoring starts with trust",
+      "body": "Join a workspace built for licensed healthcare professionals. Your identity helps protect every patient you care for.",
+      "saved": "Progress saved on this device. Back and Next keep your entries."
+    },
+    "already": "Already have an account?",
+    "stepOf": "STEP {n} OF 3 · Required fields marked *",
+    "account": {
+      "title": "Create your professional account",
+      "name": "Full name *",
+      "namePh": "Dr. Elena Morales",
+      "email": "Professional email *",
+      "emailPh": "elena.morales@riverside.example",
+      "emailHint": "Use the email you check at your practice.",
+      "password": "Password *",
+      "strength": [
+        "Too short",
+        "Weak",
+        "Fair",
+        "Good",
+        "Strong · 12+ characters, mixed letters, numbers and symbols"
+      ]
+    },
+    "professional": {
+      "title": "Your professional details",
+      "license": "License number (matrícula) *",
+      "licensePh": "MP-48291",
+      "licenseHint": "We verify your license to protect patients and restrict clinical access.",
+      "specialty": "Specialty *",
+      "institution": "Institution / clinic *",
+      "institutionPh": "Riverside Clinic",
+      "country": "Country *",
+      "city": "City *",
+      "cityPh": "Buenos Aires",
+      "specialties": [
+        "Pulmonology",
+        "General practice",
+        "Internal medicine",
+        "Geriatrics",
+        "Other"
+      ],
+      "countries": [
+        "Argentina",
+        "Chile",
+        "Uruguay",
+        "Spain",
+        "Other"
+      ],
+      "alertTitle": "Your clinical access stays restricted until verified",
+      "alertBody": "Automatic registry checks may be followed by a manual review."
+    },
+    "terms": {
+      "title": "Review and give your agreement",
+      "alertTitle": "Your role is essential",
+      "alertBody": "SpiroAI supports screening. It does not diagnose COPD or replace spirometry and your clinical assessment.",
+      "tos": "I accept the professional Terms of Service.",
+      "dpa": "I agree to the data processing agreement for health information.",
+      "medical": "I understand the medical disclaimer and retain final clinical responsibility.",
+      "links": [
+        "Terms of Service ↗",
+        "Data processing agreement ↗",
+        "Medical disclaimer ↗"
+      ],
+      "readyTitle": "Ready for verification",
+      "submit": "Submit for verification",
+      "mustAccept": "Required to continue"
+    },
+    "errors": {
+      "name": "Enter your full name",
+      "email": "Enter a valid email",
+      "password": "Use at least 12 characters",
+      "required": "This field is required"
+    }
+  },
+  "pending": {
+    "title": "Your application is in good hands",
+    "subtitle": "We’re checking your professional license. Usually under 24 hours.",
+    "card": "Professional verification",
+    "meta": "Application {id} · Submitted {date}",
+    "tracker": [
+      "Submitted",
+      "In review",
+      "Approved"
+    ],
+    "upload": {
+      "title": "Help us verify faster",
+      "body": "Optional license photo · JPG, PNG or PDF · Up to 10 MB",
+      "button": "Upload document"
+    },
+    "notify": "We’ll send an email and push update when your status changes.",
+    "explore": {
+      "title": "Explore while you wait",
+      "subtitle": "READ-ONLY DEMO · Fictional patient, no clinical actions",
+      "profile": "Illustrative monitoring profile",
+      "profileBody": "Sample voice recording and a personal baseline",
+      "badge": "23 · Low",
+      "confidence": "AI confidence: 94%",
+      "quality": "Recording quality: Good",
+      "final": "Final judgment: Demo only · no care decisions",
+      "cta": "Explore demo",
+      "support": "Contact support"
+    }
+  },
+  "login": {
+    "title": "Back to the people in your care",
+    "intro": "A secure workspace for a more connected picture of respiratory health.",
+    "sharedTitle": "Built for shared clinic computers",
+    "sharedBody": "For your patients’ privacy, inactive sessions automatically log out.",
+    "welcome": "Welcome back, doctor",
+    "subtitle": "Log in to your professional workspace",
+    "email": "Email",
+    "password": "Password",
+    "forgot": "Forgot password?",
+    "submit": "Log in",
+    "newTo": "New to SpiroAI?",
+    "create": "Create account",
+    "encrypted": "Your connection is encrypted. Two-factor verification follows.",
+    "invalid": "Check your email and password and try again.",
+    "demo": "Demo access: any email and a password of 8+ characters. Fictional data only."
+  },
+  "twofa": {
+    "title": "One more step to keep care secure",
+    "subtitle": "Enter the 6-digit code from your authenticator app.",
+    "subtitleSms": "Enter the 6-digit code we sent by SMS.",
+    "tabAuth": "Authenticator",
+    "tabSms": "SMS",
+    "trust": "Trust this device for 30 days",
+    "trustNote": "Only trust a device that is not shared with other staff.",
+    "submit": "Verify and continue",
+    "useSms": "Use SMS instead · Send code to ••• ••• 0138",
+    "useAuth": "Use authenticator instead",
+    "back": "Back to log in",
+    "expires": "Code expires in {time}",
+    "expired": "The code expired. Request a new one.",
+    "wrong": "That code is not right. Check it and try again.",
+    "demo": "Demo code: 482916"
+  },
+  "reset": {
+    "title": "Reset your password",
+    "subtitle": "We’ll send a secure reset link to your email.",
+    "email": "Professional email",
+    "submit": "Send reset email",
+    "sentTitle": "If an account exists, a reset link is on its way",
+    "sentBody": "Check your inbox and spam folder. The link expires in 30 minutes.",
+    "back": "Back to log in",
+    "resend": "Resend email",
+    "note": "Companion to S04 · The confirmation never reveals whether an email is registered."
+  },
+  "biometric": {
+    "title": "Welcome back, Elena",
+    "body": "Use this tablet’s biometric authentication to unlock your professional workspace.",
+    "continue": "Continue with biometrics",
+    "password": "Use password instead",
+    "alertTitle": "A trusted device, not a shared device",
+    "alertBody": "Biometrics are optional. A password and 2FA remain available.",
+    "unavailable": "Biometrics are not available on this device",
+    "unavailableBody": "Use your password and two-factor code instead.",
+    "note": "Static tablet adaptation · Biometric availability depends on the device. Session timeout still applies."
+  }
 }

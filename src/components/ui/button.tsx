@@ -1,34 +1,52 @@
-import Image from "next/image";
 import Link from "next/link";
+import { ArrowUpRight } from "lucide-react";
 import { cn } from "@/lib/cn";
 
 type Props = {
-  href: string;
   variant?: "primary" | "secondary";
+  size?: "md" | "sm";
+  radius?: "input" | "lg" | "pill";
+  href?: string;
+  onClick?: React.MouseEventHandler;
+  type?: "button" | "submit";
+  disabled?: boolean;
   children: React.ReactNode;
   className?: string;
 };
 
+const radii = { input: "rounded-input", lg: "rounded-[18px]", pill: "rounded-full" } as const;
+
 /** Primary carries the white arrow circle; never also put an arrow in the label. */
-export function Button({ href, variant = "secondary", children, className }: Props) {
+export function Button({ variant = "secondary", size = "md", radius = "input", href, children, className, disabled, type = "button", onClick }: Props) {
   const primary = variant === "primary";
+  const cls = cn(
+    "inline-flex items-center justify-center whitespace-nowrap font-medium transition-colors",
+    size === "md" ? "h-11 gap-3 text-[14px] tracking-[-0.01em]" : "h-[34px] gap-2 text-[12px] tracking-[-0.01em]",
+    radii[radius],
+    disabled
+      ? "cursor-not-allowed bg-surface-sunken px-5 text-ink-muted"
+      : primary
+        ? cn("bg-cobalt text-on-accent hover:bg-cobalt-deep", size === "md" ? "pl-5 pr-[5px]" : "pl-4 pr-[3px]")
+        : cn("border border-line bg-surface text-ink hover:bg-surface-soft", size === "md" ? "px-[18px]" : "px-3"),
+    className,
+  );
+  const arrow = primary && !disabled && (
+    <span className={cn("flex items-center justify-center rounded-full bg-surface text-cobalt", size === "md" ? "size-[34px]" : "size-7")}>
+      <ArrowUpRight size={16} strokeWidth={2} aria-hidden />
+    </span>
+  );
+  if (href && !disabled) {
+    return (
+      <Link href={href} className={cls}>
+        {children}
+        {arrow}
+      </Link>
+    );
+  }
   return (
-    <Link
-      href={href}
-      className={cn(
-        "inline-flex h-11 items-center justify-center gap-3 whitespace-nowrap rounded-input text-[14px] font-medium tracking-[-0.01em] transition-colors",
-        primary
-          ? "bg-cobalt pl-5 pr-[5px] text-on-accent hover:bg-cobalt-deep"
-          : "border border-line bg-surface px-[18px] text-ink hover:bg-surface-soft",
-        className,
-      )}
-    >
+    <button type={type} onClick={onClick} disabled={disabled} className={cls}>
       {children}
-      {primary && (
-        <span className="flex size-[34px] items-center justify-center rounded-full bg-surface">
-          <Image src="/assets/s01/arrow-up-right.svg" alt="" width={16} height={16} />
-        </span>
-      )}
-    </Link>
+      {arrow}
+    </button>
   );
 }
