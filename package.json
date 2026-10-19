@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "gen:openapi": "tsx scripts/gen-openapi.ts"
   },
   "devDependencies": {
     "@types/node": "^26.6.5",
@@ -17,7 +18,9 @@
     "playwright-core": "^1.64.1",
     "postcss": "^8.5.31",
     "tailwindcss": "^3.4.19",
+    "tsx": "^4.23.15",
     "typescript": "^5.9.3",
+    "vite": "^8.3.4",
     "vitest": "^5.0.5"
   },
   "dependencies": {

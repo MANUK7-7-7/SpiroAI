@@ -1,0 +1,516 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "SpiroAI inference service",
+    "version": "1.0.0",
+    "description": "Screening support, not a diagnosis. Placeholder contract for the voice COPD risk model."
+  },
+  "paths": {
+    "/v1/screen": {
+      "post": {
+        "operationId": "screen",
+        "summary": "Score a recording",
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "x-model-version",
+            "in": "header",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ModelInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Scored",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModelOutput"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "INVALID_INPUT or QUALITY_REJECTED",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiErrorBody"
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "MODEL_UNAVAILABLE",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiErrorBody"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "TIMEOUT",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AiErrorBody"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/healthz": {
+      "get": {
+        "operationId": "health",
+        "responses": {
+          "200": {
+            "description": "ok"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "type": "http",
+        "scheme": "bearer"
+      }
+    },
+    "schemas": {
+      "ModelInput": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "recordingId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "tasks": {
+            "minItems": 1,
+            "maxItems": 2,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "task": {
+                  "type": "string",
+                  "enum": [
+                    "sustained_vowel",
+                    "reading_passage"
+                  ]
+                },
+                "url": {
+                  "type": "string",
+                  "format": "uri"
+                },
+                "durationSec": {
+                  "type": "number",
+                  "exclusiveMinimum": 0
+                },
+                "sampleRate": {
+                  "type": "integer",
+                  "minimum": -9007199254740991,
+                  "maximum": 9007199254740991
+                }
+              },
+              "required": [
+                "task",
+                "url",
+                "durationSec",
+                "sampleRate"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "source": {
+            "type": "string",
+            "enum": [
+              "mobile_app",
+              "web_patient",
+              "web_assisted"
+            ]
+          },
+          "device": {
+            "type": "object",
+            "properties": {
+              "deviceType": {
+                "type": "string",
+                "enum": [
+                  "phone",
+                  "tablet",
+                  "laptop",
+                  "desktop",
+                  "unknown"
+                ]
+              },
+              "os": {
+                "type": "string",
+                "maxLength": 64
+              },
+              "browser": {
+                "type": "string",
+                "maxLength": 64
+              },
+              "microphoneLabel": {
+                "type": "string",
+                "maxLength": 128
+              },
+              "microphoneKind": {
+                "type": "string",
+                "enum": [
+                  "built_in",
+                  "external",
+                  "unknown"
+                ]
+              },
+              "sampleRate": {
+                "type": "integer",
+                "minimum": 8000,
+                "maximum": 192000
+              },
+              "channelCount": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 8
+              },
+              "processing": {
+                "type": "object",
+                "properties": {
+                  "echoCancellation": {
+                    "type": "boolean"
+                  },
+                  "noiseSuppression": {
+                    "type": "boolean"
+                  },
+                  "autoGainControl": {
+                    "type": "boolean"
+                  }
+                },
+                "required": [
+                  "echoCancellation",
+                  "noiseSuppression",
+                  "autoGainControl"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "required": [
+              "deviceType",
+              "microphoneKind",
+              "sampleRate",
+              "channelCount",
+              "processing"
+            ],
+            "additionalProperties": false
+          },
+          "patientContext": {
+            "type": "object",
+            "properties": {
+              "ageBand": {
+                "type": "string",
+                "enum": [
+                  "<40",
+                  "40-49",
+                  "50-59",
+                  "60-69",
+                  "70-79",
+                  "80+"
+                ]
+              },
+              "sex": {
+                "type": "string",
+                "enum": [
+                  "f",
+                  "m"
+                ]
+              },
+              "status": {
+                "type": "string",
+                "enum": [
+                  "diagnosed",
+                  "at_risk"
+                ]
+              },
+              "goldStage": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 4
+              },
+              "smoker": {
+                "type": "string",
+                "enum": [
+                  "never",
+                  "former",
+                  "current"
+                ]
+              }
+            },
+            "additionalProperties": false
+          },
+          "baselineSnapshot": {
+            "type": "object",
+            "properties": {
+              "window": {
+                "type": "object",
+                "properties": {
+                  "from": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+                  },
+                  "to": {
+                    "type": "string",
+                    "format": "date-time",
+                    "pattern": "^(?:(?:\\d\\d[2468][048]|\\d\\d[13579][26]|\\d\\d0[48]|[02468][048]00|[13579][26]00)-02-29|\\d{4}-(?:(?:0[13578]|1[02])-(?:0[1-9]|[12]\\d|3[01])|(?:0[469]|11)-(?:0[1-9]|[12]\\d|30)|(?:02)-(?:0[1-9]|1\\d|2[0-8])))T(?:(?:[01]\\d|2[0-3]):[0-5]\\d:[0-5]\\d(?:\\.\\d+)?(?:Z|([+-](?:[01]\\d|2[0-3]):[0-5]\\d)))$"
+                  }
+                },
+                "required": [
+                  "from",
+                  "to"
+                ],
+                "additionalProperties": false
+              },
+              "method": {
+                "type": "string",
+                "enum": [
+                  "median_first_n",
+                  "rolling_median"
+                ]
+              },
+              "sampleCount": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 9007199254740991
+              },
+              "metrics": {
+                "type": "object",
+                "propertyNames": {
+                  "type": "string",
+                  "enum": [
+                    "f0",
+                    "jitter",
+                    "shimmer",
+                    "hnr",
+                    "mpt"
+                  ]
+                },
+                "additionalProperties": {
+                  "type": "object",
+                  "properties": {
+                    "mean": {
+                      "type": "number"
+                    },
+                    "sd": {
+                      "type": "number",
+                      "minimum": 0
+                    }
+                  },
+                  "required": [
+                    "mean",
+                    "sd"
+                  ],
+                  "additionalProperties": false
+                },
+                "required": [
+                  "f0",
+                  "jitter",
+                  "shimmer",
+                  "hnr",
+                  "mpt"
+                ]
+              },
+              "riskIndex": {
+                "type": "number",
+                "minimum": 0,
+                "maximum": 100
+              }
+            },
+            "required": [
+              "window",
+              "method",
+              "sampleCount",
+              "metrics"
+            ],
+            "additionalProperties": false
+          }
+        },
+        "required": [
+          "recordingId",
+          "tasks",
+          "source",
+          "device"
+        ],
+        "additionalProperties": false
+      },
+      "ModelOutput": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "riskIndex": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          },
+          "quality": {
+            "type": "object",
+            "properties": {
+              "level": {
+                "type": "string",
+                "enum": [
+                  "good",
+                  "fair",
+                  "poor"
+                ]
+              },
+              "reasons": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            },
+            "required": [
+              "level",
+              "reasons"
+            ],
+            "additionalProperties": false
+          },
+          "features": {
+            "type": "object",
+            "properties": {
+              "f0Hz": {
+                "type": "number"
+              },
+              "jitterPct": {
+                "type": "number"
+              },
+              "shimmerPct": {
+                "type": "number"
+              },
+              "hnrDb": {
+                "type": "number"
+              },
+              "mptSec": {
+                "type": "number"
+              },
+              "mfcc": {
+                "maxItems": 40,
+                "type": "array",
+                "items": {
+                  "type": "number"
+                }
+              }
+            },
+            "required": [
+              "f0Hz",
+              "jitterPct",
+              "shimmerPct",
+              "hnrDb",
+              "mptSec",
+              "mfcc"
+            ],
+            "additionalProperties": false
+          },
+          "featureContributions": {
+            "type": "object",
+            "propertyNames": {
+              "type": "string"
+            },
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "modelId": {
+            "type": "string",
+            "minLength": 1
+          },
+          "modelVersion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "extractorVersion": {
+            "type": "string",
+            "minLength": 1
+          },
+          "latencyMs": {
+            "type": "number",
+            "minimum": 0
+          },
+          "warnings": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "riskIndex",
+          "confidence",
+          "quality",
+          "features",
+          "modelId",
+          "modelVersion",
+          "extractorVersion",
+          "latencyMs",
+          "warnings"
+        ],
+        "additionalProperties": false
+      },
+      "AiErrorBody": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "enum": [
+              "QUALITY_REJECTED",
+              "MODEL_UNAVAILABLE",
+              "TIMEOUT",
+              "INVALID_INPUT"
+            ]
+          },
+          "message": {
+            "type": "string"
+          },
+          "reasons": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "code",
+          "message"
+        ],
+        "additionalProperties": false
+      }
+    }
+  }
+}
