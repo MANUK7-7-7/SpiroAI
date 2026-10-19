@@ -1,4 +1,4 @@
-import { bandFor } from "@/config/risk-bands";
+import { bandOf } from "./settings";
 import { dashboardSchema, type Dashboard } from "../schemas";
 import { dashboardFixture } from "../fixtures/dashboard";
 import { highAlertCount, openAlertCount } from "./alerts";
@@ -17,6 +17,6 @@ export async function getDashboard(demo?: DemoState): Promise<Dashboard> {
   if (demo === "error") throw new DemoError();
   if (demo === "empty") return dashboardSchema.parse(emptyDashboard);
   // Band is derived from the institution thresholds, never stored as a literal in the UI.
-  const data = { ...dashboardFixture, kpis: { ...dashboardFixture.kpis, openAlerts: openAlertCount(), highPriorityAlerts: highAlertCount() }, queue: dashboardFixture.queue.map((q) => ({ ...q, band: bandFor(q.riskIndex) })) };
+  const data = { ...dashboardFixture, kpis: { ...dashboardFixture.kpis, openAlerts: openAlertCount(), highPriorityAlerts: highAlertCount() }, queue: dashboardFixture.queue.map((q) => ({ ...q, band: bandOf(q.riskIndex) })) };
   return dashboardSchema.parse(data);
 }

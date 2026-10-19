@@ -4,11 +4,12 @@ import { historyFor, type ResultRecord } from "../fixtures/history";
 import { clinicalFor, planFor } from "../fixtures/profile";
 import { allPatients } from "./patients";
 import { store, nextId, recordAudit } from "../store";
+import { bandOf } from "./settings";
 import { clinicalReviewSchema, type Alert, type ChartEvent, type ClinicalData, type ClinicalReview, type MonitoringPlan, type Note, type Patient } from "../schemas";
 
 export type ResultView = ResultRecord & { review?: ClinicalReview };
 
-const withReview = (r: ResultRecord): ResultView => ({ ...r, review: store.reviews.get(r.result.id) ?? r.review });
+const withReview = (r: ResultRecord): ResultView => ({ ...r, result: r.result.riskIndex === undefined ? r.result : { ...r.result, band: bandOf(r.result.riskIndex) }, review: store.reviews.get(r.result.id) ?? r.review });
 
 const effectiveJudgment = (r: ResultView): "pending" | "agreed" | "disagreed" => (r.review ? (r.review.judgment === "agree" ? "agreed" : "disagreed") : "pending");
 
@@ -69,7 +70,8 @@ export async function getProfile(patientId: string, demo?: DemoState): Promise<P
   if (demo === "error") throw new DemoError();
   const patient = allPatients().find((p) => p.id === patientId);
   if (!patient) return undefined;
-  const history = historyFor(patientId);
+  const raw = historyFor(patientId);
+  const history = raw && { ...raw, records: raw.records.map((r) => withReview(r)) };
   return {
     patient, latest: await getLatestRecord(patientId), plan: store.plans.get(patientId) ?? planFor(patientId), history,
     alerts: store.alerts.filter((a) => a.patientId === patientId && a.state === "open"), events: store.events.filter((e) => e.patientId === patientId),

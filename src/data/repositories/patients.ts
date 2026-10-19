@@ -3,9 +3,11 @@ import { DEMO_NOW } from "@/config/demo";
 import { DemoError, simulateLatency, type DemoState } from "../demo-state";
 import { patientsFixture } from "../fixtures/patients";
 import { store, nextId, recordAudit } from "../store";
+import { bandOf } from "./settings";
 import { patientSchema, type Patient } from "../schemas";
 
-export const allPatients = (): Patient[] => [...store.patients, ...patientsFixture];
+/** Bands follow the institution thresholds saved in Settings, not the fixture defaults. */
+export const allPatients = (): Patient[] => [...store.patients, ...patientsFixture].map((p) => (p.latest ? { ...p, latest: { ...p.latest, band: bandOf(p.latest.riskIndex) } } : p));
 
 export type PatientQuery = {
   q?: string;

@@ -6,7 +6,7 @@ import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { RiskBadge } from "@/components/ui/risk-badge";
 import { DEMO_NOW } from "@/config/demo";
-import { defaultRiskBands } from "@/config/risk-bands";
+import { getBands } from "@/data/repositories/settings";
 import { parseDemoState } from "@/data/demo-state";
 import { listAlerts } from "@/data/repositories/alerts";
 import { getPatient } from "@/data/repositories/patients";
@@ -36,7 +36,7 @@ export default async function AlertsPage({ searchParams }: { searchParams: Promi
   const card = async (a: AlertT) => {
     const p = await getPatient(a.patientId);
     const r = p?.latest;
-    const params = { ...a.params, high: defaultRiskBands.highFrom } as Record<string, string | number>;
+    const params = { ...a.params, high: getBands().highFrom } as Record<string, string | number>;
     const meta = a.rule === "missed_tests" ? t("alertsCenter.lastResult", { conf: Math.round((r?.confidence ?? 0) * 100), quality: t(`quality.${r?.quality ?? "good"}`), disclaimer: t("common.disclaimer") })
       : a.rule === "poor_quality" ? t("alertsCenter.lastReliable", { conf: Math.round((r?.confidence ?? 0) * 100), quality: t(`quality.${r?.quality ?? "good"}`), disclaimer: t("common.disclaimer") })
       : t("alertsCenter.aiMeta", { conf: Math.round((r?.confidence ?? 0) * 100), quality: t(`quality.${r?.quality ?? "good"}`), j: t(`judgment.${r?.judgment ?? "pending"}`), disclaimer: t("common.disclaimer") });
@@ -63,7 +63,7 @@ export default async function AlertsPage({ searchParams }: { searchParams: Promi
 
   const resolvedCard = async (a: AlertT) => {
     const reason = a.state === "dismissed" ? t("alertsCenter.dismissed", { reason: a.dismissedReason ?? "" }) : t("alertsCenter.resolvedReason", { reason: a.resolution ?? "" });
-    const params = { ...a.params, high: defaultRiskBands.highFrom } as Record<string, string | number>;
+    const params = { ...a.params, high: getBands().highFrom } as Record<string, string | number>;
     return (
       <article key={a.id} className="flex flex-col gap-4 rounded-card bg-surface p-6 shadow-[inset_0_0_0_1px_var(--line)]">
         <div className="flex flex-col gap-1 leading-[1.45]">

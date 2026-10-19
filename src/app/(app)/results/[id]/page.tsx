@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeading } from "@/components/ui/card";
 import { RiskBadge } from "@/components/ui/risk-badge";
 import { Title } from "@/components/ui/title";
-import { defaultRiskBands } from "@/config/risk-bands";
+import { bandOf, getBands } from "@/data/repositories/settings";
 import { LOW_CONFIDENCE } from "@/config/review";
 import { metricCatalog, metricOrder } from "@/config/metrics";
 import { parseDemoState } from "@/data/demo-state";
@@ -32,7 +32,8 @@ export default async function ResultPage({ params, searchParams }: { params: Pro
   const label = reviewLabelKey(record);
   const history = historyFor(patient.id);
   const idx = history?.records.findIndex((x) => x.result.id === id) ?? -1;
-  const prev = idx > 0 ? history!.records.slice(0, idx).reverse().find((x) => x.result.status === "ready" && x.result.quality?.level !== "poor")?.result : undefined;
+  const prevRaw = idx > 0 ? history!.records.slice(0, idx).reverse().find((x) => x.result.status === "ready" && x.result.quality?.level !== "poor")?.result : undefined;
+  const prev = prevRaw && { ...prevRaw, band: bandOf(prevRaw.riskIndex!) };
   const returnHref = "/dashboard";
   const total = rec.vowelSec + rec.readingSec;
   const quality = t(`quality.${r.quality?.level ?? "good"}`);
@@ -41,7 +42,7 @@ export default async function ResultPage({ params, searchParams }: { params: Pro
   const poor = r.status === "rejected_quality" || r.quality?.level === "poor";
   const review = record.review;
   const bandWord = (b: string) => t(`risk.${b}`);
-  const thresholds = { lo: 0, lm: defaultRiskBands.moderateFrom - 1, mo: defaultRiskBands.moderateFrom, mm: defaultRiskBands.highFrom - 1, hi: defaultRiskBands.highFrom };
+  const thresholds = { lo: 0, lm: getBands().moderateFrom - 1, mo: getBands().moderateFrom, mm: getBands().highFrom - 1, hi: getBands().highFrom };
   const source = rec.source === "mobile_app" ? t("result.ctxPatientApp") : rec.source === "web_patient" ? t("result.ctxPatientWeb") : t("result.ctxAssisted");
   const check = t(`result.check${rec.microphoneCheck === "passed" ? "Passed" : rec.microphoneCheck === "failed" ? "Failed" : "Skipped"}`);
   const reviewedWhen = review ? `${formatDay(review.at, locale)} · ${formatTime(review.at, locale)}` : "";
