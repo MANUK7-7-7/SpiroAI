@@ -1,10 +1,12 @@
 import { expect, test, type Page } from "@playwright/test";
 import { login } from "./helpers";
 
-async function micCheck(page: Page) {
+async function micCheck(page: Page, assertOff = false) {
   await page.getByRole("button", { name: "Allow microphone" }).click();
   await page.getByRole("button", { name: "Start check" }).click();
-  await page.getByRole("button", { name: "Continue to recording" }).click({ timeout: 10_000 });
+  await expect(page.getByText("Microphone check passed")).toBeVisible({ timeout: 10_000 });
+  if (assertOff) await expect(page.getByText("Echo cancellation").locator("..")).toContainText("Off");
+  await page.getByRole("button", { name: "Continue to recording" }).click();
 }
 
 async function twoTasks(page: Page, last: RegExp) {
@@ -30,8 +32,7 @@ test("patient records two tasks on a computer, with voice processing off, and ne
     await page.getByRole("checkbox").click();
     await page.getByRole("button", { name: "Continue" }).click();
   }
-  await micCheck(page);
-  await expect(page.getByText("Echo cancellation").locator("..")).toContainText("Off");
+  await micCheck(page, true);
   await twoTasks(page, /./);
   await expect(page.getByRole("heading", { name: /Recording received|Please record again/ })).toBeVisible({ timeout: 20_000 });
   await expect(page.getByText(/risk index/i)).toHaveCount(0);

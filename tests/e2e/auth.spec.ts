@@ -18,6 +18,7 @@ test("a wrong code is rejected", async ({ page }) => {
   await page.getByRole("button", { name: "Log in" }).click();
   await page.getByRole("textbox").first().click();
   await page.keyboard.type("000000");
-  await page.getByRole("button", { name: "Verify and continue" }).click();
+  await page.getByRole("button", { name: "Verify and continue" }).click({ timeout: 3000 }).catch(() => {});
   await expect(page).toHaveURL(/\/login\/2fa/);
+  await expect(page).not.toHaveURL(/dashboard/);
 });

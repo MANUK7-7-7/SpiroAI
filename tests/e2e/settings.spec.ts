@@ -4,7 +4,7 @@ import { login } from "./helpers";
 test("thresholds must be ordered and the unsaved-changes guard asks before leaving", async ({ page }) => {
   await login(page);
   await page.goto("/settings/thresholds");
-  const high = page.getByLabel(/High · From/);
+  const high = page.getByLabel(/Risk index · From/).last();
   await high.fill("30");
   await page.getByRole("button", { name: "Save default thresholds" }).click();
   await expect(page.getByText("The Moderate threshold must be lower than the High threshold.")).toBeVisible();
