@@ -1,0 +1,28 @@
+{
+  "welcome": {
+    "eyebrow": "VOICE-BASED RESPIRATORY SCREENING",
+    "headline": "Early COPD signals from your patients’ voice",
+    "body": "A small recording. A clearer picture. Bring remote respiratory monitoring into your everyday practice, with you in control.",
+    "create": "Create professional account",
+    "login": "Log in",
+    "how": "How it works ↗",
+    "tags": {
+      "remote": "Remote monitoring",
+      "alerts": "Early alerts",
+      "missed": "Fewer missed cases",
+      "licensed": "Licensed professionals",
+      "consent": "Consent-led",
+      "judgment": "Clinical judgment first"
+    },
+    "pins": { "biomarkers": "Voice biomarkers", "baseline": "Personal baseline", "followup": "Clinical follow-up" },
+    "trend": {
+      "title": "Voice risk score",
+      "baseline": "Baseline 18",
+      "today": "Today 23 / 100",
+      "note": "Illustrative · no patient data · not a diagnosis"
+    },
+    "extra": "An extra signal, not a diagnosis",
+    "footer": "SpiroAI · Professional voice screening support · Fictional demonstration, not clinically validated."
+  },
+  "risk": { "low": "Low", "moderate": "Moderate", "high": "High" }
+}

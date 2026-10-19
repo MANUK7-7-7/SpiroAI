@@ -1,0 +1,16 @@
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="274" height="76" viewBox="0 0 274 76" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Area chart" clip-path="url(#clip0_0_19)">
+<path id="Vector" d="M0 0.5H274" stroke="#E4E6EB"/>
+<path id="Vector_2" d="M0 52C28 50 46 58 74 56C102 54 120 40 148 42C176 44 192 50 214 38C236 26 248 30 262 12L274 6V76H0V52Z" fill="url(#paint0_linear_0_19)"/>
+<path id="Vector_3" d="M0 52C28 50 46 58 74 56C102 54 120 40 148 42C176 44 192 50 214 38C236 26 248 30 262 12L274 6" stroke-width="2" stroke-linecap="round" stroke="#2450E5"/>
+</g>
+<defs>
+<linearGradient id="paint0_linear_0_19" x1="0" y1="2.58854e-07" x2="0" y2="76" gradientUnits="userSpaceOnUse">
+<stop stop-color="#2450E5" stop-opacity="0.32"/>
+<stop offset="1" stop-color="#2450E5" stop-opacity="0"/>
+</linearGradient>
+<clipPath id="clip0_0_19">
+<rect width="274" height="76" fill="white"/>
+</clipPath>
+</defs>
+</svg>
