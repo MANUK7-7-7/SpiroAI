@@ -56,7 +56,7 @@
       },
       {
         "title": "Grabar y evaluar",
-        "body": "Una /a/ sostenida y una lectura breve son analizadas por un modelo de IA independiente."
+        "body": "Una /a/ sostenida, contar hasta 20 y una tos breve son analizadas por modelos de IA independientes."
       },
       {
         "title": "Revisar y decidir",
@@ -659,7 +659,7 @@
   "tests": {
     "title": "Historial de grabaciones",
     "sub": "Cronológico · Primero las más recientes · {n} tests",
-    "rowSub": "{year} · /a/ + lectura",
+    "rowSub": "{year} · /a/ + conteo + tos",
     "meta": "Confianza de la IA {conf}% · Calidad {quality}",
     "final": "Juicio final: {j}",
     "open": "Abrir resultado",
@@ -703,9 +703,8 @@
       "mpt": "TMF"
     },
     "audioTitle": "Escuchá la grabación",
-    "audioSub": "Calidad {quality} · Ruido {db} dB · Total {sec} segundos · Ambas tareas completas",
+    "audioSub": "Calidad {quality} · Ruido {db} dB · Total {sec} segundos · Todas las tareas completas",
     "vowel": "Vocal sostenida /a/",
-    "reading": "Lectura de un texto",
     "play": "Reproducir",
     "pause": "Pausar",
     "audioError": "No se pudo cargar el audio. Intentá de nuevo.",
@@ -731,7 +730,7 @@
     "ctxPatientApp": "Grabado por el paciente en la app SpiroAI",
     "ctxPatientWeb": "Grabado por el paciente en el navegador",
     "ctxAssisted": "Grabación asistida en el consultorio",
-    "tasks": "Tareas: /a/ y lectura breve",
+    "tasks": "Tareas: /a/, conteo y tos",
     "device": "Dispositivo: {device} · Prueba de micrófono {check}",
     "checkPassed": "aprobada",
     "checkFailed": "fallida",
@@ -776,7 +775,7 @@
     "doNotInterpret": "No interpretes este resultado",
     "insufficient": "Duración insuficiente y ruido de fondo.",
     "reasonLabel": "Motivo enviado al paciente",
-    "reasonDefault": "Repetí el test en un lugar silencioso. Sostené la /a/ de forma constante y completá la lectura.",
+    "reasonDefault": "Repetí el test en un lugar silencioso. Sostené la /a/ de forma constante, contá hasta 20 y tosé 3 veces.",
     "requestRepeatBtn": "Pedir repetición",
     "lowConfTitle": "Confianza baja de la IA",
     "confLow": "Confianza de la IA: {n}% · Baja",
@@ -792,7 +791,17 @@
     "concerningBanner": "Se requiere acción clínica · Decide el médico",
     "trail": "El juicio, el autor, la nota y la fecha quedan guardados en el registro de auditoría clínica.",
     "boardTitle": "Revisá con el grado justo de certeza",
-    "boardSub": "Complementos de S09 · Separar la calidad y la confianza del modelo del riesgo del paciente."
+    "boardSub": "Complementos de S09 · Separar la calidad y la confianza del modelo del riesgo del paciente.",
+    "counting": "Conteo del 1 al 20",
+    "cough": "Tos",
+    "breakdownTitle": "De dónde sale el índice",
+    "breakdown": {
+      "voice": "Voz",
+      "cough": "Tos",
+      "chronic_lung_disease": "Patrones asociados a enfermedad pulmonar crónica (vocal y conteo)",
+      "copd": "Patrones asociados a EPOC (tos)"
+    },
+    "breakdownNote": "Cada modelo se entrenó con un dataset de investigación distinto y reconoce un objetivo distinto. El índice es su promedio. Método de muestra, sin validación clínica."
   },
   "trends": {
     "title": "Tendencias",
@@ -941,7 +950,7 @@
     "back": "Volver a tendencias",
     "alertTitle": "Compará dentro del mismo contexto clínico",
     "alertBody": "Los cambios apoyan la revisión, no el diagnóstico. Las métricas y los rangos de muestra no están validados clínicamente.",
-    "protocol": "/a/ + lectura · Mismo protocolo de grabación",
+    "protocol": "/a/ + conteo + tos · Mismo protocolo de grabación",
     "open": "Abrir test",
     "changedTitle": "¿Qué cambió?",
     "riskUp": "El riesgo aumentó {n} puntos.",
@@ -1060,7 +1069,7 @@
     "pickOne": "Elegí al menos una acción",
     "error": "No se pudo guardar la acción. Intentá de nuevo.",
     "defaultMessage": "Hola {first}, me gustaría hacerte un control y coordinar un estudio respiratorio. Reservá una consulta para revisar cómo te sentís.",
-    "repeatMessage": "Hola {first}, repetí el test de voz en un lugar silencioso. Sostené la /a/ de forma constante y completá la lectura.",
+    "repeatMessage": "Hola {first}, repetí el test de voz en un lugar silencioso. Sostené la /a/ de forma constante, contá hasta 20 y tosé 3 veces.",
     "defaultNote": "Revisar síntomas recientes y uso del inhalador. Espirometría solicitada.",
     "emergency": "No es para emergencias. Si te sentís mal, llamá al número de emergencias de tu zona."
   },
@@ -1475,11 +1484,16 @@
         "body": "Respirá hondo y decí “aaah” con voz firme durante el mayor tiempo cómodo.",
         "hint": "Al menos {min} segundos. Detenete cuando te quedes sin aire."
       },
-      "reading": {
-        "name": "Texto de lectura",
-        "body": "Leé en voz alta el texto de abajo, a tu ritmo y volumen habituales.",
-        "text": "El viento del norte y el sol discutían sobre cuál de los dos era más fuerte, cuando llegó un viajero envuelto en una capa abrigada. Acordaron que sería considerado más fuerte quien primero lograra que el viajero se quitara la capa.",
-        "hint": "Al menos {min} segundos. Leé hasta el final del texto."
+      "counting": {
+        "name": "Conteo",
+        "body": "Contá en voz alta del 1 al 20, a tu ritmo y volumen habituales. Respirá cuando lo necesites.",
+        "text": "1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 9 · 10 · 11 · 12 · 13 · 14 · 15 · 16 · 17 · 18 · 19 · 20",
+        "hint": "Al menos {min} segundos. Contá hasta el 20."
+      },
+      "cough": {
+        "name": "Tos",
+        "body": "Tosé a propósito 3 veces, con una respiración corta entre cada tos. Mantené la misma distancia al micrófono.",
+        "hint": "Al menos {min} segundos. Detené la grabación después de la tercera tos."
       },
       "start": "Iniciar grabación",
       "stop": "Detener",
@@ -1555,7 +1569,7 @@
     },
     "tpl": {
       "free": "Hola {first}, ",
-      "quiet": "Hola {first}, repetí el test de voz en un lugar silencioso. Sostené la /a/ de forma constante y completá la lectura.",
+      "quiet": "Hola {first}, repetí el test de voz en un lugar silencioso. Sostené la /a/ de forma constante, contá hasta 20 y tosé 3 veces.",
       "book": "Hola {first}, me gustaría verte en persona. Reservá una consulta a través de la clínica.",
       "stable": "Hola {first}, tus tests recientes se ven estables. Seguí con tu plan de monitoreo."
     },

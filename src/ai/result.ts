@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { qualityLevelSchema, recordingSourceSchema, aiErrorCodeSchema, featuresSchema, metricIdSchema } from "./contracts";
+import { qualityLevelSchema, recordingSourceSchema, aiErrorCodeSchema, featuresSchema, metricIdSchema, subScoresSchema } from "./contracts";
 import { riskBandSchema } from "@/data/schemas";
 
 export const deviationFlagSchema = z.enum(["within", "watch", "deviation"]);
@@ -29,6 +29,8 @@ export const screeningResultSchema = z.object({
   source: recordingSourceSchema,
   status: screeningStatusSchema,
   riskIndex: z.number().min(0).max(100).optional(),
+  /** Voice and cough scores behind the combined index. */
+  subScores: subScoresSchema.optional(),
   band: riskBandSchema.optional(),
   /** Change against the personal baseline, in index points. */
   changeVsBaseline: z.number().optional(),

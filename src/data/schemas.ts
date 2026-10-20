@@ -136,7 +136,8 @@ export const recordingSummarySchema = z.object({
   deviceLabel: z.string(),
   microphoneCheck: z.enum(["passed", "failed", "skipped"]),
   vowelSec: z.number(),
-  readingSec: z.number(),
+  countingSec: z.number(),
+  coughSec: z.number(),
   noiseDb: z.number(),
   receivedAt: z.string().datetime({ offset: true }),
   /** Peak levels sampled for the waveform display. */

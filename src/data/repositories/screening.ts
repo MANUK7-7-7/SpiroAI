@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { AUDIO_TASKS, type AudioTaskId } from "@/ai/contracts";
 import { resolveProvider } from "@/ai/registry";
 import { runScreening, type PipelineDeps } from "@/ai/pipeline";
 import { defaultAlertRules } from "@/ai/postprocess";
@@ -40,7 +41,7 @@ function deps(): PipelineDeps {
         id, patientId: s.patientId, source: s.source, startedBy: s.startedBy, device: s.device, takes: s.takes,
         signedUrls: async () => {
           const base = process.env.APP_ORIGIN ?? "http://localhost:3000";
-          return { sustained_vowel: base + signPath(`/api/audio/${id}/sustained_vowel`), reading_passage: base + signPath(`/api/audio/${id}/reading_passage`) };
+          return Object.fromEntries(AUDIO_TASKS.map((task) => [task, base + signPath(`/api/audio/${id}/${task}`)])) as Record<AudioTaskId, string>;
         },
         // Opaque code only: the model never receives the patient's name or any identifier.
         patientContext: patientContext(s.patientId),
@@ -53,12 +54,13 @@ function deps(): PipelineDeps {
       const n = recordsFor(result.patientId).length + 1;
       const id = `r-${result.patientId}-${n}`;
       const saved = { ...result, id };
+      const secondsOf = (task: AudioTaskId) => Math.round(session?.takes.find((t) => t.task === task)?.durationSec ?? 0);
       session && (session.resultId = id);
       store.liveRecords.push({
         result: saved, testCode: `T-${3000 + store.liveRecords.length}`,
         recording: {
           recordingId: result.recordingId, source: result.source, deviceLabel: session?.device.microphoneLabel ?? "Computer microphone", microphoneCheck: session?.micCheck ?? "skipped",
-          vowelSec: Math.round(session?.takes.find((t) => t.task === "sustained_vowel")?.durationSec ?? 0), readingSec: Math.round(session?.takes.find((t) => t.task === "reading_passage")?.durationSec ?? 0),
+          vowelSec: secondsOf("sustained_vowel"), countingSec: secondsOf("counting"), coughSec: secondsOf("cough"),
           noiseDb: Math.max(0, Math.round(90 + (session?.takes[0]?.noiseFloorDb ?? -90))), receivedAt: result.createdAt, waveform: session?.waveform ?? Array(56).fill(0),
         },
       });

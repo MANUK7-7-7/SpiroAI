@@ -7,3 +7,8 @@ next-env.d.ts
 tests/e2e/.tmp
 test-results
 playwright-report
+
+# Inference service
+__pycache__/
+.venv/
+services/inference/data/

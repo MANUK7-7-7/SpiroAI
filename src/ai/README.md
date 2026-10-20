@@ -18,8 +18,8 @@ result.ts           ScreeningResult: the only shape the UI reads
 
 ## Plug in the real model, step by step
 
-1. Implement the service described in `services/inference/openapi.json` (`POST /v1/screen`). A FastAPI
-   placeholder lives in `services/inference/app.py`. It has no weights and returns `MODEL_UNAVAILABLE`.
+1. The service described in `services/inference/openapi.json` (`POST /v1/screen`) lives in
+   `services/inference/app.py`, with a voice model and a cough model. See its README and `models/MODEL_CARD.md`.
 2. Keep the response matching `modelOutputSchema` in `contracts.ts`. If the model needs more input
    or returns more, change `contracts.ts` **and** `openapi.json` together. `npm test` runs a contract
    test that fails if they drift.

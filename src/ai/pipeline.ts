@@ -1,6 +1,6 @@
 import { randomUUID } from "node:crypto";
 import type { RiskBands } from "@/config/risk-bands";
-import type { BaselineSnapshot, DeviceMeta, ModelInput, PatientContext, RecordingSource } from "./contracts";
+import type { AudioTaskId, BaselineSnapshot, DeviceMeta, ModelInput, PatientContext, RecordingSource } from "./contracts";
 import { AiError } from "./errors";
 import type { ScreeningModelProvider } from "./provider";
 import { changeVsBaseline, bandOf, computeDeviations, evaluateAlertRules, type AlertRuleSettings, type AlertTrigger } from "./postprocess";
@@ -15,7 +15,7 @@ export type RecordingRecord = {
   device: DeviceMeta;
   takes: RecordingMeasurement[];
   /** Short-lived signed URLs, minted at job time. */
-  signedUrls: () => Promise<Record<"sustained_vowel" | "reading_passage", string>>;
+  signedUrls: () => Promise<Record<AudioTaskId, string>>;
   patientContext?: PatientContext;
 };
 
@@ -76,6 +76,7 @@ export async function runScreening(recordingId: string, deps: PipelineDeps, opts
     const result = await done({
       status: "ready",
       riskIndex: Math.round(out.riskIndex),
+      subScores: out.subScores,
       band: bandOf(out.riskIndex, deps.bands),
       changeVsBaseline: changeVsBaseline(out.riskIndex, baseline),
       confidence: out.confidence,

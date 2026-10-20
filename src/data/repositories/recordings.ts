@@ -1,5 +1,5 @@
 import { randomUUID, timingSafeEqual } from "node:crypto";
-import { deviceMetaSchema, type AudioTaskId, type DeviceMeta } from "@/ai/contracts";
+import { AUDIO_TASKS, deviceMetaSchema, type AudioTaskId, type DeviceMeta } from "@/ai/contracts";
 import { measureWav, parseWav, waveformOf } from "@/lib/wav";
 import { nextId, recordAudit, store, type RecordingSession } from "../store";
 import { patientsFixture } from "../fixtures/patients";
@@ -7,7 +7,7 @@ import { allPatients } from "./patients";
 import { startScreening } from "./screening";
 
 export const MAX_TASK_BYTES = 12 * 1024 * 1024; // about 6 minutes of 16-bit mono 16 kHz PCM; larger uploads are refused
-const TASKS: AudioTaskId[] = ["sustained_vowel", "reading_passage"];
+const TASKS: readonly AudioTaskId[] = AUDIO_TASKS;
 
 /** The demo invite for the designed pending patient, so the patient link can be tried without creating a record. */
 export const DEMO_INVITE = "demo-invite";

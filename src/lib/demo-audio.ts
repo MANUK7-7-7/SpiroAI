@@ -1,4 +1,6 @@
 // Synthetic placeholder audio for fictional recordings. It is NOT a patient voice.
+import type { AudioTaskId } from "@/ai/contracts";
+
 const RATE = 16000;
 
 function wav(samples: Int16Array) {
@@ -10,9 +12,20 @@ function wav(samples: Int16Array) {
   return buf;
 }
 
-export function demoWav(task: "sustained_vowel" | "reading_passage", seconds: number, f0 = 130) {
+export function demoWav(task: AudioTaskId, seconds: number, f0 = 130) {
   const n = seconds * RATE;
   const out = new Int16Array(n);
+  if (task === "cough") {
+    // Three short noise bursts with a fast decay, one second apart.
+    let seed = 1;
+    const noise = () => ((seed = (seed * 1103515245 + 12345) & 0x7fffffff) / 0x7fffffff) * 2 - 1;
+    for (let i = 0; i < n; i++) {
+      const t = (i / RATE) % 1;
+      const burst = Math.floor(i / RATE) < 3 && t > 0.2 ? Math.exp(-(t - 0.2) * 12) : 0;
+      out[i] = Math.round(noise() * burst * 0.4 * 32767);
+    }
+    return wav(out);
+  }
   for (let i = 0; i < n; i++) {
     const t = i / RATE;
     const env = task === "sustained_vowel" ? Math.min(1, t * 4, (seconds - t) * 4) : 0.5 + 0.5 * Math.sin(2 * Math.PI * 2.2 * t) ** 2;

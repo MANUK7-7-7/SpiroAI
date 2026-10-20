@@ -108,7 +108,7 @@
           },
           "tasks": {
             "minItems": 1,
-            "maxItems": 2,
+            "maxItems": 3,
             "type": "array",
             "items": {
               "type": "object",
@@ -117,7 +117,8 @@
                   "type": "string",
                   "enum": [
                     "sustained_vowel",
-                    "reading_passage"
+                    "counting",
+                    "cough"
                   ]
                 },
                 "url": {
@@ -371,6 +372,82 @@
             "type": "number",
             "minimum": 0,
             "maximum": 100
+          },
+          "subScores": {
+            "type": "object",
+            "properties": {
+              "voice": {
+                "type": "object",
+                "properties": {
+                  "riskIndex": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  },
+                  "target": {
+                    "type": "string",
+                    "enum": [
+                      "chronic_lung_disease",
+                      "copd"
+                    ]
+                  },
+                  "tasks": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "sustained_vowel",
+                        "counting",
+                        "cough"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "riskIndex",
+                  "target",
+                  "tasks"
+                ],
+                "additionalProperties": false
+              },
+              "cough": {
+                "type": "object",
+                "properties": {
+                  "riskIndex": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  },
+                  "target": {
+                    "type": "string",
+                    "enum": [
+                      "chronic_lung_disease",
+                      "copd"
+                    ]
+                  },
+                  "tasks": {
+                    "minItems": 1,
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "enum": [
+                        "sustained_vowel",
+                        "counting",
+                        "cough"
+                      ]
+                    }
+                  }
+                },
+                "required": [
+                  "riskIndex",
+                  "target",
+                  "tasks"
+                ],
+                "additionalProperties": false
+              }
+            },
+            "additionalProperties": false
           },
           "confidence": {
             "type": "number",

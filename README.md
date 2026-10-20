@@ -41,6 +41,15 @@ Force the designed states on data screens with `?state=loading|empty|error`.
 
 Set `AI_PROVIDER=mock|http`, `AI_ENABLED`, `AI_ENDPOINT`, `AI_API_KEY`, `AI_TIMEOUT_MS`, `AI_MODEL_VERSION_PIN`. Switching provider needs no UI change. Every result keeps model id and version, confidence, quality and the disclaimer. See `src/ai/README.md`.
 
+The real models (voice: vowel + counting, cough) run in `services/inference`. To use them locally:
+
+```bash
+cd services/inference && pip install -r requirements.txt && uvicorn app:app --port 8000
+AI_PROVIDER=http AI_ENDPOINT=http://localhost:8000 AI_TIMEOUT_MS=60000 npm run dev
+```
+
+What each model learned, how well it does and its known biases: `services/inference/models/MODEL_CARD.md`.
+
 ## Recording
 
 Browser voice processing (echo cancellation, noise suppression, auto gain) is switched off, and what the browser actually applied is read back from the track and stored. Audio is captured as raw PCM through an AudioWorklet, encoded to 16-bit WAV, and uploaded in resumable chunks. The server measures the PCM itself, runs the quality gate, then the screening job in the background. The patient link never shows a score.

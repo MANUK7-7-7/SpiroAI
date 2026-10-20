@@ -2,10 +2,11 @@
 
 import { CirclePause, CirclePlay } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import type { AudioTaskId } from "@/ai/contracts";
 import { cn } from "@/lib/cn";
 import { useT } from "@/lib/i18n/client";
 
-type Props = { label: string; recordingId: string; task: "sustained_vowel" | "reading_passage"; durationSec: number; src: string; waveform: number[] };
+type Props = { label: string; recordingId: string; task: AudioTaskId; durationSec: number; src: string; waveform: number[] };
 
 const mmss = (s: number) => `${String(Math.floor(s / 60)).padStart(2, "0")}:${String(Math.floor(s % 60)).padStart(2, "0")}`;
 
