@@ -29,6 +29,14 @@ export function LoginForm() {
     router.push((await res.json()).next);
   }
 
+  async function tryDemo() {
+    setPending(true);
+    const res = await fetch("/api/auth/demo", { method: "POST" });
+    setPending(false);
+    if (!res.ok) return setFailed(true);
+    router.push((await res.json()).next);
+  }
+
   return (
     <form className="flex w-[420px] shrink-0 flex-col gap-5" noValidate onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-1">
@@ -39,7 +47,10 @@ export function LoginForm() {
       <Field label={t("login.email")} type="email" autoComplete="username" placeholder="elena.morales@riverside.example" error={errors.email?.message} {...register("email")} />
       <Field label={t("login.password")} type="password" autoComplete="current-password" placeholder="••••••••••••••" error={errors.password?.message} {...register("password")} />
       <Link href="/login/reset" className="text-[13px] leading-[1.45] text-cobalt">{t("login.forgot")}</Link>
-      <div><Button variant="primary" type="submit" disabled={pending}>{t("login.submit")}</Button></div>
+      <div className="flex flex-wrap gap-[10px]">
+        <Button variant="primary" type="submit" disabled={pending}>{t("login.submit")}</Button>
+        <Button disabled={pending} onClick={tryDemo}>{t("login.tryDemo")}</Button>
+      </div>
       <p className="text-[13px] leading-[1.45] text-ink-muted">{t("login.newTo")} <Link href="/signup/account" className="text-cobalt">{t("login.create")}</Link></p>
       <p className="text-[11px] leading-[1.45] text-ink-muted">{t("login.encrypted")}</p>
       <p className="text-[11px] leading-[1.45] text-ink-muted">{t("login.demo")}</p>

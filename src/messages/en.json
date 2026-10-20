@@ -193,7 +193,8 @@
     "create": "Create account",
     "encrypted": "Your connection is encrypted. Two-factor verification follows.",
     "invalid": "Check your email and password and try again.",
-    "demo": "Demo access: any email and a password of 8+ characters. Fictional data only."
+    "demo": "Demo access: any email and a password of 8+ characters. Fictional data only.",
+    "tryDemo": "Try the demo"
   },
   "twofa": {
     "title": "One more step to keep care secure",
