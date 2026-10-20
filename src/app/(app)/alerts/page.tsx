@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { WhatsAppContact } from "@/components/contact/whatsapp-contact";
 import { AuditTrail, DismissAlert } from "@/components/alerts/dismiss-dialog";
 import { EmptyPanel } from "@/components/app/data-state";
 import { PageHeading } from "@/components/app/page-heading";
@@ -54,7 +55,7 @@ export default async function AlertsPage({ searchParams }: { searchParams: Promi
         <div className="flex flex-wrap gap-[10px]">
           <Button size="sm" radius="lg" href={a.resultId ? `/results/${a.resultId}` : `/patients/${a.patientId}`}>{t("alertsCenter.openResult")}</Button>
           <Button size="sm" variant="primary" radius="lg" href={`?panel=action&patient=${a.patientId}&alert=${a.id}`}>{t("alertsCenter.takeAction")}</Button>
-          <Button size="sm" radius="lg" href={`/messages?patient=${a.patientId}`}>{t("alertsCenter.messagePatient")}</Button>
+          {p && <WhatsAppContact patientId={p.id} firstName={p.name.split(" ")[0]} hasPhone={!!p.phone} locked={p.consent === "revoked"} className="rounded-[18px]" />}
           <DismissAlert alertId={a.id} sub={t("alertsCenter.dismissSub", { name: a.patientName, code: p?.code ?? "", what: t(`alertsCenter.titles.${a.rule}`, params).split(" · ")[0], date: formatDayYear(a.firedAt, locale) })} />
         </div>
       </article>

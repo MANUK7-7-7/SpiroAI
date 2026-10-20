@@ -89,7 +89,7 @@ export async function createPatient(input: NewPatient) {
   const patient = patientSchema.parse({
     id: `p-9${String(store.patients.length + 1).padStart(2, "0")}`, code: `SP-${n}`, name: input.name.trim(), initials: input.name.trim().split(/\s+/).map((x) => x[0]).slice(0, 2).join("").toUpperCase(),
     age: ageFrom(input.dob), sex: input.sex, status: input.status, gold: input.status === "diagnosed" ? input.gold : undefined,
-    smoker: input.packYears === 0 ? "never" : "former", consent: "pending", invitePending: true,
+    smoker: input.packYears === 0 ? "never" : "former", consent: "pending", invitePending: true, phone: input.phone,
   });
   store.patients.unshift(patient);
   const token = `${nextId("inv")}-${Math.random().toString(36).slice(2, 10)}`;

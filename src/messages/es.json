@@ -407,13 +407,6 @@
         "error": "Falló la generación del informe. No se envió ninguna exportación.",
         "success": "PDF listo · Exportación registrada en el registro de auditoría"
       },
-      "s15": {
-        "title": "S15 · Mensajes",
-        "empty": "Todavía no hay conversaciones. Empezá un mensaje seguro.",
-        "emptyAction": "Elegir un paciente",
-        "error": "No se envió el mensaje. Tu borrador está guardado.",
-        "success": "Mensaje entregado ✓ · Leído ✓✓"
-      },
       "follow": "Estados de seguimiento y comunicación",
       "confTitle": "S12 · Confirmación",
       "confAlert": "Acción guardada y paciente notificado",
@@ -422,13 +415,7 @@
       "viewProfile": "Ver perfil del paciente",
       "returnNote": "Volver al resultado S09 o a la alerta S11 de origen.",
       "genTitle": "S14 · Generando informe",
-      "auditExport": "Auditoría: exportación solicitada · Elena Morales · 09:12",
-      "oohTitle": "S15 · Fuera del horario de atención",
-      "oohAlert": "Respuesta automática enviada",
-      "oohBody": "Gracias por tu mensaje. Nuestro equipo responde de lunes a viernes, de 08:00 a 18:00. No es para emergencias, llamá a los servicios de emergencia.",
-      "oohSaved": "Mensaje guardado · Entregado ✓",
-      "oohUnread": "Sin leer hasta la próxima sesión de la clínica.",
-      "viewConversation": "Ver conversación"
+      "auditExport": "Auditoría: exportación solicitada · Elena Morales · 09:12"
     }
   },
   "app": {
@@ -437,7 +424,6 @@
       "dashboard": "Panel",
       "patients": "Pacientes",
       "alerts": "Alertas",
-      "messages": "Mensajes",
       "settings": "Ajustes"
     },
     "clinic": "Espacio profesional",
@@ -570,7 +556,6 @@
     "ai": "IA {conf}% · Calidad {quality}",
     "judgment": "Juicio {judgment}",
     "requestTest": "Pedir test",
-    "message": "Mensaje ···",
     "invitePending": "Invitación pendiente",
     "noRecording": "Sin grabación todavía",
     "resend": "Reenviar",
@@ -618,7 +603,6 @@
     "editPlan": "Editar plan",
     "clinicalAction": "Acción clínica",
     "exportReport": "Exportar informe",
-    "message": "Mensaje",
     "tabs": {
       "overview": "Resumen",
       "tests": "Tests",
@@ -651,7 +635,9 @@
       "daily": "Diario",
       "weekly": "Semanal",
       "biweekly": "Cada 2 semanas",
-      "monthly": "Mensual"
+      "monthly": "Mensual",
+      "quarterly": "Cada 3 meses",
+      "semiannual": "Cada 6 meses"
     },
     "sens": {
       "standard": "estándar",
@@ -985,7 +971,6 @@
     "aiLine": "Confianza de la IA {conf}% · Calidad {quality} · Juicio final {j}",
     "openProfile": "Abrir perfil",
     "requestTest": "Pedir test",
-    "message": "Mensaje",
     "bottomNote": "Datos de muestra ficticios · Las pestañas inferiores permanecen al desplazar el contenido. No se representa la app móvil del paciente."
   },
   "alertsCenter": {
@@ -1022,7 +1007,6 @@
     "lastReliable": "Último resultado confiable · IA {conf}% · Calidad {quality} · Revisado por el médico · {disclaimer}",
     "openResult": "Abrir resultado",
     "takeAction": "Tomar acción",
-    "messagePatient": "Enviar mensaje",
     "dismiss": "Descartar",
     "footnote": "Las reglas de ejemplo no están validadas clínicamente. Editá la sensibilidad por paciente en S13 o los valores predeterminados en S16. Las alertas altas sin abrir envían un recordatorio por email o push.",
     "resolvedBanner": "{n} alertas resueltas este mes",
@@ -1067,7 +1051,7 @@
     "noteLabel": "Nota interna · no se comparte",
     "previewLabel": "VISTA PREVIA DEL MENSAJE AL PACIENTE",
     "from": "De {who} · {clinic}",
-    "confirm": "Confirmar y avisar al paciente",
+    "confirm": "Confirmar y avisar por WhatsApp",
     "saveOnly": "Guardar sin avisar",
     "footnote": "Al guardar: la alerta vinculada se resuelve y la acción queda pendiente en el perfil hasta completarse. Al cerrar volvés al resultado o la alerta de origen. Todas las acciones quedan registradas en auditoría.",
     "close": "Cerrar",
@@ -1085,14 +1069,15 @@
     "title": "Un plan que se ajusta al paciente",
     "back": "Volver al perfil",
     "schedule": "Calendario de grabación",
-    "suggested": "Sugerido para EPOC diagnosticada: semanal · En riesgo: cada 2 semanas",
     "frequency": "FRECUENCIA",
     "freqs": {
       "daily": "Diaria",
       "weekly": "Semanal",
       "biweekly": "Cada 2 semanas",
       "monthly": "Mensual",
-      "custom": "Personalizada"
+      "custom": "Personalizada",
+      "quarterly": "Cada 3 meses",
+      "semiannual": "Cada 6 meses"
     },
     "reminder": "Hora del recordatorio al paciente",
     "tz": "Zona horaria",
@@ -1105,10 +1090,10 @@
     "duration": "Duración del plan",
     "weeks": "{n} semanas",
     "reviewDate": "Fecha de revisión",
-    "notify": "Avisar al paciente cuando cambie este plan",
+    "notify": "Enviarle recordatorios automáticos al paciente según este plan",
     "save": "Guardar plan",
     "reset": "Restablecer a lo predeterminado",
-    "auditNote": "Al guardar se actualiza automáticamente la app del paciente y queda registrado en auditoría.",
+    "auditNote": "Los recordatorios con un link de grabación de un solo uso siguen este plan. Los cambios quedan registrados en auditoría.",
     "saved": "Plan guardado",
     "nextTitle": "Próximas 3 fechas de test",
     "preview": "Vista previa · {freq} a las {time}",
@@ -1119,57 +1104,40 @@
     "custom": "Intervalo personalizado · selección alternativa",
     "everyDays": "Cada {n} días",
     "freqLower": {
-      "daily": "Diaria",
-      "weekly": "Semanal",
-      "biweekly": "Cada 2 semanas",
-      "monthly": "Mensual",
-      "custom": "Personalizada"
+      "daily": "diaria",
+      "weekly": "semanal",
+      "biweekly": "cada 2 semanas",
+      "monthly": "mensual",
+      "custom": "personalizada",
+      "quarterly": "cada 3 meses",
+      "semiannual": "cada 6 meses"
     },
     "error": "No se pudo guardar el plan. Intentá de nuevo.",
     "loadError": "No pudimos cargar el plan de monitoreo.",
-    "noPlan": "Este paciente no tiene plan de monitoreo hasta que acepte la invitación."
-  },
-  "messages": {
-    "eyebrow": "MENSAJERÍA SEGURA · {n} CONVERSACIONES SIN LEER",
-    "title": "Mantenete en contacto, entre consultas",
-    "emergTitle": "No es para emergencias, llamá a los servicios de emergencia",
-    "emergBody": "Los mensajes se revisan en horario de atención, de lunes a viernes, de 08:00 a 18:00.",
-    "search": "Buscar conversaciones",
-    "searchPh": "Nombre del paciente…",
-    "secure": "{code} · Conversación segura con el paciente",
-    "openProfile": "Abrir perfil",
-    "relatedTest": "Test relacionado · {when}",
-    "relatedMeta": "IA {conf}% · Calidad {quality} · Revisión médica {j}",
-    "openResult": "Abrir resultado",
-    "dateSep": "{day}",
-    "templates": "PLANTILLAS RÁPIDAS",
-    "tplQuiet": "Repetí en un lugar silencioso",
-    "tplBook": "Reservá una consulta",
-    "tplStable": "Tus resultados se ven estables",
-    "tplQuietText": "Hola {first}, repetí el test de voz en un lugar silencioso. Sostené la /a/ de forma constante y completá la lectura.",
-    "tplBookText": "Hola {first}, me gustaría verte en persona. Reservá una consulta a través de la clínica.",
-    "tplStableText": "Hola {first}, tus resultados recientes se ven estables. Seguí con tu plan de monitoreo.",
-    "message": "Mensaje",
-    "messagePh": "Escribí un mensaje…",
-    "attach": "Adjuntar resultado",
-    "attached": "Resultado adjunto",
-    "send": "Enviar mensaje",
-    "sending": "Enviando…",
-    "deliveredRead": "Entregado ✓ · Leído ✓✓",
-    "delivered": "Entregado ✓",
-    "emergencyLine": "No es para emergencias. Si te sentís mal, llamá al número de emergencias de tu zona.",
-    "afterHoursTitle": "Respuesta automática fuera de horario · Estado alternativo",
-    "afterHoursBody": "Gracias por tu mensaje. Nuestro equipo responderá en horario de atención. Si es una emergencia, llamá a los servicios de emergencia.",
-    "empty": "Todavía no hay conversaciones. Empezá un mensaje seguro.",
-    "emptyAction": "Elegir un paciente",
-    "noMessages": "Todavía no hay mensajes. Saludá o usá una plantilla rápida.",
-    "locked": "Consentimiento revocado · Mensajería bloqueada",
-    "lockedBody": "No se pueden enviar mensajes nuevos. El historial es de solo lectura.",
-    "error": "No pudimos cargar tus conversaciones.",
-    "sendError": "No se envió el mensaje. Tu borrador está guardado.",
-    "retry": "Reintentar",
-    "choose": "Elegí una conversación",
-    "newConversation": "Empezar una conversación"
+    "noPlan": "Este paciente no tiene plan de monitoreo hasta que acepte la invitación.",
+    "profileTitle": "Tipo de paciente",
+    "profileSub": "El objetivo define cada cuánto testear. Elegí uno y ajustalo si hace falta.",
+    "profiles": {
+      "screening": {
+        "name": "Cribado",
+        "goal": "En riesgo, sin diagnóstico. Detectar a quién derivar a espirometría.",
+        "cadence": "Cada 6 meses"
+      },
+      "stable": {
+        "name": "EPOC estable",
+        "goal": "Seguir la tendencia entre consultas.",
+        "cadence": "Mensual"
+      },
+      "post_exacerbation": {
+        "name": "Después de una exacerbación",
+        "goal": "Detectar a tiempo la próxima, durante unas semanas.",
+        "cadence": "Semanal por 6 semanas, después mensual"
+      }
+    },
+    "suggestedBadge": "Sugerido para este paciente",
+    "sampleTitle": "Valores de ejemplo · Requieren validación clínica",
+    "sampleBody": "Estas frecuencias son ilustrativas y no están validadas. Confirmalas con tu equipo clínico.",
+    "stepDown": "Después de {weeks} semanas, revisá el plan y pasá a un test {freq} si el paciente está estable."
   },
   "export": {
     "title": "Un registro claro del panorama completo",
@@ -1575,5 +1543,27 @@
         "MISSING_TASK": "falta una tarea"
       }
     }
+  },
+  "contact": {
+    "whatsapp": "WhatsApp",
+    "pick": "Abrir WhatsApp con",
+    "label": {
+      "free": "Un saludo en blanco",
+      "quiet": "Repetir en un lugar silencioso",
+      "book": "Reservar una consulta",
+      "stable": "Resultados estables"
+    },
+    "tpl": {
+      "free": "Hola {first}, ",
+      "quiet": "Hola {first}, repetí el test de voz en un lugar silencioso. Sostené la /a/ de forma constante y completá la lectura.",
+      "book": "Hola {first}, me gustaría verte en persona. Reservá una consulta a través de la clínica.",
+      "stable": "Hola {first}, tus tests recientes se ven estables. Seguí con tu plan de monitoreo."
+    },
+    "privacy": "Se abre WhatsApp en este dispositivo. No compartas resultados ni datos clínicos por ahí: quedan en SpiroAI.",
+    "noPhone": "Sin teléfono cargado",
+    "locked": "Consentimiento revocado",
+    "error": "No se pudo abrir WhatsApp. Probá de nuevo.",
+    "openWithAction": "Abrir WhatsApp con este mensaje",
+    "savedAction": "Acción guardada. Avisale al paciente por WhatsApp."
   }
 }

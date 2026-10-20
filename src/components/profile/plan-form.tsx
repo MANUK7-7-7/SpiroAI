@@ -9,20 +9,25 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Field, SelectField } from "@/components/ui/field";
 import { Tabs } from "@/components/ui/tabs";
 import { FilterChip } from "@/components/ui/filter-chip";
+import { monitoringProfiles, profileIds, type MonitoringProfile } from "@/config/monitoring-profiles";
 import type { MonitoringPlan } from "@/data/schemas";
+import { cn } from "@/lib/cn";
 import { useT } from "@/lib/i18n/client";
 
-const FREQ = ["daily", "weekly", "biweekly", "monthly", "custom"] as const;
-const STEP_DAYS = { daily: 1, weekly: 7, biweekly: 14, monthly: 30 } as const;
+const FREQ = ["daily", "weekly", "biweekly", "monthly", "quarterly", "semiannual", "custom"] as const;
+const STEP_DAYS = { daily: 1, weekly: 7, biweekly: 14, monthly: 30, quarterly: 91, semiannual: 182 } as const;
+const addWeeks = (iso: string, w: number) => new Date(Date.parse(iso) + w * 7 * 86_400_000).toISOString().slice(0, 10);
 
 /** Monitoring plan. Saving updates the patient app and is audit logged. Only a clinician can change a plan. */
-export function PlanForm({ patientId, plan, defaultFrequency }: { patientId: string; plan: MonitoringPlan; defaultFrequency: MonitoringPlan["frequency"] }) {
+export function PlanForm({ patientId, plan, suggested }: { patientId: string; plan: MonitoringPlan; suggested: MonitoringProfile }) {
   const { t, locale } = useT();
   const router = useRouter();
+  const [profile, setProfile] = useState<MonitoringProfile>(plan.profile ?? suggested);
   const [freq, setFreq] = useState<(typeof FREQ)[number]>(plan.frequency);
   const [customDays, setCustomDays] = useState(3);
   const [time, setTime] = useState(plan.time);
   const [sens, setSens] = useState<"standard" | "high">(plan.sensitivity === "high" ? "high" : "standard");
+  const [thenFreq, setThenFreq] = useState<MonitoringPlan["frequency"] | undefined>(plan.profile === "post_exacerbation" ? monitoringProfiles.post_exacerbation.thenFrequency : undefined);
   const [weeks, setWeeks] = useState(plan.durationWeeks);
   const [review, setReview] = useState(plan.reviewOn);
   const [notify, setNotify] = useState(true);
@@ -37,21 +42,43 @@ export function PlanForm({ patientId, plan, defaultFrequency }: { patientId: str
     setState("saving");
     const res = await fetch(`/api/patients/${patientId}/plan`, {
       method: "POST", headers: { "content-type": "application/json" },
-      body: JSON.stringify({ frequency: freq === "custom" ? "daily" : freq, customDays: freq === "custom" ? customDays : undefined, time, sensitivity: sens, durationWeeks: weeks, reviewOn: review, notifyPatient: notify }),
+      body: JSON.stringify({ profile, frequency: freq === "custom" ? "daily" : freq, customDays: freq === "custom" ? customDays : undefined, time, sensitivity: sens, durationWeeks: weeks, reviewOn: review, notifyPatient: notify }),
     });
     if (!res.ok) return setState("error");
     setState("saved");
     router.refresh();
   }
-  function reset() { setFreq(defaultFrequency); setTime("09:00"); setSens("standard"); setWeeks(12); setState("idle"); }
+  function applyProfile(id: MonitoringProfile) {
+    const d = monitoringProfiles[id];
+    setProfile(id); setFreq(d.frequency); setSens(d.sensitivity === "high" ? "high" : "standard"); setWeeks(d.durationWeeks);
+    setReview(addWeeks(plan.nextTestAt, d.durationWeeks)); setThenFreq("thenFrequency" in d ? d.thenFrequency : undefined); setState("idle");
+  }
+  function reset() { applyProfile(suggested); setTime("09:00"); }
 
   return (
     <div className="flex items-start gap-6">
       <Card className="min-w-0 flex-1 rounded-panel">
-        <CardHeading title={t("plan.schedule")} description={t("plan.suggested")} />
+        <CardHeading title={t("plan.profileTitle")} description={t("plan.profileSub")} />
+        <div role="radiogroup" aria-label={t("plan.profileTitle")} className="grid grid-cols-3 gap-3 max-lg:grid-cols-1">
+          {profileIds.map((id) => {
+            const on = id === profile;
+            return (
+              <button key={id} type="button" role="radio" aria-checked={on} onClick={() => applyProfile(id)}
+                className={cn("flex flex-col items-start gap-2 rounded-[20px] p-4 text-left shadow-[inset_0_0_0_1px_var(--line)]", on ? "bg-cobalt-tint shadow-[inset_0_0_0_2px_var(--cobalt)]" : "bg-surface hover:bg-surface-soft")}>
+                <span className="text-[14px] font-medium tracking-[-0.01em]">{t(`plan.profiles.${id}.name`)}</span>
+                <span className="text-[12px] leading-[1.45] text-ink-muted">{t(`plan.profiles.${id}.goal`)}</span>
+                <span className="text-[12px] font-medium text-cobalt">{t(`plan.profiles.${id}.cadence`)}</span>
+                {id === suggested && <span className="rounded-full bg-ink px-2 py-0.5 text-[11px] font-medium text-on-accent">{t("plan.suggestedBadge")}</span>}
+              </button>
+            );
+          })}
+        </div>
+        <Alert state="warning" title={t("plan.sampleTitle")}>{t("plan.sampleBody")}</Alert>
+        {thenFreq && freq === "weekly" && <p className="text-[12px] leading-[1.45] text-ink-muted">{t("plan.stepDown", { weeks, freq: t(`plan.freqLower.${thenFreq}`) })}</p>}
+        <CardHeading title={t("plan.schedule")} />
         <p className="text-[12px] font-medium uppercase tracking-[0.06em]">{t("plan.frequency")}</p>
         <div className="flex flex-wrap gap-2" role="group" aria-label={t("plan.frequency")}>
-          {FREQ.map((f) => <FilterChip key={f} label={t(`plan.freqs.${f}`)} selected={freq === f} onClick={() => setFreq(f)} className="px-4 py-[10px] text-[13px] font-medium tracking-normal" />)}
+          {FREQ.map((f) => <FilterChip key={f} label={t(`plan.freqs.${f}`)} selected={freq === f} onClick={() => { setFreq(f); setThenFreq(undefined); }} className="px-4 py-[10px] text-[13px] font-medium tracking-normal" />)}
         </div>
         <div className="grid grid-cols-2 gap-4">
           <Field label={t("plan.reminder")} type="time" value={time} onChange={(e) => setTime(e.target.value)} />
@@ -61,7 +88,7 @@ export function PlanForm({ patientId, plan, defaultFrequency }: { patientId: str
         <Tabs label={t("plan.sensitivity")} value={sens} onChange={setSens} tabs={[{ id: "standard", label: t("plan.sens.standard") }, { id: "high", label: t("plan.sens.high") }]} />
         <p className="text-[12px] leading-[1.45] text-ink-muted">{t("plan.sensNote")}</p>
         <div className="grid grid-cols-2 gap-4">
-          <SelectField label={t("plan.duration")} value={String(weeks)} onChange={(e) => setWeeks(Number(e.target.value))} options={[4, 8, 12, 24].map((n) => ({ value: String(n), label: t("plan.weeks", { n }) }))} />
+          <SelectField label={t("plan.duration")} value={String(weeks)} onChange={(e) => setWeeks(Number(e.target.value))} options={[4, 6, 8, 12, 24, 52].map((n) => ({ value: String(n), label: t("plan.weeks", { n }) }))} />
           <Field label={t("plan.reviewDate")} type="date" value={review} onChange={(e) => setReview(e.target.value)} />
         </div>
         <Checkbox label={t("plan.notify")} checked={notify} onCheckedChange={setNotify} />

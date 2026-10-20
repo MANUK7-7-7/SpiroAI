@@ -1,3 +1,5 @@
+import { DEMO_NOW } from "@/config/demo";
+import { suggestProfile } from "@/config/monitoring-profiles";
 import { EmptyPanel } from "@/components/app/data-state";
 import { PlanForm } from "@/components/profile/plan-form";
 import { ProfileFrame } from "@/components/profile/profile-frame";
@@ -11,7 +13,7 @@ export default async function MonitoringPage({ params, searchParams }: { params:
   const p = await loadProfile(id, searchParams);
   return (
     <ProfileFrame patient={p.patient} tab={null} crumb={t("plan.crumb", { name: p.patient.name.toUpperCase(), code: p.patient.code })} title={t("plan.title")} alertCount={p.alerts.length} headingAction={<Button href={`/patients/${id}`}>{t("plan.back")}</Button>}>
-      {p.plan ? <PlanForm patientId={id} plan={p.plan} defaultFrequency={p.patient.status === "diagnosed" ? "weekly" : "biweekly"} /> : <EmptyPanel message={t("plan.noPlan")} />}
+      {p.plan ? <PlanForm patientId={id} plan={p.plan} suggested={suggestProfile(p.patient, p.events, Date.parse(DEMO_NOW))} /> : <EmptyPanel message={t("plan.noPlan")} />}
     </ProfileFrame>
   );
 }

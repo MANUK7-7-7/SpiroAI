@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { WhatsAppContact } from "@/components/contact/whatsapp-contact";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { RiskBadge } from "@/components/ui/risk-badge";
@@ -39,7 +40,7 @@ export function PatientCard({ p, t, locale }: { p: Patient; t: T; locale: Locale
       <div className="flex flex-wrap gap-2">
         <Button size="sm" radius="lg" href={`/patients/${p.id}`}>{t("tablet.openProfile")}</Button>
         {p.invitePending ? <Button size="sm" radius="lg">{t("patients.resend")}</Button> : <Button size="sm" radius="lg" href={`/patients/${p.id}/tests?action=request`}>{t("tablet.requestTest")}</Button>}
-        <Button size="sm" radius="lg" href={`/messages?patient=${p.id}`}>{t("tablet.message")}</Button>
+        <WhatsAppContact patientId={p.id} firstName={p.name.split(" ")[0]} hasPhone={!!p.phone} locked={p.consent === "revoked"} className="rounded-[18px]" />
       </div>
     </article>
   );

@@ -1,5 +1,7 @@
 // FICTIONAL clinical context. Not real patient data.
 import { clinicalDataSchema, monitoringPlanSchema, type Alert, type ChartEvent, type ClinicalData, type MonitoringPlan, type Note } from "../schemas";
+import { DEMO_NOW } from "@/config/demo";
+import { monitoringProfiles, suggestProfile } from "@/config/monitoring-profiles";
 import { patientsFixture } from "./patients";
 
 const jamesClinical = {
@@ -32,9 +34,11 @@ export function planFor(patientId: string): MonitoringPlan | undefined {
   const p = patientsFixture.find((x) => x.id === patientId);
   if (!p || p.invitePending) return undefined;
   const james = patientId === "p-001";
+  const profile = suggestProfile(p, eventsFixture.filter((e) => e.patientId === patientId), Date.parse(DEMO_NOW));
+  const d = monitoringProfiles[profile];
   return monitoringPlanSchema.parse({
-    patientId, frequency: "weekly", weekday: 5, time: "09:00", sensitivity: "standard",
-    reminders: { push: true, email: true, sms: false }, durationWeeks: 12,
+    patientId, profile, frequency: d.frequency, weekday: 5, time: "09:00", sensitivity: d.sensitivity,
+    reminders: { push: true, email: true, sms: false }, durationWeeks: d.durationWeeks,
     nextTestAt: "2026-10-23T09:00:00-03:00", reviewOn: "2026-11-13",
     adherence: james ? { done: 11, scheduled: 12 } : { done: Math.round((p.adherence ?? 0.8) * 12), scheduled: 12 },
   });

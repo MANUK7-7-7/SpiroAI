@@ -1,4 +1,4 @@
-import { CircleCheck, Info } from "lucide-react";
+import { CircleCheck } from "lucide-react";
 import { Brand } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeading } from "@/components/ui/card";
@@ -7,7 +7,7 @@ import { Title } from "@/components/ui/title";
 import { GeneratingCard } from "@/components/export/export-modal";
 import { getT } from "@/lib/i18n/server";
 
-const screens = ["s11", "s12", "s13", "s14", "s15"] as const;
+const screens = ["s11", "s12", "s13", "s14"] as const;
 
 export default async function AlertsStateLibrary() {
   const { t } = await getT();
@@ -27,7 +27,7 @@ export default async function AlertsStateLibrary() {
         </section>
       ))}
       <h2 className="font-display text-[28px] font-medium tracking-[-0.035em]">{t("states.flowC.follow")}</h2>
-      <div className="grid grid-cols-3 gap-5">
+      <div className="grid grid-cols-2 gap-5">
         <Card className="rounded-panel">
           <CardHeading title={t("states.flowC.confTitle")} />
           <div className="flex items-start gap-3 rounded-[16px] bg-cobalt-tint p-4"><CircleCheck size={20} strokeWidth={1.6} className="mt-0.5 text-cobalt" aria-hidden /><div className="leading-[1.45]"><p className="text-[14px] font-medium text-cobalt">{t("states.flowC.confAlert")}</p><p className="text-[12px] text-ink-muted">{t("states.flowC.confBody")}</p></div></div>
@@ -39,12 +39,6 @@ export default async function AlertsStateLibrary() {
           <CardHeading title={t("states.flowC.genTitle")} />
           <GeneratingCard t={t} progress={68} />
           <p className="text-[11px] text-ink-muted">{t("states.flowC.auditExport")}</p>
-        </Card>
-        <Card className="rounded-panel">
-          <CardHeading title={t("states.flowC.oohTitle")} />
-          <div className="flex items-start gap-3 rounded-[16px] bg-cobalt-tint p-4"><Info size={20} strokeWidth={1.6} className="mt-0.5 text-cobalt" aria-hidden /><div className="leading-[1.45]"><p className="text-[14px] font-medium text-cobalt">{t("states.flowC.oohAlert")}</p><p className="text-[12px] text-ink-muted">{t("states.flowC.oohBody")}</p></div></div>
-          <div className="text-[11px] leading-[1.45] text-ink-muted"><p>{t("states.flowC.oohSaved")}</p><p>{t("states.flowC.oohUnread")}</p></div>
-          <div><Button size="sm" radius="lg" href="/messages">{t("states.flowC.viewConversation")}</Button></div>
         </Card>
       </div>
       <p className="text-[11px] leading-[1.45] text-ink-muted">{t("states.sampleFooter")}</p>

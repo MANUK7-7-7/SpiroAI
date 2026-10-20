@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { WhatsAppContact } from "@/components/contact/whatsapp-contact";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { RiskBadge } from "@/components/ui/risk-badge";
@@ -41,7 +42,7 @@ export async function ProfileFrame({ patient, tab, crumb, title, alertCount, hea
           <Button size="sm" href={`/patients/${patient.id}/monitoring`}>{t("profile.editPlan")}</Button>
           <Button size="sm" href="?panel=action">{t("profile.clinicalAction")}</Button>
           <Button size="sm" href="?modal=export">{t("profile.exportReport")}</Button>
-          <Button size="sm" href={`/messages?patient=${patient.id}`}>{t("profile.message")}</Button>
+          <WhatsAppContact patientId={patient.id} firstName={patient.name.split(" ")[0]} hasPhone={!!patient.phone} locked={patient.consent === "revoked"} />
           {!patient.invitePending && <Button size="sm" href={`/patients/${patient.id}/record`}>{t("profile.recordNow")}</Button>}
         </div>
       </div>

@@ -32,7 +32,7 @@ Patient recording link to try without creating a record: `/r/demo-invite`.
 
 - **A** registration, verification, login with two-factor, password reset.
 - **B** dashboard, patients, profile, results (S09), trends, compare, add patient.
-- **C** alerts, clinical action, monitoring plan, report export, messages.
+- **C** alerts, clinical action, monitoring plan by patient type, report export. Patient contact opens WhatsApp (no in-app messaging).
 - **D** settings (profile, notifications, alert thresholds, team, security with audit log, help).
 
 Force the designed states on data screens with `?state=loading|empty|error`.

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { WhatsAppContact } from "@/components/contact/whatsapp-contact";
 import { Button } from "@/components/ui/button";
 import { RiskBadge } from "@/components/ui/risk-badge";
 import { cn } from "@/lib/cn";
@@ -48,7 +49,7 @@ export function PatientRow({ p, t, locale }: { p: Patient; t: T; locale: Locale 
       <p className="font-mono text-[13px] text-ink">{p.adherence !== undefined ? `${Math.round(p.adherence * 100)}%` : "—"}</p>
       <div className="flex flex-col text-[11px] leading-[1.45] text-cobalt">
         <Link href={`/patients/${p.id}/tests?action=request`}>{t("patients.requestTest")}</Link>
-        <Link href={`/messages?patient=${p.id}`}>{t("patients.message")}</Link>
+        <WhatsAppContact patientId={p.id} firstName={p.name.split(" ")[0]} hasPhone={!!p.phone} locked={p.consent === "revoked"} look="link" />
       </div>
     </div>
   );

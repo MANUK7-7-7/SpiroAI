@@ -407,13 +407,6 @@
         "error": "Report generation failed. No export was sent.",
         "success": "PDF ready · Export recorded in audit log"
       },
-      "s15": {
-        "title": "S15 · Messages",
-        "empty": "No conversation yet. Start a secure message.",
-        "emptyAction": "Choose a patient",
-        "error": "Message not sent. Your draft is saved.",
-        "success": "Message delivered ✓ · Read ✓✓"
-      },
       "follow": "Follow-through & communication states",
       "confTitle": "S12 · Confirmation",
       "confAlert": "Action saved & patient notified",
@@ -422,13 +415,7 @@
       "viewProfile": "View patient profile",
       "returnNote": "Return to original S09 result or S11 alert.",
       "genTitle": "S14 · Generating report",
-      "auditExport": "Audit: export requested · Elena Morales · 09:12",
-      "oohTitle": "S15 · Outside clinic hours",
-      "oohAlert": "Auto-reply sent",
-      "oohBody": "Thanks for your message. Our team replies Mon–Fri, 08:00–18:00. Not for emergencies, call emergency services.",
-      "oohSaved": "Message saved · Delivered ✓",
-      "oohUnread": "Unread until the next clinic session.",
-      "viewConversation": "View conversation"
+      "auditExport": "Audit: export requested · Elena Morales · 09:12"
     }
   },
   "app": {
@@ -437,7 +424,6 @@
       "dashboard": "Dashboard",
       "patients": "Patients",
       "alerts": "Alerts",
-      "messages": "Messages",
       "settings": "Settings"
     },
     "clinic": "Professional workspace",
@@ -570,7 +556,6 @@
     "ai": "AI {conf}% · Quality {quality}",
     "judgment": "Judgment {judgment}",
     "requestTest": "Request test",
-    "message": "Message ···",
     "invitePending": "Invite pending",
     "noRecording": "No recording yet",
     "resend": "Resend",
@@ -618,7 +603,6 @@
     "editPlan": "Edit plan",
     "clinicalAction": "Clinical action",
     "exportReport": "Export report",
-    "message": "Message",
     "tabs": {
       "overview": "Overview",
       "tests": "Tests",
@@ -651,7 +635,9 @@
       "daily": "Daily",
       "weekly": "Weekly",
       "biweekly": "Every 2 weeks",
-      "monthly": "Monthly"
+      "monthly": "Monthly",
+      "quarterly": "Every 3 months",
+      "semiannual": "Every 6 months"
     },
     "sens": {
       "standard": "Standard",
@@ -985,7 +971,6 @@
     "aiLine": "AI confidence {conf}% · Quality {quality} · Final judgment {j}",
     "openProfile": "Open profile",
     "requestTest": "Request test",
-    "message": "Message",
     "bottomNote": "Fictional sample data · Bottom tabs persist while content scrolls. No patient mobile app is represented."
   },
   "alertsCenter": {
@@ -1022,7 +1007,6 @@
     "lastReliable": "Last reliable result · AI {conf}% · Quality {quality} · Doctor reviewed · {disclaimer}",
     "openResult": "Open result",
     "takeAction": "Take action",
-    "messagePatient": "Message patient",
     "dismiss": "Dismiss",
     "footnote": "Example rules are clinically unvalidated. Edit per-patient sensitivity in S13 or defaults in S16. Unopened high alerts trigger an email/push reminder.",
     "resolvedBanner": "{n} alerts resolved this month",
@@ -1067,7 +1051,7 @@
     "noteLabel": "Internal note · not shared",
     "previewLabel": "PATIENT MESSAGE PREVIEW",
     "from": "From {who} · {clinic}",
-    "confirm": "Confirm and notify patient",
+    "confirm": "Confirm and message on WhatsApp",
     "saveOnly": "Save without notifying",
     "footnote": "On save: linked alert resolves, action stays pending in the profile until complete. Closing returns to the originating result or alert. All actions are audit logged.",
     "close": "Close",
@@ -1085,14 +1069,15 @@
     "title": "A plan that fits the patient",
     "back": "Back to profile",
     "schedule": "Recording schedule",
-    "suggested": "Suggested for diagnosed COPD: weekly · At risk: every 2 weeks",
     "frequency": "FREQUENCY",
     "freqs": {
       "daily": "Daily",
       "weekly": "Weekly",
       "biweekly": "Every 2 weeks",
       "monthly": "Monthly",
-      "custom": "Custom"
+      "custom": "Custom",
+      "quarterly": "Every 3 months",
+      "semiannual": "Every 6 months"
     },
     "reminder": "Patient reminder time",
     "tz": "Time zone",
@@ -1105,10 +1090,10 @@
     "duration": "Plan duration",
     "weeks": "{n} weeks",
     "reviewDate": "Review date",
-    "notify": "Notify patient when this plan changes",
+    "notify": "Remind the patient automatically on this schedule",
     "save": "Save plan",
     "reset": "Reset to default",
-    "auditNote": "Saving automatically updates the patient app and is audit logged.",
+    "auditNote": "Reminders with a single-use recording link follow this plan. Changes are recorded in the audit log.",
     "saved": "Plan saved",
     "nextTitle": "Next 3 test dates",
     "preview": "Preview · {freq} at {time}",
@@ -1119,57 +1104,40 @@
     "custom": "Custom interval · alternate selection",
     "everyDays": "Every {n} days",
     "freqLower": {
-      "daily": "Daily",
-      "weekly": "Weekly",
-      "biweekly": "Every 2 weeks",
-      "monthly": "Monthly",
-      "custom": "Custom"
+      "daily": "daily",
+      "weekly": "weekly",
+      "biweekly": "every 2 weeks",
+      "monthly": "monthly",
+      "custom": "custom",
+      "quarterly": "every 3 months",
+      "semiannual": "every 6 months"
     },
     "error": "The plan could not be saved. Try again.",
     "loadError": "We could not load the monitoring plan.",
-    "noPlan": "This patient has no monitoring plan until the invitation is accepted."
-  },
-  "messages": {
-    "eyebrow": "SECURE MESSAGING · {n} UNREAD CONVERSATIONS",
-    "title": "Stay connected, between visits",
-    "emergTitle": "Not for emergencies, call emergency services",
-    "emergBody": "Messages are reviewed during clinic hours, Monday–Friday, 08:00–18:00.",
-    "search": "Search conversations",
-    "searchPh": "Patient name…",
-    "secure": "{code} · Secure patient conversation",
-    "openProfile": "Open profile",
-    "relatedTest": "Related test · {when}",
-    "relatedMeta": "AI {conf}% · Quality {quality} · Doctor review {j}",
-    "openResult": "Open result",
-    "dateSep": "{day}",
-    "templates": "QUICK TEMPLATES",
-    "tplQuiet": "Please repeat in a quiet room",
-    "tplBook": "Book a visit",
-    "tplStable": "Your results look stable",
-    "tplQuietText": "Hello {first}, please repeat the voice test in a quiet room. Hold /a/ steadily and complete the reading.",
-    "tplBookText": "Hello {first}, I’d like to see you in person. Please book a visit through the clinic.",
-    "tplStableText": "Hello {first}, your recent results look stable. Keep following your monitoring plan.",
-    "message": "Message",
-    "messagePh": "Write a message…",
-    "attach": "Attach result",
-    "attached": "Result attached",
-    "send": "Send message",
-    "sending": "Sending…",
-    "deliveredRead": "Delivered ✓ · Read ✓✓",
-    "delivered": "Delivered ✓",
-    "emergencyLine": "Not for emergencies. If you feel unwell, call your local emergency number.",
-    "afterHoursTitle": "Outside-hours auto-reply · Alternate state",
-    "afterHoursBody": "Thanks for your message. Our team will reply during clinic hours. If this is an emergency, call emergency services.",
-    "empty": "No conversation yet. Start a secure message.",
-    "emptyAction": "Choose a patient",
-    "noMessages": "No messages yet. Say hello, or use a quick template.",
-    "locked": "Consent revoked · Messaging locked",
-    "lockedBody": "No new messages can be sent. History is read-only.",
-    "error": "We could not load your conversations.",
-    "sendError": "Message not sent. Your draft is saved.",
-    "retry": "Retry",
-    "choose": "Choose a conversation",
-    "newConversation": "Start a conversation"
+    "noPlan": "This patient has no monitoring plan until the invitation is accepted.",
+    "profileTitle": "Patient type",
+    "profileSub": "The goal sets how often to test. Pick one, then adjust if needed.",
+    "profiles": {
+      "screening": {
+        "name": "Screening",
+        "goal": "At risk, no diagnosis. Find who needs spirometry.",
+        "cadence": "Every 6 months"
+      },
+      "stable": {
+        "name": "Stable COPD",
+        "goal": "Follow the trend between visits.",
+        "cadence": "Monthly"
+      },
+      "post_exacerbation": {
+        "name": "After an exacerbation",
+        "goal": "Catch the next one early, for a few weeks.",
+        "cadence": "Weekly for 6 weeks, then monthly"
+      }
+    },
+    "suggestedBadge": "Suggested for this patient",
+    "sampleTitle": "Sample values · Clinical validation needed",
+    "sampleBody": "These frequencies are illustrative and have not been validated. Confirm them with your clinical team.",
+    "stepDown": "After {weeks} weeks, review the plan and move to {freq} testing if the patient is stable."
   },
   "export": {
     "title": "A clear record of the whole picture",
@@ -1575,5 +1543,27 @@
         "MISSING_TASK": "missing task"
       }
     }
+  },
+  "contact": {
+    "whatsapp": "WhatsApp",
+    "pick": "Open WhatsApp with",
+    "label": {
+      "free": "A blank greeting",
+      "quiet": "Repeat in a quiet place",
+      "book": "Book a visit",
+      "stable": "Results look stable"
+    },
+    "tpl": {
+      "free": "Hi {first}, ",
+      "quiet": "Hi {first}, please repeat the voice test in a quiet place. Hold the /a/ steadily and finish the reading.",
+      "book": "Hi {first}, I would like to see you in person. Please book a visit through the clinic.",
+      "stable": "Hi {first}, your recent tests look stable. Keep going with your monitoring plan."
+    },
+    "privacy": "Opens WhatsApp on this device. Do not share results or clinical details there: they stay in SpiroAI.",
+    "noPhone": "No phone number on file",
+    "locked": "Consent revoked",
+    "error": "WhatsApp could not open. Try again.",
+    "openWithAction": "Open WhatsApp with this message",
+    "savedAction": "Action saved. Let the patient know on WhatsApp."
   }
 }

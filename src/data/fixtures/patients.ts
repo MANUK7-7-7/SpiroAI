@@ -49,6 +49,9 @@ function generated(n: number): Raw[] {
 
 const initials = (name: string) => name.replace(/^Dra?\.\s*/, "").split(" ").map((p) => p[0]).slice(0, 2).join("").toUpperCase();
 
-export const patientsFixture: Patient[] = [...designed, ...generated(128)].map((p) =>
-  patientSchema.parse({ ...p, initials: initials(p.name), latest: p.latest ? { ...p.latest, resultId: `r-${p.id}`, band: bandFor(p.latest.riskIndex) } : undefined }),
+// Argentine mobile numbers never start with 0 after the area code, so these cannot reach a real person.
+const fictionalPhone = (i: number) => `+54 9 11 0${String(100 + i).padStart(3, "0")}-${String(4000 + i * 7).slice(-4)}`;
+
+export const patientsFixture: Patient[] = [...designed, ...generated(128)].map((p, i) =>
+  patientSchema.parse({ ...p, phone: fictionalPhone(i), initials: initials(p.name), latest: p.latest ? { ...p.latest, resultId: `r-${p.id}`, band: bandFor(p.latest.riskIndex) } : undefined }),
 );

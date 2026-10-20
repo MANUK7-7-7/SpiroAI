@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useT } from "@/lib/i18n/client";
 
-type Summary = { patient: { id: string; name: string; code: string; consent: string }; alert?: { id: string; code: string } };
+type Summary = { patient: { id: string; name: string; code: string; consent: string; hasPhone?: boolean }; alert?: { id: string; code: string } };
 type Kind = "spirometry" | "follow_up_visit" | "referral" | "adjust_frequency" | "repeat_test";
 
 const box = "w-full resize-y rounded-input bg-surface-soft p-[13px] text-[14px] leading-[1.45] shadow-[inset_0_0_0_1px_var(--line)] outline-none focus:bg-surface focus:shadow-[inset_0_0_0_1px_var(--cobalt)]";
@@ -70,6 +70,13 @@ function Panel({ patientId, alertId, repeat, close }: { patientId: string; alert
     router.refresh();
   }
 
+  async function openWhatsApp() {
+    const res = await fetch(`/api/patients/${patientId}/contact`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text: fullMessage, template: "clinical_action" }) }).catch(() => null);
+    if (!res?.ok) return setState("error");
+    const { url } = (await res.json()) as { url: string };
+    if (!window.open(url, "_blank", "noopener")) window.location.href = url;
+  }
+
   const toggle = (k: Kind) => (v: boolean) => setKinds({ ...kinds, [k]: v });
 
   return (
@@ -105,11 +112,12 @@ function Panel({ patientId, alertId, repeat, close }: { patientId: string; alert
             <p className="mt-2 text-[11px] leading-[1.45] text-ink-muted">{t("action.emergency")}</p>
             <p className="mt-2 text-[11px] text-ink-muted">{t("action.from", { who: "Dr. Elena Morales", clinic: "Riverside Clinic" })}</p>
           </div>
-          {state === "saved" && <Alert state="success" title={t(notified ? "action.savedNotified" : "action.saved")} />}
+          {state === "saved" && <Alert state="success" title={notified ? t("contact.savedAction") : t("action.saved")} />}
+          {state === "saved" && notified && <div><Button variant="primary" onClick={openWhatsApp}>{t("contact.openWithAction")}</Button></div>}
           {state === "none" && <Alert state="warning" title={t("action.pickOne")} />}
           {state === "error" && <Alert state="error" title={t("action.error")} />}
           <div className="flex flex-col items-start gap-5">
-            <Button variant="primary" onClick={() => submit(true)} disabled={state === "saving" || state === "saved" || locked || !first}>{t("action.confirm")}</Button>
+            <Button variant="primary" onClick={() => submit(true)} disabled={state === "saving" || state === "saved" || locked || !first || summary?.patient.hasPhone === false}>{t("action.confirm")}</Button>
             <Button onClick={() => submit(false)} disabled={state === "saving" || state === "saved"}>{t("action.saveOnly")}</Button>
           </div>
           <p className="text-[11px] leading-[1.45] text-ink-muted">{t("action.footnote")}</p>

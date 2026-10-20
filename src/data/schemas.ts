@@ -105,6 +105,8 @@ export const patientSchema = z.object({
   adherence: z.number().min(0).max(1).optional(),
   latest: latestResultSchema.optional(),
   featured: z.number().optional(),
+  /** Mobile number for WhatsApp contact. Fixture numbers use an unassigned range and are fictional. */
+  phone: z.string().optional(),
 });
 export type Patient = z.infer<typeof patientSchema>;
 
@@ -174,7 +176,9 @@ export type Alert = z.infer<typeof alertSchema>;
 
 export const monitoringPlanSchema = z.object({
   patientId: z.string(),
-  frequency: z.enum(["daily", "weekly", "biweekly", "monthly"]),
+  frequency: z.enum(["daily", "weekly", "biweekly", "monthly", "quarterly", "semiannual"]),
+  /** Which clinical goal the plan follows. Drives the suggested frequency. */
+  profile: z.enum(["screening", "stable", "post_exacerbation"]).optional(),
   weekday: z.number().min(0).max(6).optional(),
   time: z.string(),
   sensitivity: z.enum(["standard", "high", "low"]),
@@ -229,26 +233,3 @@ export const clinicalActionSchema = z.object({
   at: z.string().datetime({ offset: true }),
 });
 export type ClinicalAction = z.infer<typeof clinicalActionSchema>;
-
-export const messageSchema = z.object({
-  id: z.string(),
-  conversationId: z.string(),
-  from: z.enum(["clinician", "patient", "system"]),
-  text: z.string().max(2000),
-  at: z.string().datetime({ offset: true }),
-  /** Template used, if any. Templates carry the "not for emergencies" line. */
-  template: z.string().optional(),
-  delivery: z.enum(["sent", "delivered", "read", "failed"]).default("sent"),
-});
-export type Message = z.infer<typeof messageSchema>;
-
-export const conversationSchema = z.object({
-  id: z.string(),
-  patientId: z.string(),
-  patientName: z.string(),
-  patientCode: z.string(),
-  unread: z.number(),
-  /** A revoked consent locks messaging. */
-  locked: z.boolean().default(false),
-});
-export type Conversation = z.infer<typeof conversationSchema>;

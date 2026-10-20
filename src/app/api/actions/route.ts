@@ -2,7 +2,6 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { hasSession, unauthorized } from "@/lib/api-auth";
 import { getAlert, resolveAlert } from "@/data/repositories/alerts";
-import { sendMessage } from "@/data/repositories/messages";
 import { clinicalActionSchema } from "@/data/schemas";
 import { nextId, recordAudit, store } from "@/data/store";
 
@@ -26,7 +25,6 @@ export async function POST(req: Request) {
   const action = clinicalActionSchema.parse({ id: nextId("ca"), ...rest, notified: notify && !!rest.messageToPatient, confirmedBy: "Dr. Elena Morales", status: "pending", at: new Date().toISOString().replace("Z", "+00:00") });
   store.actions.unshift(action);
   recordAudit({ action: "action.confirmed", subject: action.patientId, detail: action.kinds.join(",") });
-  if (action.notified) sendMessage({ patientId: action.patientId, text: action.messageToPatient!, template: "clinical_action" });
   if (rest.alertId && getAlert(rest.alertId)) resolveAlert(rest.alertId, "Dr. Elena Morales", "Clinical action planned. Action remains pending in profile.");
   return NextResponse.json({ action }, { status: 201 });
 }

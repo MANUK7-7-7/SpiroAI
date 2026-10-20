@@ -1,8 +1,7 @@
 import { defaultSettings } from "@/config/settings";
 import type { ResultRecord } from "./fixtures/history";
 import type { Member, SettingsData } from "./settings-schemas";
-import type { Alert, ChartEvent, ClinicalAction, Message, ClinicalReview, MonitoringPlan, Note, Patient } from "./schemas";
-import { messagesSeed } from "./fixtures/messages";
+import type { Alert, ChartEvent, ClinicalAction, ClinicalReview, MonitoringPlan, Note, Patient } from "./schemas";
 import { alertsSeed, eventsFixture, notesFixture } from "./fixtures/profile";
 
 export type AuditEvent = { id: string; at: string; actor: string; action: string; subject: string; detail?: string };
@@ -15,7 +14,7 @@ export type RecordingSession = {
 
 export type Invite = { token: string; patientId: string; createdAt: string; acceptedAt?: string };
 
-type Store = { messages: Message[]; actions: ClinicalAction[]; plans: Map<string, MonitoringPlan>; patients: Patient[]; invites: Map<string, Invite>; reviews: Map<string, ClinicalReview>; notes: Note[]; events: ChartEvent[]; alerts: Alert[]; audit: AuditEvent[]; settings: SettingsData; members: Member[]; recordings: Map<string, RecordingSession>; patientPatch: Map<string, Partial<import("./schemas").Patient>>; liveRecords: ResultRecord[]; counter: number };
+type Store = { actions: ClinicalAction[]; plans: Map<string, MonitoringPlan>; patients: Patient[]; invites: Map<string, Invite>; reviews: Map<string, ClinicalReview>; notes: Note[]; events: ChartEvent[]; alerts: Alert[]; audit: AuditEvent[]; settings: SettingsData; members: Member[]; recordings: Map<string, RecordingSession>; patientPatch: Map<string, Partial<import("./schemas").Patient>>; liveRecords: ResultRecord[]; counter: number };
 
 function membersSeed(): Member[] {
   return [
@@ -28,13 +27,12 @@ function membersSeed(): Member[] {
 
 // Survives hot reloads in dev. Replace with Postgres/Prisma behind the same functions.
 const g = globalThis as unknown as { __spiroStore?: Store };
-export const store: Store = (g.__spiroStore ??= { messages: [...messagesSeed], actions: [], plans: new Map(), patients: [], invites: new Map(), reviews: new Map(), notes: [...notesFixture], events: [...eventsFixture], alerts: [...alertsSeed], audit: [], settings: structuredClone(defaultSettings) as unknown as SettingsData, members: membersSeed(), recordings: new Map(), patientPatch: new Map(), liveRecords: [], counter: 100 });
+export const store: Store = (g.__spiroStore ??= { actions: [], plans: new Map(), patients: [], invites: new Map(), reviews: new Map(), notes: [...notesFixture], events: [...eventsFixture], alerts: [...alertsSeed], audit: [], settings: structuredClone(defaultSettings) as unknown as SettingsData, members: membersSeed(), recordings: new Map(), patientPatch: new Map(), liveRecords: [], counter: 100 });
 
 // Older hot-reloaded stores may lack newer collections.
 store.patients ??= [];
 store.invites ??= new Map();
 store.actions ??= [];
-store.messages ??= [...messagesSeed];
 store.plans ??= new Map();
 store.settings ??= structuredClone(defaultSettings) as unknown as SettingsData;
 store.members ??= membersSeed();

@@ -6,7 +6,8 @@ import { monitoringPlanSchema } from "@/data/schemas";
 import { recordAudit, store } from "@/data/store";
 
 const body = z.object({
-  frequency: z.enum(["daily", "weekly", "biweekly", "monthly"]),
+  profile: z.enum(["screening", "stable", "post_exacerbation"]).optional(),
+  frequency: z.enum(["daily", "weekly", "biweekly", "monthly", "quarterly", "semiannual"]),
   customDays: z.number().int().min(1).max(60).optional(),
   time: z.string().regex(/^\d{2}:\d{2}$/),
   sensitivity: z.enum(["standard", "high", "low"]),
@@ -24,6 +25,6 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   const { notifyPatient, customDays: _c, ...rest } = parsed.data;
   const next = monitoringPlanSchema.parse({ ...current, ...rest });
   store.plans.set(id, next);
-  recordAudit({ action: "plan.saved", subject: id, detail: `${rest.frequency} ${rest.time}${notifyPatient ? " · patient notified" : ""}` });
+  recordAudit({ action: "plan.saved", subject: id, detail: `${rest.profile ?? "custom"} · ${rest.frequency} ${rest.time}${notifyPatient ? " · patient notified" : ""}` });
   return NextResponse.json({ plan: next });
 }
