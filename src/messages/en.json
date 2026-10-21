@@ -56,7 +56,7 @@
       },
       {
         "title": "Record & screen",
-        "body": "A sustained /a/ and short reading are analyzed by a separate AI model."
+        "body": "A sustained /a/, counting to 20 and a short cough are analyzed by separate AI models."
       },
       {
         "title": "Review & decide",
@@ -512,7 +512,8 @@
     "risk_rise": "Risk rose {points} pts in {weeks} weeks",
     "sustained_deviation": "Sustained deviation from baseline",
     "missed_tests": "{count} scheduled tests missed",
-    "poor_quality": "{count} poor-quality recordings in a row"
+    "poor_quality": "{count} poor-quality recordings in a row",
+    "new_result": "New result sent by the patient"
   },
   "patients": {
     "eyebrow": "PATIENT PANEL · {active} ACTIVE / {invites} INVITES PENDING",
@@ -659,7 +660,7 @@
   "tests": {
     "title": "Recording history",
     "sub": "Chronological · Newest first · {n} tests",
-    "rowSub": "{year} · /a/ + reading",
+    "rowSub": "{year} · /a/ + counting + cough",
     "meta": "AI confidence {conf}% · Quality {quality}",
     "final": "Final judgment: {j}",
     "open": "Open result",
@@ -703,9 +704,8 @@
       "mpt": "MPT"
     },
     "audioTitle": "Listen to the recording",
-    "audioSub": "{quality} quality · Noise {db} dB · Total {sec} seconds · Both tasks complete",
+    "audioSub": "{quality} quality · Noise {db} dB · Total {sec} seconds · All tasks complete",
     "vowel": "Sustained vowel /a/",
-    "reading": "Reading passage",
     "play": "Play",
     "pause": "Pause",
     "audioError": "The audio could not be loaded. Try again.",
@@ -731,7 +731,7 @@
     "ctxPatientApp": "Patient-recorded in SpiroAI app",
     "ctxPatientWeb": "Patient-recorded in the browser",
     "ctxAssisted": "Assisted recording in clinic",
-    "tasks": "Tasks: /a/ and short reading",
+    "tasks": "Tasks: /a/, counting and cough",
     "device": "Device: {device} · Microphone check {check}",
     "checkPassed": "passed",
     "checkFailed": "failed",
@@ -776,7 +776,7 @@
     "doNotInterpret": "Do not interpret this result",
     "insufficient": "Insufficient duration and background noise.",
     "reasonLabel": "Reason sent to patient",
-    "reasonDefault": "Please repeat in a quiet room. Hold /a/ steadily and complete the reading.",
+    "reasonDefault": "Please repeat in a quiet room. Hold /a/ steadily, count to 20 and cough 3 times.",
     "requestRepeatBtn": "Request repeat",
     "lowConfTitle": "Low AI confidence",
     "confLow": "AI confidence: {n}% · Low",
@@ -792,7 +792,17 @@
     "concerningBanner": "Clinical action required · Doctor decides",
     "trail": "Judgment, author, note and timestamp saved to the clinical audit trail.",
     "boardTitle": "Review with the right amount of certainty",
-    "boardSub": "S09 companions · Separate quality and model confidence from the patient’s risk."
+    "boardSub": "S09 companions · Separate quality and model confidence from the patient’s risk.",
+    "counting": "Counting 1 to 20",
+    "cough": "Cough",
+    "breakdownTitle": "Where the index comes from",
+    "breakdown": {
+      "voice": "Voice",
+      "cough": "Cough",
+      "chronic_lung_disease": "Patterns linked to chronic lung disease (vowel and counting)",
+      "copd": "Patterns linked to COPD (cough)"
+    },
+    "breakdownNote": "Each model was trained on a different research dataset and recognises a different target. The index is their average. Sample method, not clinically validated."
   },
   "trends": {
     "title": "Trends",
@@ -941,7 +951,7 @@
     "back": "Back to trends",
     "alertTitle": "Compare within the same clinical context",
     "alertBody": "Changes support review, not diagnosis. Sample metrics and ranges are clinically unvalidated.",
-    "protocol": "/a/ + reading · Same recording protocol",
+    "protocol": "/a/ + counting + cough · Same recording protocol",
     "open": "Open test",
     "changedTitle": "What changed?",
     "riskUp": "Risk increased {n} points.",
@@ -988,13 +998,17 @@
       "risk_rise": "Risk rose {points} pts in {weeks} weeks",
       "sustained_deviation": "{results} results above personal baseline",
       "missed_tests": "{count} scheduled tests missed",
-      "poor_quality": "Repeated poor-quality recordings"
+      "poor_quality": "Repeated poor-quality recordings",
+      "result_received": "New test result to review",
+      "analysis_failed": "Test received, analysis failed"
     },
     "rules": {
       "risk_rise": "Rule: High result · Risk ≥ {high}",
       "sustained_deviation": "Rule: Sustained deviation · {results} consecutive results > baseline + 10",
       "missed_tests": "Rule: Adherence · {count} consecutive missed tests",
-      "poor_quality": "Rule: Recording quality · {count} poor recordings in 7 days"
+      "poor_quality": "Rule: Recording quality · {count} poor recordings in 7 days",
+      "result_received": "The patient completed the test sent by link",
+      "analysis_failed": "Open the result to retry the analysis"
     },
     "ago": {
       "min": "{n} min ago",
@@ -1033,7 +1047,8 @@
     "highResult": "High result",
     "dismissError": "The alert could not be dismissed. Try again.",
     "auditTitle": "Audit trail",
-    "auditEmpty": "No audit events for this alert."
+    "auditEmpty": "No audit events for this alert.",
+    "reviewedReason": "The doctor reviewed the result"
   },
   "action": {
     "title": "Plan the next step",
@@ -1060,7 +1075,7 @@
     "pickOne": "Choose at least one action",
     "error": "The action could not be saved. Try again.",
     "defaultMessage": "Hello {first}, I’d like to check in and arrange a breathing test. Please book a visit so we can review how you’re feeling.",
-    "repeatMessage": "Hello {first}, please repeat the voice test in a quiet room. Hold /a/ steadily and complete the reading.",
+    "repeatMessage": "Hello {first}, please repeat the voice test in a quiet room. Hold /a/ steadily, count to 20 and cough 3 times.",
     "defaultNote": "Review recent symptoms and inhaler use. Spirometry requested.",
     "emergency": "Not for emergencies. If you feel unwell, call your local emergency number."
   },
@@ -1422,7 +1437,7 @@
     },
     "invalid": {
       "title": "This link is not valid",
-      "body": "The invitation link may have expired or been mistyped. Ask your clinic to send a new invitation.",
+      "body": "The link may have expired, already been used for a test, or been mistyped. Ask your clinic to send a new one.",
       "home": "Go to SpiroAI"
     },
     "unsupported": {
@@ -1475,11 +1490,16 @@
         "body": "Take a deep breath, then say “aaah” in a steady voice for as long as is comfortable.",
         "hint": "At least {min} seconds. Stop when you run out of breath."
       },
-      "reading": {
-        "name": "Reading passage",
-        "body": "Read the text below aloud at your usual pace and volume.",
-        "text": "The north wind and the sun were arguing about which of them was stronger, when a traveller came along wrapped in a warm cloak. They agreed that the one who first made the traveller take his cloak off should be considered stronger.",
-        "hint": "At least {min} seconds. Read until the end of the passage."
+      "counting": {
+        "name": "Counting",
+        "body": "Count out loud from 1 to 20 at your usual pace and volume. Breathe whenever you need to.",
+        "text": "1 · 2 · 3 · 4 · 5 · 6 · 7 · 8 · 9 · 10 · 11 · 12 · 13 · 14 · 15 · 16 · 17 · 18 · 19 · 20",
+        "hint": "At least {min} seconds. Count all the way to 20."
+      },
+      "cough": {
+        "name": "Cough",
+        "body": "Cough on purpose 3 times, with a short breath between coughs. Keep the same distance from the microphone.",
+        "hint": "At least {min} seconds. Stop after the third cough."
       },
       "start": "Start recording",
       "stop": "Stop",
@@ -1555,7 +1575,7 @@
     },
     "tpl": {
       "free": "Hi {first}, ",
-      "quiet": "Hi {first}, please repeat the voice test in a quiet place. Hold the /a/ steadily and finish the reading.",
+      "quiet": "Hi {first}, please repeat the voice test in a quiet place. Hold the /a/ steadily, count to 20 and cough 3 times.",
       "book": "Hi {first}, I would like to see you in person. Please book a visit through the clinic.",
       "stable": "Hi {first}, your recent tests look stable. Keep going with your monitoring plan."
     },
@@ -1565,5 +1585,21 @@
     "error": "WhatsApp could not open. Try again.",
     "openWithAction": "Open WhatsApp with this message",
     "savedAction": "Action saved. Let the patient know on WhatsApp."
+  },
+  "testLink": {
+    "title": "Ask {first} for a test",
+    "body": "SpiroAI creates a personal link for one test and opens WhatsApp with a short message to the patient. The link works once and expires in {days} days.",
+    "step1": "{first} opens the link on a phone or computer and records the vowel, the count to 20 and the cough. No account needed.",
+    "step2": "The patient never sees a score.",
+    "step3": "When the result is ready you get a notification and it appears in your review queue.",
+    "create": "Create test link",
+    "cancel": "Cancel",
+    "linkLabel": "Test link",
+    "expires": "Valid once, until {date}",
+    "send": "Send on WhatsApp",
+    "done": "Done",
+    "noPhone": "This patient has no phone number. Copy the link and send it another way, or add a phone number to the record.",
+    "error": "The link could not be created. Try again.",
+    "message": "Hi {first}, your doctor is asking you for a SpiroAI voice test. It takes about 3 minutes: {url} The link is personal and valid for {days} days."
   }
 }

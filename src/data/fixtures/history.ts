@@ -80,7 +80,7 @@ function build(p: Patient, specs: Spec[], base: typeof jamesBase, sd: typeof jam
     };
     const review: ClinicalReview | undefined = s.review ? { id: `rv-${id}`, resultId: id, clinicianId: "c-001", clinicianName: "E. Morales", ...s.review } : undefined;
     const recording: RecordingSummary = {
-      recordingId: result.recordingId, source: "mobile_app", deviceLabel: "iPhone", microphoneCheck: "passed", vowelSec: 16, readingSec: 30,
+      recordingId: result.recordingId, source: "mobile_app", deviceLabel: "iPhone", microphoneCheck: "passed", vowelSec: 16, countingSec: 10, coughSec: 4,
       noiseDb: poor ? 41 : 18, receivedAt: new Date(Date.parse(s.at) + 60_000).toISOString().replace("Z", "+00:00"), waveform: waveform(id),
     };
     return { result, testCode: `T-${testBase + i}`, recording, review };

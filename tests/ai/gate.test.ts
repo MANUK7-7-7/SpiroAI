@@ -3,7 +3,7 @@ import { runQualityGate } from "@/ai/quality/gate";
 import { device, goodTakes } from "./fixtures";
 
 describe("quality gate", () => {
-  it("passes a clean two-task recording", () => {
+  it("passes a clean three-task recording", () => {
     expect(runQualityGate("web_patient", device, goodTakes)).toMatchObject({ pass: true, level: "good", reasons: [] });
   });
   it("rejects short, noisy, clipped and off-task takes with reasons", () => {
@@ -12,8 +12,15 @@ describe("quality gate", () => {
     expect(r.level).toBe("poor");
     expect(r.reasons).toEqual(expect.arrayContaining(["TOO_SHORT", "TOO_NOISY", "CLIPPING", "WRONG_TASK"]));
   });
-  it("requires both tasks", () => {
+  it("requires every task", () => {
     expect(runQualityGate("mobile_app", device, [goodTakes[0]]).reasons).toContain("MISSING_TASK");
+    expect(runQualityGate("mobile_app", device, goodTakes.filter((t) => t.task !== "cough")).reasons).toContain("MISSING_TASK");
+  });
+  it("judges how much sound a take needs per task", () => {
+    // Three coughs leave most of the take silent; the same ratio on a vowel means the patient did not phonate.
+    const cough = goodTakes.find((t) => t.task === "cough")!;
+    expect(runQualityGate("web_patient", device, goodTakes.map((t) => (t.task === "cough" ? { ...cough, voicedRatio: 0.1 } : t))).pass).toBe(true);
+    expect(runQualityGate("web_patient", device, goodTakes.map((t) => (t.task === "sustained_vowel" ? { ...t, voicedRatio: 0.1 } : t))).reasons).toContain("WRONG_TASK");
   });
   it("applies thresholds per source", () => {
     const takes = goodTakes.map((t) => ({ ...t, noiseFloorDb: -41 }));

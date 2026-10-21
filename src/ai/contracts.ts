@@ -10,7 +10,12 @@ import { z } from "zod";
 export const recordingSourceSchema = z.enum(["mobile_app", "web_patient", "web_assisted"]);
 export type RecordingSource = z.infer<typeof recordingSourceSchema>;
 
-export const audioTaskIdSchema = z.enum(["sustained_vowel", "reading_passage"]);
+/**
+ * The recorded tasks, in recording order. They match what the models were trained on:
+ * sustained vowel and counting 1 to 20 feed the voice model, the cough feeds the cough model.
+ */
+export const AUDIO_TASKS = ["sustained_vowel", "counting", "cough"] as const;
+export const audioTaskIdSchema = z.enum(AUDIO_TASKS);
 export type AudioTaskId = z.infer<typeof audioTaskIdSchema>;
 
 /** What the browser or phone actually applied, read back from the track settings. */
@@ -58,7 +63,7 @@ export type PatientContext = z.infer<typeof patientContextSchema>;
 
 export const modelInputSchema = z.object({
   recordingId: z.string().min(1),
-  tasks: z.array(audioTaskInputSchema).min(1).max(2),
+  tasks: z.array(audioTaskInputSchema).min(1).max(AUDIO_TASKS.length),
   source: recordingSourceSchema,
   device: deviceMetaSchema,
   patientContext: patientContextSchema.optional(),
@@ -79,8 +84,23 @@ export const featuresSchema = z.object({
 });
 export type Features = z.infer<typeof featuresSchema>;
 
+/**
+ * One score per modality, so the clinician can see where the combined index comes from.
+ * `target` names what that model was trained to recognise; the two differ.
+ */
+export const subScoreSchema = z.object({
+  riskIndex: z.number().min(0).max(100),
+  target: z.enum(["chronic_lung_disease", "copd"]),
+  tasks: z.array(audioTaskIdSchema).min(1),
+});
+export type SubScore = z.infer<typeof subScoreSchema>;
+
+export const subScoresSchema = z.object({ voice: subScoreSchema.optional(), cough: subScoreSchema.optional() });
+export type SubScores = z.infer<typeof subScoresSchema>;
+
 export const modelOutputSchema = z.object({
   riskIndex: z.number().min(0).max(100),
+  subScores: subScoresSchema.optional(),
   confidence: z.number().min(0).max(1),
   quality: z.object({ level: qualityLevelSchema, reasons: z.array(z.string()) }),
   features: featuresSchema,

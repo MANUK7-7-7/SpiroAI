@@ -22,11 +22,15 @@ export const queueReasonSchema = z.discriminatedUnion("rule", [
   z.object({ rule: z.literal("sustained_deviation") }),
   z.object({ rule: z.literal("missed_tests"), count: z.number() }),
   z.object({ rule: z.literal("poor_quality"), count: z.number() }),
+  /** The patient sent a test from a link; nothing is flagged yet, it is simply waiting for review. */
+  z.object({ rule: z.literal("new_result") }),
 ]);
 export type QueueReason = z.infer<typeof queueReasonSchema>;
 
 export const queueItemSchema = z.object({
   patientId: z.string(),
+  /** Opens this result directly. Fixture items without it open the patient's latest result. */
+  resultId: z.string().optional(),
   name: z.string(),
   initials: z.string(),
   reason: queueReasonSchema,
@@ -136,7 +140,8 @@ export const recordingSummarySchema = z.object({
   deviceLabel: z.string(),
   microphoneCheck: z.enum(["passed", "failed", "skipped"]),
   vowelSec: z.number(),
-  readingSec: z.number(),
+  countingSec: z.number(),
+  coughSec: z.number(),
   noiseDb: z.number(),
   receivedAt: z.string().datetime({ offset: true }),
   /** Peak levels sampled for the waveform display. */

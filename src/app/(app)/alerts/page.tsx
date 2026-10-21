@@ -63,7 +63,7 @@ export default async function AlertsPage({ searchParams }: { searchParams: Promi
   };
 
   const resolvedCard = async (a: AlertT) => {
-    const reason = a.state === "dismissed" ? t("alertsCenter.dismissed", { reason: a.dismissedReason ?? "" }) : t("alertsCenter.resolvedReason", { reason: a.resolution ?? "" });
+    const reason = a.state === "dismissed" ? t("alertsCenter.dismissed", { reason: a.dismissedReason ?? "" }) : t("alertsCenter.resolvedReason", { reason: a.resolution === "reviewed" ? t("alertsCenter.reviewedReason") : a.resolution ?? "" });
     const params = { ...a.params, high: getBands().highFrom } as Record<string, string | number>;
     return (
       <article key={a.id} className="flex flex-col gap-4 rounded-card bg-surface p-6 shadow-[inset_0_0_0_1px_var(--line)]">

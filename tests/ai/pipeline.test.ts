@@ -9,7 +9,7 @@ import { baseline, device, goodTakes } from "./fixtures";
 function setup(id: string, over: Partial<RecordingRecord> = {}, provider: PipelineDeps["provider"] = new MockProvider()) {
   const saved: ScreeningResult[] = [];
   const audit: string[] = [];
-  const rec: RecordingRecord = { id, patientId: "p-1", source: "web_assisted", startedBy: { role: "clinician", id: "c-1" }, device, takes: goodTakes, signedUrls: async () => ({ sustained_vowel: "https://s/a", reading_passage: "https://s/b" }), ...over };
+  const rec: RecordingRecord = { id, patientId: "p-1", source: "web_assisted", startedBy: { role: "clinician", id: "c-1" }, device, takes: goodTakes, signedUrls: async () => ({ sustained_vowel: "https://s/a", counting: "https://s/b", cough: "https://s/c" }), ...over };
   const deps: PipelineDeps = {
     provider, getRecording: async () => rec, getBaseline: async () => baseline, history: async () => saved,
     saveResult: async (r) => { saved.push(r); }, raiseAlerts: async () => {}, audit: async (e) => { audit.push(e.action); },
