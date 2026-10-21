@@ -8,4 +8,7 @@ export const taskLimits = {
 } as const;
 
 export const MIC_CHECK_SECONDS = 3;
+
+/** How long a test link sent on WhatsApp stays valid. Sample value, set it with the clinical team. */
+export const TEST_LINK_TTL_DAYS = 7;
 export const MIC_STORAGE_KEY = "spiro_mic";

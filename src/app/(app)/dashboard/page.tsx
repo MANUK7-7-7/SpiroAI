@@ -47,8 +47,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
               <>
                 {queue.map((q) => (
                   <PriorityQueueItem
-                    key={q.patientId}
-                    href={`/results/${q.patientId}`}
+                    key={q.resultId ?? q.patientId}
+                    href={`/results/${q.resultId ?? q.patientId}`}
                     initials={q.initials}
                     name={q.name}
                     reason={t(`rules.${q.reason.rule}`, q.reason.rule === "missed_tests" ? { count: countWord(q.reason.count, locale) } : (q.reason as never))}

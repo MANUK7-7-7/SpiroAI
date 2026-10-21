@@ -512,7 +512,8 @@
     "risk_rise": "El riesgo subió {points} pts en {weeks} semanas",
     "sustained_deviation": "Desviación sostenida de la línea de base",
     "missed_tests": "{count} controles programados omitidos",
-    "poor_quality": "{count} grabaciones de mala calidad seguidas"
+    "poor_quality": "{count} grabaciones de mala calidad seguidas",
+    "new_result": "Nuevo resultado enviado por el paciente"
   },
   "patients": {
     "eyebrow": "PANEL DE PACIENTES · {active} ACTIVOS / {invites} INVITACIONES PENDIENTES",
@@ -997,13 +998,17 @@
       "risk_rise": "El riesgo subió {points} pts en {weeks} semanas",
       "sustained_deviation": "{results} resultados por encima de la línea de base personal",
       "missed_tests": "{count} controles programados omitidos",
-      "poor_quality": "Grabaciones de mala calidad repetidas"
+      "poor_quality": "Grabaciones de mala calidad repetidas",
+      "result_received": "Nuevo resultado de test para revisar",
+      "analysis_failed": "Test recibido, el análisis falló"
     },
     "rules": {
       "risk_rise": "Regla: Resultado alto · Riesgo ≥ {high}",
       "sustained_deviation": "Regla: Desviación sostenida · {results} resultados consecutivos > línea de base + 10",
       "missed_tests": "Regla: Adherencia · {count} controles omitidos consecutivos",
-      "poor_quality": "Regla: Calidad de grabación · {count} grabaciones malas en 7 días"
+      "poor_quality": "Regla: Calidad de grabación · {count} grabaciones malas en 7 días",
+      "result_received": "El paciente completó el test enviado por link",
+      "analysis_failed": "Abrí el resultado para reintentar el análisis"
     },
     "ago": {
       "min": "hace {n} min",
@@ -1042,7 +1047,8 @@
     "highResult": "Resultado alto",
     "dismissError": "No se pudo descartar la alerta. Intentá de nuevo.",
     "auditTitle": "Registro de auditoría",
-    "auditEmpty": "No hay eventos de auditoría para esta alerta."
+    "auditEmpty": "No hay eventos de auditoría para esta alerta.",
+    "reviewedReason": "El médico revisó el resultado"
   },
   "action": {
     "title": "Planificá el próximo paso",
@@ -1431,7 +1437,7 @@
     },
     "invalid": {
       "title": "Este enlace no es válido",
-      "body": "La invitación puede haber vencido o estar mal copiada. Pedile a tu clínica que envíe una nueva.",
+      "body": "El link puede haber vencido, ya haberse usado para un test o estar mal copiado. Pedile a tu clínica que te envíe uno nuevo.",
       "home": "Ir a SpiroAI"
     },
     "unsupported": {
@@ -1579,5 +1585,21 @@
     "error": "No se pudo abrir WhatsApp. Probá de nuevo.",
     "openWithAction": "Abrir WhatsApp con este mensaje",
     "savedAction": "Acción guardada. Avisale al paciente por WhatsApp."
+  },
+  "testLink": {
+    "title": "Pedirle un test a {first}",
+    "body": "SpiroAI crea un link personal para un test y abre WhatsApp con un mensaje breve para el paciente. El link sirve una sola vez y vence en {days} días.",
+    "step1": "{first} abre el link en el celular o la computadora y graba la vocal, el conteo hasta 20 y la tos. No necesita cuenta.",
+    "step2": "El paciente nunca ve un puntaje.",
+    "step3": "Cuando el resultado está listo te llega una notificación y aparece en tu cola de revisión.",
+    "create": "Crear link de test",
+    "cancel": "Cancelar",
+    "linkLabel": "Link del test",
+    "expires": "Válido una vez, hasta el {date}",
+    "send": "Enviar por WhatsApp",
+    "done": "Listo",
+    "noPhone": "Este paciente no tiene teléfono cargado. Copiá el link y envialo por otro medio, o agregá un teléfono a la ficha.",
+    "error": "No se pudo crear el link. Probá de nuevo.",
+    "message": "Hola {first}, tu médico te pide un test de voz de SpiroAI. Lleva unos 3 minutos: {url} El link es personal y vale por {days} días."
   }
 }

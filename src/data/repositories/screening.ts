@@ -6,7 +6,7 @@ import { defaultAlertRules } from "@/ai/postprocess";
 import type { ScreeningResult } from "@/ai/result";
 import { signPath } from "@/lib/signed-url";
 import { historyFor, type ResultRecord } from "../fixtures/history";
-import { nextId, recordAudit, store } from "../store";
+import { nextId, recordAudit, store, type RecordingSession } from "../store";
 import { allPatients } from "./patients";
 import { getBands, getSettings } from "./settings";
 
@@ -82,11 +82,30 @@ function deps(): PipelineDeps {
 }
 
 /** Background job: never blocks the upload response, and never invents a score on failure. */
+/**
+ * What happens once a recording has a result:
+ *  - a test link closes (single use), unless the take was rejected and the patient must record again;
+ *  - a result the patient sent from home reaches the doctor as a notification linked to the result.
+ *    It resolves itself when the doctor reviews that result.
+ */
+function onResult(s: RecordingSession, result: ScreeningResult) {
+  const inv = s.inviteToken ? store.invites.get(s.inviteToken) : undefined;
+  if (inv?.kind === "test" && !inv.usedAt && result.status !== "rejected_quality") inv.usedAt = new Date().toISOString();
+  if (s.source !== "web_patient" || (result.status !== "ready" && result.status !== "failed")) return;
+  const p = allPatients().find((x) => x.id === s.patientId);
+  store.alerts.unshift({
+    id: nextId("a"), code: `AL-${300 + store.alerts.length}`, patientId: s.patientId, patientName: p?.name ?? s.patientId, severity: "info",
+    rule: result.status === "ready" ? "result_received" : "analysis_failed", params: {}, resultId: result.id, state: "open", firedAt: new Date().toISOString(),
+  });
+  recordAudit({ action: "doctor.notified", subject: result.id, detail: result.status, actor: "system" });
+}
+
 export function startScreening(recordingId: string, opts: { retryOf?: string } = {}) {
   const s = store.recordings.get(recordingId);
   if (!s) return;
   s.status = "processing";
   void runScreening(recordingId, deps(), opts)
+    .then((result) => onResult(s, result))
     .catch((e) => recordAudit({ action: "screening.error", subject: recordingId, detail: (e as Error).message, actor: "system" }))
     .finally(() => { s.status = "done"; });
 }

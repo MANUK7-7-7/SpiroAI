@@ -512,7 +512,8 @@
     "risk_rise": "Risk rose {points} pts in {weeks} weeks",
     "sustained_deviation": "Sustained deviation from baseline",
     "missed_tests": "{count} scheduled tests missed",
-    "poor_quality": "{count} poor-quality recordings in a row"
+    "poor_quality": "{count} poor-quality recordings in a row",
+    "new_result": "New result sent by the patient"
   },
   "patients": {
     "eyebrow": "PATIENT PANEL · {active} ACTIVE / {invites} INVITES PENDING",
@@ -997,13 +998,17 @@
       "risk_rise": "Risk rose {points} pts in {weeks} weeks",
       "sustained_deviation": "{results} results above personal baseline",
       "missed_tests": "{count} scheduled tests missed",
-      "poor_quality": "Repeated poor-quality recordings"
+      "poor_quality": "Repeated poor-quality recordings",
+      "result_received": "New test result to review",
+      "analysis_failed": "Test received, analysis failed"
     },
     "rules": {
       "risk_rise": "Rule: High result · Risk ≥ {high}",
       "sustained_deviation": "Rule: Sustained deviation · {results} consecutive results > baseline + 10",
       "missed_tests": "Rule: Adherence · {count} consecutive missed tests",
-      "poor_quality": "Rule: Recording quality · {count} poor recordings in 7 days"
+      "poor_quality": "Rule: Recording quality · {count} poor recordings in 7 days",
+      "result_received": "The patient completed the test sent by link",
+      "analysis_failed": "Open the result to retry the analysis"
     },
     "ago": {
       "min": "{n} min ago",
@@ -1042,7 +1047,8 @@
     "highResult": "High result",
     "dismissError": "The alert could not be dismissed. Try again.",
     "auditTitle": "Audit trail",
-    "auditEmpty": "No audit events for this alert."
+    "auditEmpty": "No audit events for this alert.",
+    "reviewedReason": "The doctor reviewed the result"
   },
   "action": {
     "title": "Plan the next step",
@@ -1431,7 +1437,7 @@
     },
     "invalid": {
       "title": "This link is not valid",
-      "body": "The invitation link may have expired or been mistyped. Ask your clinic to send a new invitation.",
+      "body": "The link may have expired, already been used for a test, or been mistyped. Ask your clinic to send a new one.",
       "home": "Go to SpiroAI"
     },
     "unsupported": {
@@ -1579,5 +1585,21 @@
     "error": "WhatsApp could not open. Try again.",
     "openWithAction": "Open WhatsApp with this message",
     "savedAction": "Action saved. Let the patient know on WhatsApp."
+  },
+  "testLink": {
+    "title": "Ask {first} for a test",
+    "body": "SpiroAI creates a personal link for one test and opens WhatsApp with a short message to the patient. The link works once and expires in {days} days.",
+    "step1": "{first} opens the link on a phone or computer and records the vowel, the count to 20 and the cough. No account needed.",
+    "step2": "The patient never sees a score.",
+    "step3": "When the result is ready you get a notification and it appears in your review queue.",
+    "create": "Create test link",
+    "cancel": "Cancel",
+    "linkLabel": "Test link",
+    "expires": "Valid once, until {date}",
+    "send": "Send on WhatsApp",
+    "done": "Done",
+    "noPhone": "This patient has no phone number. Copy the link and send it another way, or add a phone number to the record.",
+    "error": "The link could not be created. Try again.",
+    "message": "Hi {first}, your doctor is asking you for a SpiroAI voice test. It takes about 3 minutes: {url} The link is personal and valid for {days} days."
   }
 }

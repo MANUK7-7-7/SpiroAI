@@ -25,6 +25,10 @@ Whenever a code change is significant for the product flow (a screen, route, ste
 
 - UI copy has no em dashes and no emoji. Risk is never shown by colour alone.
 - Patients never see a risk score. Patient contact happens on WhatsApp, not in-app messaging.
+- Remote tests: "Request test now" on the patient profile creates a single-use test link (`kind: "test"`,
+  expires after `TEST_LINK_TTL_DAYS`) and opens WhatsApp to the patient's phone. When the result is ready the
+  doctor gets a `result_received` notification (or `analysis_failed`), and the result enters the dashboard
+  review queue; reviewing it resolves the notification. The WhatsApp message carries only the first name and the link.
 - Thresholds, ranges and monitoring frequencies are sample values that need clinical validation; label them as such.
 
 ## AI models (context for future sessions)
