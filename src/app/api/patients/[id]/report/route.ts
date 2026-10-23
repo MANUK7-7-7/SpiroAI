@@ -3,10 +3,11 @@ import { hasSession, unauthorized } from "@/lib/api-auth";
 import { buildReport, type ReportOptions } from "@/lib/report/model";
 import { renderPdf } from "@/lib/report/pdf";
 import { locales } from "@/lib/i18n/messages";
+import { withStore } from "@/data/persist";
 
 const SECTIONS = ["summary", "trend", "tests", "alerts", "notes"] as const;
 
-export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
+async function handleGET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!hasSession(req)) return unauthorized();
   const url = new URL(req.url);
   const picked = (url.searchParams.get("sections") ?? SECTIONS.join(",")).split(",");
@@ -26,3 +27,5 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   const pdf = await renderPdf(model);
   return new NextResponse(new Uint8Array(pdf), { headers: { "content-type": "application/pdf", "content-disposition": `${url.searchParams.get("inline") ? "inline" : "attachment"}; filename="spiroai-report-${id}.pdf"`, "cache-control": "private, no-store" } });
 }
+
+export const GET = withStore(handleGET);

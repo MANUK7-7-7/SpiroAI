@@ -9,8 +9,10 @@ import { parseDemoState } from "@/data/demo-state";
 import { accuracyReport, listTriages, type TriageView } from "@/data/repositories/triage";
 import { formatDayYear, formatShortDate } from "@/lib/format";
 import { getT } from "@/lib/i18n/server";
+import { syncStore } from "@/data/persist";
 
 export default async function TriagePage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  await syncStore();
   const { t, locale } = await getT();
   const list = await listTriages(parseDemoState((await searchParams).state));
   const r = accuracyReport();

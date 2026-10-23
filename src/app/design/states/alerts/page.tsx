@@ -6,10 +6,12 @@ import { StateCard } from "@/components/ui/state-card";
 import { Title } from "@/components/ui/title";
 import { GeneratingCard } from "@/components/export/export-modal";
 import { getT } from "@/lib/i18n/server";
+import { syncStore } from "@/data/persist";
 
 const screens = ["s11", "s12", "s13", "s14"] as const;
 
 export default async function AlertsStateLibrary() {
+  await syncStore();
   const { t } = await getT();
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col gap-8 rounded-shell bg-surface-sunken p-10">

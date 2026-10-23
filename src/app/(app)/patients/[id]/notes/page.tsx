@@ -4,8 +4,10 @@ import { ProfileFrame } from "@/components/profile/profile-frame";
 import { formatDateTime } from "@/lib/format";
 import { getT } from "@/lib/i18n/server";
 import { loadProfile } from "@/lib/profile-data";
+import { syncStore } from "@/data/persist";
 
 export default async function NotesTab({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  await syncStore();
   const { id } = await params;
   const { t, locale } = await getT();
   const p = await loadProfile(id, searchParams);

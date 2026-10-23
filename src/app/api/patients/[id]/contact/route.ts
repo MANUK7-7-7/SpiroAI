@@ -4,6 +4,7 @@ import { hasSession, unauthorized } from "@/lib/api-auth";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { getPatient } from "@/data/repositories/patients";
 import { recordAudit } from "@/data/store";
+import { withStore } from "@/data/persist";
 
 const body = z.object({ text: z.string().max(2000), template: z.string().max(40).optional() });
 
@@ -11,7 +12,7 @@ const body = z.object({ text: z.string().max(2000), template: z.string().max(40)
  * Patient communication happens on WhatsApp, outside SpiroAI. We only build the link and record
  * that the clinician opened it; the conversation itself is not stored here.
  */
-export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
+async function handlePOST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!hasSession(req)) return unauthorized();
   const parsed = body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "INVALID" }, { status: 400 });
@@ -21,3 +22,5 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   recordAudit({ action: "contact.whatsapp", subject: p.id, detail: parsed.data.template ?? "free" });
   return NextResponse.json({ url: whatsappUrl(p.phone, parsed.data.text) });
 }
+
+export const POST = withStore(handlePOST);

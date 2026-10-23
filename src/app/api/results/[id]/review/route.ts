@@ -3,6 +3,7 @@ import { z } from "zod";
 import { hasSession, unauthorized } from "@/lib/api-auth";
 import { submitReview } from "@/data/repositories/results";
 import { getCurrentClinician } from "@/data/repositories/clinician";
+import { withStore } from "@/data/persist";
 
 const body = z.object({
   judgment: z.enum(["agree", "disagree"]),
@@ -12,7 +13,7 @@ const body = z.object({
 });
 
 /** The AI never reviews itself: every review is initiated and confirmed by a clinician. */
-export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
+async function handlePOST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!hasSession(req)) return unauthorized();
   const parsed = body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "INVALID_INPUT" }, { status: 400 });
@@ -20,3 +21,5 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   const review = await submitReview({ resultId: (await params).id, ...parsed.data, clinicianId: me.id, clinicianName: me.fullName.replace(/^Dr\.\s*/, "").replace(/^(\w)\w*\s/, "$1. ") });
   return NextResponse.json({ review });
 }
+
+export const POST = withStore(handlePOST);

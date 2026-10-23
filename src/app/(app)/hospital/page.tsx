@@ -6,9 +6,11 @@ import { parseDemoState } from "@/data/demo-state";
 import { hospitalAppointments } from "@/data/repositories/triage";
 import { formatDateTime } from "@/lib/format";
 import { getT } from "@/lib/i18n/server";
+import { syncStore } from "@/data/persist";
 
 /** Technician view. The triage priority is never shown here, so each result is entered blind. */
 export default async function HospitalPanel({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  await syncStore();
   const { t, locale } = await getT();
   const list = await hospitalAppointments(parseDemoState((await searchParams).state));
   const now = Date.parse(DEMO_NOW);

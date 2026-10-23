@@ -3,10 +3,12 @@ import { StateCard } from "@/components/ui/state-card";
 import { Title } from "@/components/ui/title";
 import { ConnectedBanner, DuplicateCard, FirstPatientCard, InactiveRevokedCard, InvitePendingCard } from "@/components/patients/safeguards";
 import { getT } from "@/lib/i18n/server";
+import { syncStore } from "@/data/persist";
 
 const screens = ["s05", "s06", "s07", "s08", "s09", "s10"] as const;
 
 export default async function PatientsStateLibrary() {
+  await syncStore();
   const { t } = await getT();
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col gap-8 rounded-shell bg-surface-sunken p-10">

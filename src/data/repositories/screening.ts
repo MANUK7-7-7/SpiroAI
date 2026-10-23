@@ -105,11 +105,12 @@ function onResult(s: RecordingSession, result: ScreeningResult) {
   recordAudit({ action: "doctor.notified", subject: result.id, detail: result.status, actor: "system" });
 }
 
-export function startScreening(recordingId: string, opts: { retryOf?: string } = {}) {
+/** Returns the job, so a serverless route can keep running until the result is saved. */
+export function startScreening(recordingId: string, opts: { retryOf?: string } = {}): Promise<void> {
   const s = store.recordings.get(recordingId);
-  if (!s) return;
+  if (!s) return Promise.resolve();
   s.status = "processing";
-  void runScreening(recordingId, deps(), opts)
+  return runScreening(recordingId, deps(), opts)
     .then((result) => onResult(s, result))
     .catch((e) => recordAudit({ action: "screening.error", subject: recordingId, detail: (e as Error).message, actor: "system" }))
     .finally(() => { s.status = "done"; });

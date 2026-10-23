@@ -4,8 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Title } from "@/components/ui/title";
 import { getCurrentClinician } from "@/data/repositories/clinician";
 import { getT } from "@/lib/i18n/server";
+import { syncStore } from "@/data/persist";
 
 export default async function SettingsLayout({ children }: { children: React.ReactNode }) {
+  await syncStore();
   const { t } = await getT();
   const me = await getCurrentClinician();
   return (

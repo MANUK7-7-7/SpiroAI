@@ -3,8 +3,10 @@ import { Card } from "@/components/ui/card";
 import { store } from "@/data/store";
 import { formatDateTime } from "@/lib/format";
 import { getT } from "@/lib/i18n/server";
+import { syncStore } from "@/data/persist";
 
 export default async function AuditPage() {
+  await syncStore();
   const { t, locale } = await getT();
   const rows = store.audit;
   return (

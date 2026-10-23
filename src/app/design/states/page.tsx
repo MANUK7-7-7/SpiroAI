@@ -6,10 +6,12 @@ import { Field } from "@/components/ui/field";
 import { StateCard } from "@/components/ui/state-card";
 import { Title } from "@/components/ui/title";
 import { getT } from "@/lib/i18n/server";
+import { syncStore } from "@/data/persist";
 
 const screens = ["s01", "s02", "s03", "s04"] as const;
 
 export default async function StateLibrary() {
+  await syncStore();
   const { t } = await getT();
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col gap-8 rounded-shell bg-surface-sunken p-10">

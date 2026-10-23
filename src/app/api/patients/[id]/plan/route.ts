@@ -4,6 +4,7 @@ import { hasSession, unauthorized } from "@/lib/api-auth";
 import { planFor } from "@/data/fixtures/profile";
 import { monitoringPlanSchema } from "@/data/schemas";
 import { recordAudit, store } from "@/data/store";
+import { withStore } from "@/data/persist";
 
 const body = z.object({
   profile: z.enum(["screening", "stable", "post_exacerbation"]).optional(),
@@ -16,7 +17,7 @@ const body = z.object({
   notifyPatient: z.boolean(),
 });
 
-export async function POST(req: Request, { params }: { params: Promise<{ id: string }> }) {
+async function handlePOST(req: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!hasSession(req)) return unauthorized();
   const { id } = await params;
   const parsed = body.safeParse(await req.json().catch(() => null));
@@ -28,3 +29,5 @@ export async function POST(req: Request, { params }: { params: Promise<{ id: str
   recordAudit({ action: "plan.saved", subject: id, detail: `${rest.profile ?? "custom"} · ${rest.frequency} ${rest.time}${notifyPatient ? " · patient notified" : ""}` });
   return NextResponse.json({ plan: next });
 }
+
+export const POST = withStore(handlePOST);

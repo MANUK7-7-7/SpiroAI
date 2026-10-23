@@ -14,8 +14,10 @@ import { parseDemoState } from "@/data/demo-state";
 import { countWord } from "@/lib/numbers";
 import { formatLongDate, formatShortDate, formatTime, relativeDayTime } from "@/lib/format";
 import { getT } from "@/lib/i18n/server";
+import { syncStore } from "@/data/persist";
 
 export default async function DashboardPage({ searchParams }: { searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  await syncStore();
   const { t, locale } = await getT();
   const data = await getDashboard(parseDemoState((await searchParams).state));
   const { kpis, queue, activity, distribution } = data;

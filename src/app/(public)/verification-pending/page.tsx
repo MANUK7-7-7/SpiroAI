@@ -8,11 +8,13 @@ import { getCurrentApplication } from "@/data/repositories/applications";
 import { formatSubmitted } from "@/lib/format";
 import { getT } from "@/lib/i18n/server";
 import { cn } from "@/lib/cn";
+import { syncStore } from "@/data/persist";
 
 const order = ["submitted", "in_review", "approved"] as const;
 const glyph = ["✓", "◉", "○"];
 
 export default async function VerificationPending() {
+  await syncStore();
   const { t, locale } = await getT();
   const app = await getCurrentApplication();
   const at = locale === "es" ? "a las" : "at";

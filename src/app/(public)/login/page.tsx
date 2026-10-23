@@ -4,8 +4,10 @@ import { PublicShell } from "@/components/public/public-shell";
 import { Alert } from "@/components/ui/alert";
 import { Title } from "@/components/ui/title";
 import { getT } from "@/lib/i18n/server";
+import { syncStore } from "@/data/persist";
 
 export default async function LoginPage() {
+  await syncStore();
   const { t } = await getT();
   return (
     <PublicShell>

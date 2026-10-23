@@ -10,11 +10,13 @@ import { cn } from "@/lib/cn";
 import { parseDemoState } from "@/data/demo-state";
 import { listPatients, type PatientQuery } from "@/data/repositories/patients";
 import { getT } from "@/lib/i18n/server";
+import { syncStore } from "@/data/persist";
 
 type SP = Record<string, string | string[] | undefined>;
 const one = (v: SP[string]) => (Array.isArray(v) ? v[0] : v);
 
 export default async function PatientsPage({ searchParams }: { searchParams: Promise<SP> }) {
+  await syncStore();
   const sp = await searchParams;
   const { t, locale } = await getT();
   const query: PatientQuery = {

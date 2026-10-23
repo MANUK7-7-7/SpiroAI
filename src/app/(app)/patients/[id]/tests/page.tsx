@@ -7,8 +7,10 @@ import { listRecords } from "@/data/repositories/results";
 import { getT } from "@/lib/i18n/server";
 import { loadProfile } from "@/lib/profile-data";
 import { ShowMore } from "@/components/profile/show-more";
+import { syncStore } from "@/data/persist";
 
 export default async function TestsTab({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  await syncStore();
   const { id } = await params;
   const { t, locale } = await getT();
   const p = await loadProfile(id, searchParams);

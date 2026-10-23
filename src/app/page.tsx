@@ -4,6 +4,7 @@ import { Brand } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import { WelcomeVisual } from "@/components/layout/welcome-visual";
 import { getT } from "@/lib/i18n/server";
+import { syncStore } from "@/data/persist";
 
 const tags = [
   ["remote", "tag-remote.svg"],
@@ -15,6 +16,7 @@ const tags = [
 ] as const;
 
 export default async function Welcome() {
+  await syncStore();
   const { t } = await getT();
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col gap-[18px] rounded-shell bg-canvas px-8 pb-7 pt-8">

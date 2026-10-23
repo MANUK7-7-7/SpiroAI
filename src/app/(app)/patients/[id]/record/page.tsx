@@ -1,11 +1,13 @@
 import { notFound } from "next/navigation";
 import { RecorderFlow } from "@/components/recorder/recorder-flow";
 import { getPatient } from "@/data/repositories/patients";
+import { syncStore } from "@/data/persist";
 
 export const dynamic = "force-dynamic";
 
 /** Channel 3: assisted recording in the clinic. The clinician confirms the patient's consent. */
 export default async function AssistedRecording({ params }: { params: Promise<{ id: string }> }) {
+  await syncStore();
   const patient = await getPatient((await params).id);
   if (!patient) notFound();
   return (

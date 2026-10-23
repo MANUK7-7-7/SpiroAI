@@ -11,6 +11,7 @@ import { formatDateTime } from "@/lib/format";
 import { getT } from "@/lib/i18n/server";
 import { loadProfile } from "@/lib/profile-data";
 import type { MetricId } from "@/ai/contracts";
+import { syncStore } from "@/data/persist";
 
 type SP = Record<string, string | string[] | undefined>;
 const one = (v: SP[string]) => (Array.isArray(v) ? v[0] : v);
@@ -18,6 +19,7 @@ const keyOf = { f0: "f0Hz", jitter: "jitterPct", shimmer: "shimmerPct", hnr: "hn
 const fmt = (m: MetricId, v: number) => `${v.toFixed(metricCatalog[m].decimals)}${metricCatalog[m].unit === "%" ? "%" : ` ${metricCatalog[m].unit}`}`;
 
 export default async function ComparePage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<SP> }) {
+  await syncStore();
   const { id } = await params;
   const sp = await searchParams;
   const { t, locale } = await getT();

@@ -4,9 +4,11 @@ import { getTriage } from "@/data/repositories/triage";
 import { formatLongDate, formatTime } from "@/lib/format";
 import { getT } from "@/lib/i18n/server";
 import { PrintButton } from "./print-button";
+import { syncStore } from "@/data/persist";
 
 /** Printed slip for people without a phone. Date and place only: it never names the condition. */
 export default async function Slip({ params }: { params: Promise<{ id: string }> }) {
+  await syncStore();
   const { t, locale } = await getT();
   const x = getTriage((await params).id);
   if (!x?.referral) notFound();

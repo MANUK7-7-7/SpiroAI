@@ -15,12 +15,14 @@ import type { Alert as AlertT } from "@/data/schemas";
 import { cn } from "@/lib/cn";
 import { formatDateTime, formatDayYear, relativeDayTime } from "@/lib/format";
 import { getT } from "@/lib/i18n/server";
+import { syncStore } from "@/data/persist";
 
 type SP = Record<string, string | string[] | undefined>;
 const groupOf = (s: AlertT["severity"]) => (s === "info" ? "low" : s);
 const color = { high: "text-risk-high", moderate: "text-cobalt", low: "text-cobalt" } as const;
 
 export default async function AlertsPage({ searchParams }: { searchParams: Promise<SP> }) {
+  await syncStore();
   const sp = await searchParams;
   const { t, locale } = await getT();
   const tab = sp.tab === "resolved" ? "resolved" : "open";

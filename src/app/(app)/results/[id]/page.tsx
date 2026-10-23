@@ -17,11 +17,13 @@ import { getT } from "@/lib/i18n/server";
 import { signPath } from "@/lib/signed-url";
 import { cn } from "@/lib/cn";
 import type { MetricId } from "@/ai/contracts";
+import { syncStore } from "@/data/persist";
 
 const fmt = (m: MetricId, v: number) => `${v.toFixed(metricCatalog[m].decimals)}${metricCatalog[m].unit === "%" ? "%" : ` ${metricCatalog[m].unit}`}`;
 const range = (m: MetricId) => { const c = metricCatalog[m]; const d = (n: number) => String(Number(n.toFixed(1))); return `${d(c.example.min)}–${d(c.example.max)}${c.unit === "%" ? "%" : ` ${c.unit}`}`; };
 
 export default async function ResultPage({ params, searchParams }: { params: Promise<{ id: string }>; searchParams: Promise<Record<string, string | string[] | undefined>> }) {
+  await syncStore();
   const { id } = await params;
   const { t, locale } = await getT();
   const data = await getRecord(id, parseDemoState((await searchParams).state));

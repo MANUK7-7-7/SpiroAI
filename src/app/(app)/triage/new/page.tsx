@@ -3,8 +3,10 @@ import { TriageFlow } from "@/components/triage/triage-flow";
 import { loadAiConfig } from "@/ai/config";
 import { CENTRES } from "@/data/fixtures/triage";
 import { getT } from "@/lib/i18n/server";
+import { syncStore } from "@/data/persist";
 
 export default async function NewTriage() {
+  await syncStore();
   const { t } = await getT();
   return (
     <>

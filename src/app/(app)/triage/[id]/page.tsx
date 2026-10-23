@@ -10,10 +10,12 @@ import { getPatient } from "@/data/repositories/patients";
 import { getTriage, openSlots } from "@/data/repositories/triage";
 import { formatDateTime, formatDayYear, formatLongDate, formatTime } from "@/lib/format";
 import { getT } from "@/lib/i18n/server";
+import { syncStore } from "@/data/persist";
 
 export const dynamic = "force-dynamic";
 
 export default async function TriageResult({ params }: { params: Promise<{ id: string }> }) {
+  await syncStore();
   const { t, locale } = await getT();
   const x = getTriage((await params).id);
   if (!x) notFound();

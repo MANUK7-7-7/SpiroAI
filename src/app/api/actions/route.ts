@@ -4,6 +4,7 @@ import { hasSession, unauthorized } from "@/lib/api-auth";
 import { getAlert, resolveAlert } from "@/data/repositories/alerts";
 import { clinicalActionSchema } from "@/data/schemas";
 import { nextId, recordAudit, store } from "@/data/store";
+import { withStore } from "@/data/persist";
 
 const body = z.object({
   patientId: z.string(),
@@ -17,7 +18,7 @@ const body = z.object({
 });
 
 /** A clinical action exists only because a clinician confirmed it. */
-export async function POST(req: Request) {
+async function handlePOST(req: Request) {
   if (!hasSession(req)) return unauthorized();
   const parsed = body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "INVALID_INPUT" }, { status: 400 });
@@ -28,3 +29,5 @@ export async function POST(req: Request) {
   if (rest.alertId && getAlert(rest.alertId)) resolveAlert(rest.alertId, "Dr. Elena Morales", "Clinical action planned. Action remains pending in profile.");
   return NextResponse.json({ action }, { status: 201 });
 }
+
+export const POST = withStore(handlePOST);

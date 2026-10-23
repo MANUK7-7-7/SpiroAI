@@ -31,6 +31,10 @@ Whenever a code change is significant for the product flow (a screen, route, ste
   doctor gets a `result_received` notification (or `analysis_failed`), and the result enters the dashboard
   review queue; reviewing it resolves the notification. The WhatsApp message carries only the first name and the link.
 - Thresholds, ranges and monitoring frequencies are sample values that need clinical validation; label them as such.
+- Demo data lives in memory (`src/data/store.ts`). On Vercel every request can hit a different instance, so
+  `src/data/persist.ts` mirrors the store to Upstash Redis when `KV_REST_API_URL`/`KV_REST_API_TOKEN` (or the
+  `UPSTASH_REDIS_REST_*` pair) are set: new route handlers are exported through `withStore(...)`, and async server
+  pages call `await syncStore()` first. Without the vars it stays in memory, as in local dev.
 
 ## AI models (context for future sessions)
 

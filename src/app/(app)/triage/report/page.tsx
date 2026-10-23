@@ -2,8 +2,10 @@ import { PageHeading } from "@/components/app/page-heading";
 import { Card } from "@/components/ui/card";
 import { accuracyReport } from "@/data/repositories/triage";
 import { getT } from "@/lib/i18n/server";
+import { syncStore } from "@/data/persist";
 
 export default async function AccuracyReport() {
+  await syncStore();
   const { t } = await getT();
   const r = accuracyReport();
   const tile = (label: string, value: string | number, note?: string) => (

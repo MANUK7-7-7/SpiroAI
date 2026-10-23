@@ -5,10 +5,12 @@ import { Card, CardHeading } from "@/components/ui/card";
 import { StateCard } from "@/components/ui/state-card";
 import { Title } from "@/components/ui/title";
 import { getT } from "@/lib/i18n/server";
+import { syncStore } from "@/data/persist";
 
 const sections = ["profile", "notifications", "thresholds", "team", "security", "help"] as const;
 
 export default async function SettingsStateLibrary() {
+  await syncStore();
   const { t } = await getT();
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col gap-8 rounded-shell bg-surface-sunken p-10">

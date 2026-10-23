@@ -11,6 +11,7 @@ import { StateCard } from "@/components/ui/state-card";
 import { Title } from "@/components/ui/title";
 import { getT } from "@/lib/i18n/server";
 import { DemoControls } from "./demo-controls";
+import { syncStore } from "@/data/persist";
 
 const colors = ["canvas", "surface", "surface-soft", "surface-sunken", "ink", "ink-muted", "line", "cobalt", "cobalt-deep", "cobalt-tint", "cobalt-tint-strong", "cobalt-faint", "risk-high", "risk-high-tint", "risk-moderate", "risk-moderate-tint", "scrim", "on-accent"];
 const radii = ["shell", "panel", "card", "item", "input"];
@@ -18,6 +19,7 @@ const libraries = [["states", "Flow A · Registration and login"], ["states/pati
 
 /** Design system reference. Everything here renders from the token layer and the same primitives the product uses. */
 export default async function DesignSystem() {
+  await syncStore();
   const { t } = await getT();
   const section = (title: string, children: React.ReactNode) => (
     <section className="flex flex-col gap-4"><h2 className="text-[18px] font-medium tracking-[-0.01em]">{title}</h2>{children}</section>

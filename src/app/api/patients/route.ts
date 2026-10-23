@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { hasSession, unauthorized } from "@/lib/api-auth";
 import { createPatient } from "@/data/repositories/patients";
+import { withStore } from "@/data/persist";
 
 const body = z
   .object({
@@ -18,10 +19,12 @@ const body = z
   .refine((v) => v.phone || v.email, { path: ["phone"] })
   .refine((v) => v.status !== "diagnosed" || v.gold, { path: ["gold"] });
 
-export async function POST(req: Request) {
+async function handlePOST(req: Request) {
   if (!hasSession(req)) return unauthorized();
   const parsed = body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "INVALID_INPUT", issues: parsed.error.issues.map((i) => i.path.join(".")) }, { status: 400 });
   const { patient, token } = await createPatient({ ...parsed.data, email: parsed.data.email || undefined });
   return NextResponse.json({ patient: { id: patient.id, code: patient.code, name: patient.name }, token }, { status: 201 });
 }
+
+export const POST = withStore(handlePOST);

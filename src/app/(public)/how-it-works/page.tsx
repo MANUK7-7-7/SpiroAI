@@ -2,8 +2,10 @@ import { Brand } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import { Card, CardHeading } from "@/components/ui/card";
 import { getT } from "@/lib/i18n/server";
+import { syncStore } from "@/data/persist";
 
 export default async function HowItWorks() {
+  await syncStore();
   const { t } = await getT();
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col gap-7 rounded-shell bg-surface-sunken p-12">

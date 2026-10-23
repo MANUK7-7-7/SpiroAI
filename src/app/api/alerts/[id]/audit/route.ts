@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import { hasSession, unauthorized } from "@/lib/api-auth";
 import { auditFor, getAlert } from "@/data/repositories/alerts";
+import { withStore } from "@/data/persist";
 
-export async function GET(req: Request, { params }: { params: Promise<{ id: string }> }) {
+async function handleGET(req: Request, { params }: { params: Promise<{ id: string }> }) {
   if (!hasSession(req)) return unauthorized();
   const { id } = await params;
   const a = getAlert(id);
@@ -11,3 +12,5 @@ export async function GET(req: Request, { params }: { params: Promise<{ id: stri
   if (a.resolvedAt) base.push({ id: "closed", at: a.resolvedAt, actor: a.resolvedBy ?? "", action: `alert.${a.state}`, subject: id, detail: a.dismissedReason ?? a.resolution ?? "" });
   return NextResponse.json({ events: [...base, ...auditFor(id)] });
 }
+
+export const GET = withStore(handleGET);

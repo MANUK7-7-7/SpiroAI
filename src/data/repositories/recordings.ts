@@ -103,7 +103,7 @@ export function putChunk(s: RecordingSession, task: AudioTaskId, index: number, 
 export const receivedChunks = (s: RecordingSession, task: AudioTaskId) => s.chunks[task]?.length ?? 0;
 
 /** Measures the uploaded PCM on the server, then starts the screening job. The patient never sees a score. */
-export function complete(s: RecordingSession): { ok: true } | { error: string } {
+export function complete(s: RecordingSession): { ok: true; job: Promise<void> } | { error: string } {
   if (s.status !== "uploading") return { error: "LOCKED" };
   const takes = [];
   let waveform: number[] = [];
@@ -125,8 +125,7 @@ export function complete(s: RecordingSession): { ok: true } | { error: string } 
   s.waveform = waveform.length ? waveform : Array(56).fill(0);
   s.chunks = {};
   recordAudit({ action: "recording.uploaded", subject: s.id, actor: s.startedBy.role === "patient" ? s.patientCode : s.startedBy.id, detail: `${takes.length} tasks` });
-  startScreening(s.id);
-  return { ok: true };
+  return { ok: true, job: startScreening(s.id) };
 }
 
 export const requiredTasks = TASKS;
