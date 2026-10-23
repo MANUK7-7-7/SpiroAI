@@ -6,8 +6,8 @@ Whenever a code change is significant for the product flow (a screen, route, ste
 
 - Board: https://www.figma.com/board/Diyp4gqhyu2NucjPEk7JXZ (fileKey `Diyp4gqhyu2NucjPEk7JXZ`)
 - Two diagrams, both in English and both starting at the landing page:
-  - "SpiroAI · Full site flow": 8 ordered sections (Landing, Sign up and log in, Workspace home, Patients, Result review, Alerts actions and plan, Recording and analysis, Settings). Repeated blocks are duplicated per section instead of long back-edges.
-  - "SpiroAI · Simplified site flow": about 17 steps in one line.
+  - "SpiroAI · Full site flow": 9 ordered sections (Landing, Sign up and log in, Workspace home, Triage in primary care, Patients, Result review, Alerts actions and plan, Recording and analysis, Settings). Repeated blocks are duplicated per section instead of long back-edges.
+  - "SpiroAI · Simplified site flow": about 19 steps; triage (PUMA and voice, priority, spirometry booked, hospital result) leads into patients and follow-up.
 - Use plain names, never screen codes (no S01, S09...).
 - Colour coding, identical in both diagrams, for blocks that repeat:
   - WhatsApp: green `#CDF4D3` / `#66D575`
@@ -24,6 +24,7 @@ Whenever a code change is significant for the product flow (a screen, route, ste
 ## Conventions
 
 - UI copy has no em dashes and no emoji. Risk is never shown by colour alone.
+- Triage (`/triage`, `/hospital`): PUMA weighted score (cut-off 25), a priority for a breathing test (never "risk" or a diagnosis), spirometry booked by default only for high priority, overrides counted, the hospital enters FEV1/FVC without seeing the priority. Priority logic lives in `src/config/triage.ts` and needs clinical sign-off to change.
 - Patients never see a risk score. Patient contact happens on WhatsApp, not in-app messaging.
 - Remote tests: "Request test now" on the patient profile creates a single-use test link (`kind: "test"`,
   expires after `TEST_LINK_TTL_DAYS`) and opens WhatsApp to the patient's phone. When the result is ready the
