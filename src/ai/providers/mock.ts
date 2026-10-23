@@ -19,10 +19,18 @@ export class MockProvider implements ScreeningModelProvider {
     if (input.recordingId.includes("__timeout")) throw new AiError("TIMEOUT", "Demo model timed out");
 
     const h = hash(input.recordingId);
-    const riskIndex = h % 101;
     const unit = (n: number) => ((h >>> n) % 1000) / 1000;
+    const tasks = input.tasks.map((t) => t.task);
+    const voice = tasks.includes("sustained_vowel") && tasks.includes("counting") ? h % 101 : undefined;
+    const cough = tasks.includes("cough") ? Math.min(100, Math.max(0, (h % 101) + Math.round((unit(15) - 0.5) * 30))) : undefined;
+    const parts = [voice, cough].filter((v): v is number => v !== undefined);
+    const riskIndex = parts.length ? Math.round(parts.reduce((a, b) => a + b, 0) / parts.length) : h % 101;
     const out: ModelOutput = {
       riskIndex,
+      subScores: {
+        voice: voice === undefined ? undefined : { riskIndex: voice, target: "chronic_lung_disease", tasks: ["sustained_vowel", "counting"] },
+        cough: cough === undefined ? undefined : { riskIndex: cough, target: "copd", tasks: ["cough"] },
+      },
       confidence: Math.round((0.8 + unit(3) * 0.17) * 100) / 100,
       quality: { level: "good", reasons: [] },
       features: {

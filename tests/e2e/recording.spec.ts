@@ -9,8 +9,9 @@ async function micCheck(page: Page, assertOff = false) {
   await page.getByRole("button", { name: "Continue to recording" }).click();
 }
 
-async function twoTasks(page: Page, last: RegExp) {
-  for (const secs of [7, 27]) {
+/** Vowel, counting and cough, each a little longer than its minimum. */
+async function allTasks(page: Page, last: RegExp) {
+  for (const secs of [7, 8, 4]) {
     await page.getByRole("button", { name: "Start recording" }).click();
     await page.waitForTimeout(secs * 1000);
     await page.getByRole("button", { name: "Stop" }).click();
@@ -24,7 +25,7 @@ test("invalid invitation link shows a designed error", async ({ page }) => {
   await expect(page.getByText(/not valid/)).toBeVisible();
 });
 
-test("patient records two tasks on a computer, with voice processing off, and never sees a score", async ({ page }) => {
+test("patient records all tasks on a computer, with voice processing off, and never sees a score", async ({ page }) => {
   await page.goto("/r/demo-invite");
   if (await page.getByRole("checkbox").isVisible()) {
     await page.getByRole("button", { name: "Continue" }).click();
@@ -33,7 +34,7 @@ test("patient records two tasks on a computer, with voice processing off, and ne
     await page.getByRole("button", { name: "Continue" }).click();
   }
   await micCheck(page, true);
-  await twoTasks(page, /./);
+  await allTasks(page, /./);
   await expect(page.getByRole("heading", { name: /Recording received|Please record again/ })).toBeVisible({ timeout: 20_000 });
   await expect(page.getByText(/risk index/i)).toHaveCount(0);
 });
@@ -42,7 +43,7 @@ test("assisted recording creates a result the clinician can open", async ({ page
   await login(page);
   await page.goto("/patients/p-001/record");
   await micCheck(page);
-  await twoTasks(page, /./);
+  await allTasks(page, /./);
   const open = page.getByRole("link", { name: "Open result" });
   await expect(open).toBeVisible({ timeout: 30_000 });
   await open.click();

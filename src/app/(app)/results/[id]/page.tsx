@@ -35,7 +35,7 @@ export default async function ResultPage({ params, searchParams }: { params: Pro
   const prevRaw = idx > 0 ? history.records.slice(0, idx).reverse().find((x) => x.result.status === "ready" && x.result.quality?.level !== "poor")?.result : undefined;
   const prev = prevRaw && { ...prevRaw, band: bandOf(prevRaw.riskIndex!) };
   const returnHref = "/dashboard";
-  const total = rec.vowelSec + rec.readingSec;
+  const total = rec.vowelSec + rec.countingSec + rec.coughSec;
   const quality = t(`quality.${r.quality?.level ?? "good"}`);
   const confidence = r.confidence ?? 0;
   const lowConfidence = r.status === "ready" && confidence < LOW_CONFIDENCE;
@@ -92,6 +92,27 @@ export default async function ResultPage({ params, searchParams }: { params: Pro
                 <div className="flex gap-1" role="img" aria-label={t("result.thresholds", thresholds)}>
                   <span className="h-[7px] min-w-px flex-1 rounded-full bg-cobalt-tint-strong" /><span className="h-[7px] min-w-px flex-1 rounded-full bg-cobalt" /><span className="h-[7px] min-w-px flex-1 rounded-full bg-risk-high" />
                 </div>
+                {r.subScores && (r.subScores.voice || r.subScores.cough) && (
+                  <div className="flex flex-col gap-2" role="group" aria-label={t("result.breakdownTitle")}>
+                    <p className="text-[12px] font-medium leading-[1.45]">{t("result.breakdownTitle")}</p>
+                    {(["voice", "cough"] as const).map((k) => {
+                      const s = r.subScores?.[k];
+                      if (!s) return null;
+                      const b = bandOf(s.riskIndex);
+                      return (
+                        <div key={k} className="flex items-center gap-4 rounded-[12px] bg-surface-soft px-4 py-3 text-[12px] leading-[1.45]">
+                          <div className="flex min-w-0 flex-1 flex-col">
+                            <p className="font-medium">{t(`result.breakdown.${k}`)}</p>
+                            <p className="text-ink-muted">{t(`result.breakdown.${s.target}`)}</p>
+                          </div>
+                          <p className="font-display text-[24px] font-medium tracking-[-0.03em]">{Math.round(s.riskIndex)}</p>
+                          <RiskBadge band={b} label={bandWord(b)} />
+                        </div>
+                      );
+                    })}
+                    <p className="text-[11px] leading-[1.45] text-ink-muted">{t("result.breakdownNote")}</p>
+                  </div>
+                )}
                 <div className="flex flex-col gap-[10px] text-[12px] leading-[1.45]">
                   <div className="flex flex-wrap gap-5 text-ink-muted"><p>{t("overview.confidence", { n: Math.round(confidence * 100) })}</p><p>{t("overview.quality", { q: quality })}</p></div>
                   <p className="font-medium text-cobalt">{t("common.disclaimer")}</p>
@@ -128,7 +149,8 @@ export default async function ResultPage({ params, searchParams }: { params: Pro
             <div id="listen" />
             <CardHeading title={t("result.audioTitle")} description={t("result.audioSub", { quality: quality, db: rec.noiseDb, sec: total })} />
             <AudioPlayer label={t("result.vowel")} recordingId={rec.recordingId} task="sustained_vowel" durationSec={rec.vowelSec} src={signPath(`/api/audio/${rec.recordingId}/sustained_vowel`)} waveform={rec.waveform} />
-            <AudioPlayer label={t("result.reading")} recordingId={rec.recordingId} task="reading_passage" durationSec={rec.readingSec} src={signPath(`/api/audio/${rec.recordingId}/reading_passage`)} waveform={[...rec.waveform].reverse()} />
+            <AudioPlayer label={t("result.counting")} recordingId={rec.recordingId} task="counting" durationSec={rec.countingSec} src={signPath(`/api/audio/${rec.recordingId}/counting`)} waveform={[...rec.waveform].reverse()} />
+            <AudioPlayer label={t("result.cough")} recordingId={rec.recordingId} task="cough" durationSec={rec.coughSec} src={signPath(`/api/audio/${rec.recordingId}/cough`)} waveform={rec.waveform.map((v, i) => (i % 9 < 3 ? v : v * 0.15))} />
             {rec.source === "mobile_app" && <p className="text-[11px] text-ink-muted">{t("result.syntheticAudio")}</p>}
           </Card>
           {outcome && (

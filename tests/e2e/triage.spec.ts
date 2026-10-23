@@ -17,7 +17,7 @@ test("triage with consent, PUMA and voice, then booking and a blind hospital res
   await page.getByRole("button", { name: "Allow microphone" }).click();
   await page.getByRole("button", { name: "Start check" }).click();
   await page.getByRole("button", { name: "Continue to recording" }).click({ timeout: 10_000 });
-  for (const secs of [6, 4]) {
+  for (const secs of [6, 8, 3]) {
     await page.getByRole("button", { name: "Start recording" }).click();
     await page.waitForTimeout(secs * 1000);
     await page.getByRole("button", { name: "Stop" }).click();

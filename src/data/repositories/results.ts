@@ -50,6 +50,12 @@ export const reviewLabelKey = (r: ResultView): { key: string; vars: Record<strin
 export async function submitReview(input: { resultId: string; judgment: "agree" | "disagree"; note: string; outcome: ClinicalReview["outcome"]; shareDeidentifiedFeedback: boolean; clinicianId: string; clinicianName: string }) {
   const review = clinicalReviewSchema.parse({ id: nextId("rv"), ...input, at: new Date().toISOString().replace("Z", "+00:00") });
   store.reviews.set(input.resultId, review);
+  // Reviewing the result answers the "new result" notification.
+  for (const a of store.alerts) {
+    if (a.resultId === input.resultId && a.state === "open" && (a.rule === "result_received" || a.rule === "analysis_failed")) {
+      Object.assign(a, { state: "resolved", resolvedAt: review.at, resolvedBy: input.clinicianName, resolution: "reviewed" });
+    }
+  }
   recordAudit({ action: "review.saved", subject: input.resultId, detail: `${review.judgment}${review.shareDeidentifiedFeedback ? " · feedback shared (de-identified)" : ""}` });
   return review;
 }

@@ -93,7 +93,7 @@ export async function createPatient(input: NewPatient) {
   });
   store.patients.unshift(patient);
   const token = `${nextId("inv")}-${Math.random().toString(36).slice(2, 10)}`;
-  store.invites.set(token, { token, patientId: patient.id, createdAt: new Date().toISOString() });
+  store.invites.set(token, { token, patientId: patient.id, kind: "onboarding", createdAt: new Date().toISOString() });
   recordAudit({ action: "patient.created", subject: patient.id });
   return { patient, token };
 }

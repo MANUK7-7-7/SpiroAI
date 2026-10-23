@@ -2,8 +2,9 @@ import { NextResponse } from "next/server";
 import { z } from "zod";
 import { hasSession, unauthorized } from "@/lib/api-auth";
 import { signPath } from "@/lib/signed-url";
+import { audioTaskIdSchema } from "@/ai/contracts";
 
-const body = z.object({ recordingId: z.string().min(1), task: z.enum(["sustained_vowel", "reading_passage"]) });
+const body = z.object({ recordingId: z.string().min(1), task: audioTaskIdSchema });
 
 /** Mints a fresh short-lived URL when the one rendered with the page has expired. */
 export async function POST(req: Request) {

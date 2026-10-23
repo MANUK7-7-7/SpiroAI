@@ -1,4 +1,5 @@
 import { randomUUID } from "node:crypto";
+import { AUDIO_TASKS, type AudioTaskId } from "@/ai/contracts";
 import { resolveProvider } from "@/ai/registry";
 import { runScreening, type PipelineDeps } from "@/ai/pipeline";
 import { defaultAlertRules } from "@/ai/postprocess";
@@ -7,7 +8,7 @@ import { defaultThresholds } from "@/ai/quality/gate";
 import { triageTaskLimits } from "@/config/recording";
 import { signPath } from "@/lib/signed-url";
 import { historyFor, type ResultRecord } from "../fixtures/history";
-import { nextId, recordAudit, store } from "../store";
+import { nextId, recordAudit, store, type RecordingSession } from "../store";
 import { allPatients } from "./patients";
 import { getBands, getSettings } from "./settings";
 
@@ -42,12 +43,12 @@ function deps(): PipelineDeps {
         id, patientId: s.patientId, source: s.source, startedBy: s.startedBy, device: s.device, takes: s.takes,
         signedUrls: async () => {
           const base = process.env.APP_ORIGIN ?? "http://localhost:3000";
-          return { sustained_vowel: base + signPath(`/api/audio/${id}/sustained_vowel`), reading_passage: base + signPath(`/api/audio/${id}/reading_passage`) };
+          return Object.fromEntries(AUDIO_TASKS.map((task) => [task, base + signPath(`/api/audio/${id}/${task}`)])) as Record<AudioTaskId, string>;
         },
         // Opaque code only: the model never receives the patient's name or any identifier.
         patientContext: patientContext(s.patientId),
         gateThresholds: s.protocol === "triage"
-          ? { ...defaultThresholds[s.source], minDurationSec: { sustained_vowel: triageTaskLimits.sustained_vowel.min, reading_passage: triageTaskLimits.reading_passage.min } }
+          ? { ...defaultThresholds[s.source], minDurationSec: { sustained_vowel: triageTaskLimits.sustained_vowel.min, counting: triageTaskLimits.counting.min, cough: triageTaskLimits.cough.min } }
           : undefined,
       };
     },
@@ -58,12 +59,13 @@ function deps(): PipelineDeps {
       const n = recordsFor(result.patientId).length + 1;
       const id = `r-${result.patientId}-${n}`;
       const saved = { ...result, id };
+      const secondsOf = (task: AudioTaskId) => Math.round(session?.takes.find((t) => t.task === task)?.durationSec ?? 0);
       session && (session.resultId = id);
       store.liveRecords.push({
         result: saved, testCode: `T-${3000 + store.liveRecords.length}`,
         recording: {
           recordingId: result.recordingId, source: result.source, deviceLabel: session?.device.microphoneLabel ?? "Computer microphone", microphoneCheck: session?.micCheck ?? "skipped",
-          vowelSec: Math.round(session?.takes.find((t) => t.task === "sustained_vowel")?.durationSec ?? 0), readingSec: Math.round(session?.takes.find((t) => t.task === "reading_passage")?.durationSec ?? 0),
+          vowelSec: secondsOf("sustained_vowel"), countingSec: secondsOf("counting"), coughSec: secondsOf("cough"),
           noiseDb: Math.max(0, Math.round(90 + (session?.takes[0]?.noiseFloorDb ?? -90))), receivedAt: result.createdAt, waveform: session?.waveform ?? Array(56).fill(0),
         },
       });
@@ -85,11 +87,30 @@ function deps(): PipelineDeps {
 }
 
 /** Background job: never blocks the upload response, and never invents a score on failure. */
+/**
+ * What happens once a recording has a result:
+ *  - a test link closes (single use), unless the take was rejected and the patient must record again;
+ *  - a result the patient sent from home reaches the doctor as a notification linked to the result.
+ *    It resolves itself when the doctor reviews that result.
+ */
+function onResult(s: RecordingSession, result: ScreeningResult) {
+  const inv = s.inviteToken ? store.invites.get(s.inviteToken) : undefined;
+  if (inv?.kind === "test" && !inv.usedAt && result.status !== "rejected_quality") inv.usedAt = new Date().toISOString();
+  if (s.source !== "web_patient" || (result.status !== "ready" && result.status !== "failed")) return;
+  const p = allPatients().find((x) => x.id === s.patientId);
+  store.alerts.unshift({
+    id: nextId("a"), code: `AL-${300 + store.alerts.length}`, patientId: s.patientId, patientName: p?.name ?? s.patientId, severity: "info",
+    rule: result.status === "ready" ? "result_received" : "analysis_failed", params: {}, resultId: result.id, state: "open", firedAt: new Date().toISOString(),
+  });
+  recordAudit({ action: "doctor.notified", subject: result.id, detail: result.status, actor: "system" });
+}
+
 export function startScreening(recordingId: string, opts: { retryOf?: string } = {}) {
   const s = store.recordings.get(recordingId);
   if (!s) return;
   s.status = "processing";
   void runScreening(recordingId, deps(), opts)
+    .then((result) => onResult(s, result))
     .catch((e) => recordAudit({ action: "screening.error", subject: recordingId, detail: (e as Error).message, actor: "system" }))
     .finally(() => { s.status = "done"; });
 }

@@ -15,7 +15,8 @@ export const baseline: BaselineSnapshot = {
 
 export const goodTakes = [
   { task: "sustained_vowel" as const, durationSec: 7, noiseFloorDb: -55, peakDb: -6, clippedRatio: 0, voicedRatio: 0.9 },
-  { task: "reading_passage" as const, durationSec: 35, noiseFloorDb: -55, peakDb: -6, clippedRatio: 0, voicedRatio: 0.8 },
+  { task: "counting" as const, durationSec: 10, noiseFloorDb: -55, peakDb: -6, clippedRatio: 0, voicedRatio: 0.7 },
+  { task: "cough" as const, durationSec: 4, noiseFloorDb: -55, peakDb: -3, clippedRatio: 0, voicedRatio: 0.2 },
 ];
 
 export const result = (over: Partial<ScreeningResult>): ScreeningResult => ({

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { SendTestLink } from "@/components/contact/send-test-link";
 import { WhatsAppContact } from "@/components/contact/whatsapp-contact";
 import { Avatar } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -38,7 +39,7 @@ export async function ProfileFrame({ patient, tab, crumb, title, alertCount, hea
           {alertCount > 0 && <span className="rounded-full bg-surface-soft px-[13px] py-2 text-[12px] leading-[1.45]">{t("profile.alertsN", { n: alertCount })}</span>}
         </div>
         <div className="flex gap-[10px]">
-          <Button size="sm" variant="primary" href={`/patients/${patient.id}/tests?action=request`} >{t("profile.requestTest")}</Button>
+          <SendTestLink patientId={patient.id} firstName={patient.name.split(" ")[0]} hasPhone={!!patient.phone} locked={patient.consent === "revoked"} />
           <Button size="sm" href={`/patients/${patient.id}/monitoring`}>{t("profile.editPlan")}</Button>
           <Button size="sm" href="?panel=action">{t("profile.clinicalAction")}</Button>
           <Button size="sm" href="?modal=export">{t("profile.exportReport")}</Button>

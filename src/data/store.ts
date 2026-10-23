@@ -12,9 +12,15 @@ export type RecordingSession = {
   id: string; patientId: string; source: "web_patient" | "web_assisted"; secret: string; startedBy: { role: "patient" | "clinician"; id: string };
   device: import("@/ai/contracts").DeviceMeta; takes: import("@/ai/quality/gate").RecordingMeasurement[]; waveform: number[]; patientCode: string; createdAt: string; status: "uploading" | "processing" | "done"; resultId?: string; micCheck: "passed" | "failed" | "skipped"; protocol?: "monitoring" | "triage";
   chunks: Record<string, Buffer[]>; completed: Record<string, Buffer>;
+  /** The invite link the patient recorded from, so a test link can be closed once its result is in. */
+  inviteToken?: string;
 };
 
-export type Invite = { token: string; patientId: string; createdAt: string; acceptedAt?: string };
+/**
+ * `onboarding`: created with the patient record; collects consent, reusable.
+ * `test`: sent by the doctor for one test; expires, and closes once a result is received.
+ */
+export type Invite = { token: string; patientId: string; createdAt: string; acceptedAt?: string; kind?: "onboarding" | "test"; expiresAt?: string; usedAt?: string; sentBy?: string };
 
 type Store = { actions: ClinicalAction[]; plans: Map<string, MonitoringPlan>; patients: Patient[]; invites: Map<string, Invite>; reviews: Map<string, ClinicalReview>; notes: Note[]; events: ChartEvent[]; alerts: Alert[]; audit: AuditEvent[]; settings: SettingsData; members: Member[]; recordings: Map<string, RecordingSession>; patientPatch: Map<string, Partial<import("./schemas").Patient>>; liveRecords: ResultRecord[]; triages: Triage[]; slots: Slot[]; counter: number };
 
