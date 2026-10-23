@@ -88,7 +88,7 @@ export function AddPatientModal() {
                 <Field label={t("addPatient.name")} autoComplete="off" error={errors.name?.message} {...register("name")} />
                 <Field label={t("addPatient.dob")} type="date" error={errors.dob?.message} {...register("dob")} />
                 <SelectField label={t("addPatient.sex")} options={[{ value: "f", label: t("addPatient.sexOptions.f") }, { value: "m", label: t("addPatient.sexOptions.m") }]} {...register("sex")} />
-                <Field label={t("addPatient.smoking")} inputMode="decimal" error={errors.packYears?.message} {...register("packYears")} />
+                <Field label={t("addPatient.smoking")} inputMode="decimal" hint={t("triage.packYearsHint")} error={errors.packYears?.message} {...register("packYears")} />
                 <Field label={t("addPatient.phone")} type="tel" autoComplete="off" error={errors.phone?.message} {...register("phone")} />
                 <Field label={t("addPatient.email")} type="email" autoComplete="off" error={errors.email?.message} {...register("email")} />
               </div>
