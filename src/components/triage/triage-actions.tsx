@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import type { Priority } from "@/config/triage";
 import { cn } from "@/lib/cn";
 import { useT } from "@/lib/i18n/client";
+import { openInNewTab } from "@/lib/whatsapp";
 
 type Slot = { id: string; label: string };
 
@@ -82,10 +83,10 @@ export function BookingPanel({ id, priority, slots, canRetriage }: { id: string;
 export function AppointmentShare({ patientId, text, hasPhone, slipHref }: { patientId: string; text: string; hasPhone: boolean; slipHref: string }) {
   const { t } = useT();
   async function whatsapp() {
-    const res = await fetch(`/api/patients/${patientId}/contact`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text, template: "referral" }) }).catch(() => null);
-    if (!res?.ok) return;
-    const { url } = (await res.json()) as { url: string };
-    if (!window.open(url, "_blank", "noopener")) window.location.href = url;
+    await openInNewTab(async () => {
+      const res = await fetch(`/api/patients/${patientId}/contact`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text, template: "referral" }) }).catch(() => null);
+      return res?.ok ? ((await res.json()) as { url: string }).url : null;
+    });
   }
   return (
     <div className="flex flex-wrap gap-[10px]">

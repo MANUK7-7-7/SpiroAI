@@ -5,6 +5,7 @@ import { MessageCircle } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/cn";
 import { useT } from "@/lib/i18n/client";
+import { openInNewTab } from "@/lib/whatsapp";
 
 const templates = ["free", "quiet", "book", "stable"] as const;
 
@@ -20,10 +21,11 @@ export function WhatsAppContact({ patientId, firstName, hasPhone, locked, look =
   async function open(tpl: (typeof templates)[number]) {
     setFailed(false);
     const text = t(`contact.tpl.${tpl}`, { first: firstName });
-    const res = await fetch(`/api/patients/${patientId}/contact`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text, template: tpl }) }).catch(() => null);
-    if (!res?.ok) return setFailed(true);
-    const { url } = (await res.json()) as { url: string };
-    if (!window.open(url, "_blank", "noopener")) window.location.href = url;
+    const ok = await openInNewTab(async () => {
+      const res = await fetch(`/api/patients/${patientId}/contact`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text, template: tpl }) }).catch(() => null);
+      return res?.ok ? ((await res.json()) as { url: string }).url : null;
+    });
+    if (!ok) setFailed(true);
   }
 
   const trigger = look === "link"

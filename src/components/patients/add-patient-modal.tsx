@@ -143,7 +143,7 @@ function InviteStep({ saved, onDone }: { saved: Saved; onDone: () => void }) {
           <h3 className="text-[18px] font-medium tracking-[-0.01em]">{t("addPatient.connectTitle")}</h3>
           <p className="text-[13px] leading-[1.45] text-ink-muted">{t("addPatient.connectBody")}</p>
           <div className="flex flex-wrap gap-[10px]">
-            <Button variant="primary" href={`https://wa.me/?text=${msg}`}>{t("addPatient.whatsapp")}</Button>
+            <Button variant="primary" href={`https://wa.me/?text=${msg}`} newTab>{t("addPatient.whatsapp")}</Button>
             <Button href={`sms:?body=${msg}`}>{t("addPatient.sms")}</Button>
             <Button href={`mailto:?subject=SpiroAI&body=${msg}`}>{t("addPatient.emailBtn")}</Button>
           </div>

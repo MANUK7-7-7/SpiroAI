@@ -7,6 +7,8 @@ type Props = {
   size?: "md" | "sm";
   radius?: "input" | "lg" | "pill";
   href?: string;
+  /** Open the link in a new tab, so the app stays open (WhatsApp, external sites). */
+  newTab?: boolean;
   onClick?: React.MouseEventHandler;
   type?: "button" | "submit";
   disabled?: boolean;
@@ -19,7 +21,7 @@ type Props = {
 const radii = { input: "rounded-input", lg: "rounded-[18px]", pill: "rounded-full" } as const;
 
 /** Primary carries the white arrow circle; never also put an arrow in the label. */
-export function Button({ variant = "secondary", size = "md", radius = "input", href, children, className, disabled, type = "button", onClick, arrow }: Props) {
+export function Button({ variant = "secondary", size = "md", radius = "input", href, newTab, children, className, disabled, type = "button", onClick, arrow }: Props) {
   const primary = variant === "primary";
   const showArrow = primary && (arrow ?? size === "md");
   const cls = cn(
@@ -40,7 +42,7 @@ export function Button({ variant = "secondary", size = "md", radius = "input", h
   );
   if (href && !disabled) {
     return (
-      <Link href={href} className={cls}>
+      <Link href={href} className={cls} {...(newTab && { target: "_blank", rel: "noopener noreferrer" })}>
         {children}
         {arrowEl}
       </Link>

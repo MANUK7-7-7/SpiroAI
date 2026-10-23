@@ -9,6 +9,7 @@ import { Card } from "@/components/ui/card";
 import { TEST_LINK_TTL_DAYS } from "@/config/recording";
 import { formatDayYear } from "@/lib/format";
 import { useT } from "@/lib/i18n/client";
+import { openInNewTab } from "@/lib/whatsapp";
 
 type Props = { patientId: string; firstName: string; hasPhone: boolean; locked?: boolean };
 type Link = { url: string; expiresAt: string; whatsappUrl: string | null };
@@ -35,7 +36,8 @@ export function SendTestLink({ patientId, firstName, hasPhone, locked }: Props) 
 
   function sendOnWhatsApp() {
     if (!link?.whatsappUrl) return;
-    if (!window.open(link.whatsappUrl, "_blank", "noopener")) window.location.href = link.whatsappUrl;
+    const url = link.whatsappUrl;
+    void openInNewTab(() => url);
   }
 
   async function copy() {

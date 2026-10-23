@@ -8,6 +8,7 @@ import { Alert } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { useT } from "@/lib/i18n/client";
+import { openInNewTab } from "@/lib/whatsapp";
 
 type Summary = { patient: { id: string; name: string; code: string; consent: string; hasPhone?: boolean }; alert?: { id: string; code: string } };
 type Kind = "spirometry" | "follow_up_visit" | "referral" | "adjust_frequency" | "repeat_test";
@@ -71,10 +72,11 @@ function Panel({ patientId, alertId, repeat, close }: { patientId: string; alert
   }
 
   async function openWhatsApp() {
-    const res = await fetch(`/api/patients/${patientId}/contact`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text: fullMessage, template: "clinical_action" }) }).catch(() => null);
-    if (!res?.ok) return setState("error");
-    const { url } = (await res.json()) as { url: string };
-    if (!window.open(url, "_blank", "noopener")) window.location.href = url;
+    const ok = await openInNewTab(async () => {
+      const res = await fetch(`/api/patients/${patientId}/contact`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text: fullMessage, template: "clinical_action" }) }).catch(() => null);
+      return res?.ok ? ((await res.json()) as { url: string }).url : null;
+    });
+    if (!ok) setState("error");
   }
 
   const toggle = (k: Kind) => (v: boolean) => setKinds({ ...kinds, [k]: v });
