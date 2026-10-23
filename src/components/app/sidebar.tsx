@@ -15,8 +15,10 @@ export async function Sidebar() {
         alertCount={me.unreadAlerts}
         items={[
           { href: "/dashboard", icon: "dashboard", label: t("app.nav.dashboard") },
+          { href: "/triage", match: ["/triage"], icon: "triage", label: t("app.nav.triage") },
           { href: "/patients", match: ["/patients", "/results"], icon: "patients", label: t("app.nav.patients") },
           { href: "/alerts", icon: "alerts", label: t("app.nav.alerts"), badge: me.unreadAlerts },
+          { href: "/hospital", icon: "hospital", label: t("app.nav.hospital") },
           { href: "/settings/profile", match: "/settings", icon: "settings", label: t("app.nav.settings") },
         ]}
       />

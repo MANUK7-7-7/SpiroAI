@@ -1,11 +1,11 @@
 "use client";
 
-import { Bell, LayoutDashboard, MessageSquare, Settings, Users } from "lucide-react";
+import { Bell, ClipboardList, LayoutDashboard, MessageSquare, Settings, Stethoscope, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/cn";
 
-const icons = { dashboard: LayoutDashboard, patients: Users, alerts: Bell, messages: MessageSquare, settings: Settings } as const;
+const icons = { dashboard: LayoutDashboard, triage: ClipboardList, patients: Users, alerts: Bell, hospital: Stethoscope, messages: MessageSquare, settings: Settings } as const;
 type Item = { href: string; match?: string | string[]; icon: keyof typeof icons; label: string; badge?: number };
 
 export function SidebarNav({ items }: { items: Item[]; alertCount?: number }) {

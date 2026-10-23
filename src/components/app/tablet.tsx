@@ -33,6 +33,7 @@ export async function TabletBottomTabs() {
     <TabletTabs
       items={[
         { href: "/dashboard", match: ["/dashboard"], label: t("app.nav.dashboard"), icon: "dashboard" },
+        { href: "/triage", match: ["/triage"], label: t("app.nav.triage"), icon: "triage" },
         { href: "/patients", match: ["/patients", "/results"], label: t("app.nav.patients"), icon: "patients" },
         { href: "/alerts", match: ["/alerts"], label: t("app.nav.alerts"), icon: "alerts" },
         { href: "/settings/profile", match: ["/settings"], label: t("app.nav.settings"), icon: "settings" },

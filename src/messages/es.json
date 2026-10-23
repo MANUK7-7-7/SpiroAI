@@ -424,7 +424,9 @@
       "dashboard": "Panel",
       "patients": "Pacientes",
       "alerts": "Alertas",
-      "settings": "Ajustes"
+      "settings": "Ajustes",
+      "triage": "Triage",
+      "hospital": "Panel del hospital"
     },
     "clinic": "Espacio profesional",
     "principle": [
@@ -1486,7 +1488,13 @@
       "recording": "Grabando {s} s",
       "tooShort": "Seguí un poco más: se necesitan al menos {min} segundos.",
       "auto": "La grabación se detuvo al llegar a la duración máxima.",
-      "interrupted": "La grabación se interrumpió. Grabá de nuevo."
+      "interrupted": "La grabación se interrumpió. Grabá de nuevo.",
+      "sentence": {
+        "name": "Frase corta",
+        "body": "Leé esta frase en voz alta, a tu ritmo y volumen habituales.",
+        "text": "Hoy es un día claro y estoy respirando con calma.",
+        "hint": "Al menos {min} segundos."
+      }
     },
     "review": {
       "title": "Revisá esta grabación",
@@ -1551,7 +1559,8 @@
       "free": "Un saludo en blanco",
       "quiet": "Repetir en un lugar silencioso",
       "book": "Reservar una consulta",
-      "stable": "Resultados estables"
+      "stable": "Resultados estables",
+      "referral": "Turno de espirometría"
     },
     "tpl": {
       "free": "Hola {first}, ",
@@ -1565,5 +1574,156 @@
     "error": "No se pudo abrir WhatsApp. Probá de nuevo.",
     "openWithAction": "Abrir WhatsApp con este mensaje",
     "savedAction": "Acción guardada. Avisale al paciente por WhatsApp."
+  },
+  "triage": {
+    "nav": "Triage",
+    "navHospital": "Panel del hospital",
+    "eyebrow": "ATENCIÓN PRIMARIA · {n} TRIAGES EN LAS ÚLTIMAS 8 SEMANAS",
+    "title": "Quién necesita una prueba respiratoria",
+    "new": "Nuevo triage",
+    "report": "Informe de precisión",
+    "hospital": "Panel del hospital",
+    "kpi": {
+      "week": "Triages esta semana",
+      "referred": "Espirometrías reservadas",
+      "measured": "Resultados recibidos",
+      "per100": "Casos cada 100 espirometrías"
+    },
+    "cols": {
+      "person": "Persona",
+      "centre": "Centro",
+      "date": "Fecha",
+      "puma": "PUMA",
+      "voice": "Voz",
+      "priority": "Prioridad",
+      "status": "Próximo paso"
+    },
+    "status": {
+      "booked": "Espirometría {date}",
+      "result": "Resultado: {r}",
+      "noShow": "No asistió",
+      "retriage": "Nuevo triage {date}",
+      "open": "Decisión pendiente"
+    },
+    "obstruction": "obstrucción",
+    "noObstruction": "sin obstrucción",
+    "empty": "Todavía no hay triages. Empezá el primero con una persona en la sala de espera.",
+    "priority": {
+      "high": "Alta",
+      "medium": "Media",
+      "low": "Baja"
+    },
+    "voice": {
+      "high": "Alta",
+      "moderate": "Moderada",
+      "low": "Baja",
+      "off": "No se usa",
+      "processing": "Analizando"
+    },
+    "steps": {
+      "consent": "Consentimiento",
+      "person": "Persona",
+      "questions": "Preguntas",
+      "voice": "Voz",
+      "result": "Prioridad"
+    },
+    "consentTitle": "Leele esto a la persona",
+    "consentScript": "Te vamos a hacer siete preguntas cortas y a grabar tu voz unos diez segundos. Esto ayuda a decidir si te sirve una prueba respiratoria llamada espirometría. No es un diagnóstico. La mayoría de las personas que mandamos a la prueba no tienen una enfermedad pulmonar. Podés decir que no y tu atención no cambia.",
+    "consentCheck": "La persona acepta las preguntas y la grabación de voz",
+    "consentRequired": "Se necesita el consentimiento antes de empezar.",
+    "personTitle": "Sobre la persona",
+    "name": "Nombre completo",
+    "phone": "Celular (opcional)",
+    "phoneHint": "Solo para enviar el turno por WhatsApp. Sin celular, imprimí el comprobante.",
+    "centre": "Centro de salud",
+    "sex": "Sexo",
+    "female": "Mujer",
+    "male": "Hombre",
+    "age": "Edad",
+    "smoking": "Tabaco",
+    "current": "Fuma",
+    "former": "Fumaba",
+    "never": "Nunca fumó",
+    "packYears": "Paquetes-año",
+    "packYearsHint": "Cigarrillos por día divididos 20, por años de fumador.",
+    "diagnosed": "Ya tiene diagnóstico de EPOC",
+    "questionsTitle": "Preguntas PUMA",
+    "questionsSub": "Siete ítems. El puntaje se calcula solo.",
+    "q": {
+      "dyspnea": "¿Le falta el aire cuando camina rápido en llano o sube una pendiente leve?",
+      "phlegm": "¿Suele sacar flema del pecho cuando no está resfriado?",
+      "cough": "¿Suele toser cuando no está resfriado?",
+      "priorSpirometry": "¿Algún médico o enfermero le hizo alguna vez una espirometría?"
+    },
+    "yes": "Sí",
+    "no": "No",
+    "continue": "Continuar",
+    "back": "Volver",
+    "notEligible": {
+      "young": "No está en el grupo objetivo: el triage es para adultos de 40 años o más.",
+      "packYears": "No está en el grupo objetivo: el triage es para personas que fuman o fumaron al menos 10 paquetes-año.",
+      "never": "No está en el grupo objetivo: el triage es para personas que fuman o fumaban.",
+      "diagnosed": "Ya tiene diagnóstico: seguilo desde la lista de pacientes.",
+      "noSymptoms": "Hoy no tiene síntomas respiratorios: dale consejo para dejar de fumar y volvé a preguntar en la próxima visita."
+    },
+    "voiceTitle": "Grabación de voz",
+    "voiceSub": "Unos 10 segundos: una vocal sostenida y una frase corta. Usá el auricular del centro.",
+    "skipVoice": "Continuar sin voz",
+    "voiceOff": "El modelo de voz está apagado. Decide solo el cuestionario.",
+    "resultTitle": "Prioridad para una prueba respiratoria",
+    "pumaScore": "Puntaje PUMA {n} de {max}",
+    "pumaCut": "Sugiere espirometría desde {cut}",
+    "voiceSignal": "Señal de voz",
+    "voiceDemo": "Modelo demo · sin validar",
+    "notDiagnosis": "Esto no es un diagnóstico. Solo una espirometría confirma la EPOC. Evitá las palabras riesgo o enfermedad con la persona.",
+    "next": {
+      "high": "Reservá una espirometría ahora.",
+      "medium": "Nuevo triage en 3 meses, o derivá ya si un síntoma empeora.",
+      "low": "Nuevo triage en 6 meses. Derivá enseguida si la respiración empeora."
+    },
+    "book": "Reservar espirometría",
+    "referAnyway": "Derivar igual",
+    "worsening": "Los síntomas están empeorando",
+    "slots": "Turnos disponibles",
+    "noSlots": "No hay turnos libres en las próximas dos semanas. Llamá al hospital.",
+    "retriage": "Agendar nuevo triage",
+    "retriageSet": "Nuevo triage el {date}. El caso sigue abierto.",
+    "booked": "Espirometría reservada",
+    "bookedAt": "{date} · {place}",
+    "override": "Derivado igual · cuenta como excepción",
+    "sendWhatsapp": "Enviar turno por WhatsApp",
+    "printSlip": "Imprimir comprobante",
+    "waText": "Hola {first}, tu prueba respiratoria está reservada para el {date} en {place}. Traé tu DNI. Si no podés ir, respondé este mensaje.",
+    "slipTitle": "Turno para prueba respiratoria",
+    "slipBody": "Traé este comprobante y tu DNI. Llegá 15 minutos antes. No uses el inhalador en las 4 horas previas, salvo que lo necesites.",
+    "resultBack": "Resultado de la espirometría",
+    "ratio": "FEV1/FVC {r}",
+    "startMonitoring": "Iniciar seguimiento",
+    "monitoringStarted": "Seguimiento iniciado con un plan de EPOC estable",
+    "openPatient": "Abrir paciente",
+    "analysing": "Analizando la voz. La prioridad se actualiza sola.",
+    "hospitalTitle": "Turnos de espirometría",
+    "hospitalSub": "Por fecha. La prioridad del triage está oculta para cargar el resultado sin sesgo.",
+    "enter": "Cargar resultado",
+    "ratioLabel": "FEV1/FVC posbroncodilatador",
+    "save": "Guardar",
+    "noShow": "No asistió",
+    "upcoming": "Próximos",
+    "past": "Pasados",
+    "ratioError": "Ingresá un valor entre 0,20 y 1,20",
+    "reportTitle": "¿El triage encuentra casos?",
+    "reportSub": "Datos demo ficticios · {n} triages",
+    "per100": "Casos encontrados cada 100 espirometrías",
+    "referenceNote": "Referencia con PUMA ponderado solo: {n} cada 100 (esperado con 20% de prevalencia, no medido acá)",
+    "completion": "Turnos completados",
+    "noShows": "No asistieron",
+    "patientReported": "Resultados informados por el paciente (excluidos)",
+    "overrides": "Derivados igual",
+    "overridesNote": "{m} medidos · {c} con obstrucción",
+    "retriageDue": "Personas esperando nuevo triage",
+    "byCentre": "Por centro",
+    "casesShort": "casos",
+    "measuredShort": "medidos",
+    "reportFoot": "La precisión cuenta solo las derivaciones que recomendó el triage. Cada resultado que carga el hospital es un control del triage."
   }
 }

@@ -1,11 +1,11 @@
 "use client";
 
-import { Bell, LayoutDashboard, MessageSquare, Settings, Users } from "lucide-react";
+import { Bell, ClipboardList, LayoutDashboard, MessageSquare, Settings, Stethoscope, Users } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/cn";
 
-const icons = { dashboard: LayoutDashboard, patients: Users, alerts: Bell, messages: MessageSquare, settings: Settings } as const;
+const icons = { dashboard: LayoutDashboard, triage: ClipboardList, patients: Users, alerts: Bell, hospital: Stethoscope, messages: MessageSquare, settings: Settings } as const;
 
 export function TabletTabs({ items }: { items: { href: string; match: string[]; label: string; icon: keyof typeof icons }[] }) {
   const pathname = usePathname();

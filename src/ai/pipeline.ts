@@ -4,7 +4,7 @@ import type { BaselineSnapshot, DeviceMeta, ModelInput, PatientContext, Recordin
 import { AiError } from "./errors";
 import type { ScreeningModelProvider } from "./provider";
 import { changeVsBaseline, bandOf, computeDeviations, evaluateAlertRules, type AlertRuleSettings, type AlertTrigger } from "./postprocess";
-import { runQualityGate, type RecordingMeasurement } from "./quality/gate";
+import { runQualityGate, type GateThresholds, type RecordingMeasurement } from "./quality/gate";
 import type { ScreeningResult } from "./result";
 
 export type RecordingRecord = {
@@ -17,6 +17,8 @@ export type RecordingRecord = {
   /** Short-lived signed URLs, minted at job time. */
   signedUrls: () => Promise<Record<"sustained_vowel" | "reading_passage", string>>;
   patientContext?: PatientContext;
+  /** Protocol-specific gate thresholds (e.g. the short triage recording). Defaults to the source thresholds. */
+  gateThresholds?: GateThresholds;
 };
 
 export interface PipelineDeps {
@@ -49,7 +51,7 @@ export async function runScreening(recordingId: string, deps: PipelineDeps, opts
   };
 
   // 1. Quality gate. A failing take never reaches the model.
-  const gate = runQualityGate(recording.source, recording.device, recording.takes);
+  const gate = runQualityGate(recording.source, recording.device, recording.takes, recording.gateThresholds);
   if (!gate.pass) {
     const rejected = await done({ status: "rejected_quality", quality: { level: "poor", reasons: gate.reasons }, error: { code: "QUALITY_REJECTED", retryable: false, message: "Recording quality too low. Ask the patient to repeat the test." } });
     await deps.audit({ action: "screening.rejected_quality", subject: recordingId, detail: gate.reasons.join(",") });

@@ -233,3 +233,40 @@ export const clinicalActionSchema = z.object({
   at: z.string().datetime({ offset: true }),
 });
 export type ClinicalAction = z.infer<typeof clinicalActionSchema>;
+
+// ---------------------------------------------------------------------------------------------
+// Triage in primary care: questionnaire plus voice, a priority, a booked spirometry, and the result
+// that comes back from the hospital.
+// ---------------------------------------------------------------------------------------------
+
+export const triageSchema = z.object({
+  id: z.string(),
+  code: z.string(),
+  patientId: z.string(),
+  patientName: z.string(),
+  centre: z.string(),
+  by: z.string(),
+  at: z.string().datetime({ offset: true }),
+  answers: z.object({ sex: z.enum(["f", "m"]), age: z.number(), packYears: z.number(), dyspnea: z.boolean(), phlegm: z.boolean(), cough: z.boolean(), priorSpirometry: z.boolean() }),
+  pumaScore: z.number(),
+  recordingId: z.string().optional(),
+  voice: z.enum(["high", "moderate", "low", "off"]),
+  priority: z.enum(["high", "medium", "low"]),
+  /** Referred although the priority was low. Counted, never blocked. */
+  override: z.boolean().default(false),
+  worsening: z.boolean().default(false),
+  retriageOn: z.string().optional(),
+  referral: z.object({ slotId: z.string(), at: z.string().datetime({ offset: true }), place: z.string(), bookedAt: z.string().datetime({ offset: true }) }).optional(),
+  spirometry: z.object({
+    status: z.enum(["done", "no_show", "patient_reported"]),
+    ratio: z.number().optional(),
+    obstruction: z.boolean().optional(),
+    enteredBy: z.string(),
+    enteredAt: z.string().datetime({ offset: true }),
+  }).optional(),
+  monitoringStarted: z.boolean().default(false),
+});
+export type Triage = z.infer<typeof triageSchema>;
+
+export const slotSchema = z.object({ id: z.string(), at: z.string().datetime({ offset: true }), place: z.string(), taken: z.boolean() });
+export type Slot = z.infer<typeof slotSchema>;

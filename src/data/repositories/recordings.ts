@@ -35,7 +35,7 @@ export function acceptConsent(token: string) {
 
 type Starter = { kind: "patient"; token: string } | { kind: "clinician"; clinicianId: string; patientId: string; consentConfirmed: boolean };
 
-export function createSession(starter: Starter, device: unknown, micCheck: "passed" | "failed" | "skipped"): { id: string; secret: string } | { error: string } {
+export function createSession(starter: Starter, device: unknown, micCheck: "passed" | "failed" | "skipped", protocol: "monitoring" | "triage" = "monitoring"): { id: string; secret: string } | { error: string } {
   const dev = deviceMetaSchema.safeParse(device);
   if (!dev.success) return { error: "INVALID_DEVICE" };
   let patientId: string;
@@ -56,7 +56,7 @@ export function createSession(starter: Starter, device: unknown, micCheck: "pass
   const s: RecordingSession = {
     id, patientId, patientCode: patient.code, source: starter.kind === "patient" ? "web_patient" : "web_assisted", secret: randomUUID(),
     startedBy: starter.kind === "patient" ? { role: "patient", id: patientId } : { role: "clinician", id: starter.clinicianId },
-    device: dev.data as DeviceMeta, createdAt: new Date().toISOString(), status: "uploading", micCheck, takes: [], waveform: [], chunks: {}, completed: {},
+    device: dev.data as DeviceMeta, createdAt: new Date().toISOString(), status: "uploading", micCheck, protocol, takes: [], waveform: [], chunks: {}, completed: {},
   };
   store.recordings.set(id, s);
   recordAudit({ action: "recording.started", subject: id, actor: starter.kind === "patient" ? patient.code : starter.clinicianId, detail: s.source });

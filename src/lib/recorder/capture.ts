@@ -41,7 +41,9 @@ export async function openMic(deviceId?: string): Promise<Mic> {
     echoCancellation: s.echoCancellation ?? false, noiseSuppression: s.noiseSuppression ?? false, autoGainControl: s.autoGainControl ?? false,
     sampleRate: ctx.sampleRate, channelCount: s.channelCount ?? 1, deviceId: s.deviceId, label: track.label,
   };
-  return { stream, ctx, node, applied, close: () => { node.disconnect(); stream.getTracks().forEach((t) => t.stop()); void ctx.close(); } };
+  let closed = false;
+  const close = () => { if (closed) return; closed = true; node.disconnect(); stream.getTracks().forEach((t) => t.stop()); void ctx.close(); };
+  return { stream, ctx, node, applied, close };
 }
 
 export type Frame = { rms: number; peak: number };

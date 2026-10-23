@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { PRE_AUTH_COOKIE, SESSION_COOKIE } from "@/lib/session";
 
-const protectedPrefixes = ["/dashboard", "/patients", "/results", "/alerts", "/messages", "/monitoring", "/settings"];
+const protectedPrefixes = ["/dashboard", "/patients", "/results", "/alerts", "/messages", "/monitoring", "/settings", "/triage", "/hospital", "/slip"];
 
 export function middleware(req: NextRequest) {
   const { pathname } = req.nextUrl;

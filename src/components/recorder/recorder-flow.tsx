@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { SelectField } from "@/components/ui/field";
-import { MIC_CHECK_SECONDS, MIC_STORAGE_KEY, taskLimits } from "@/config/recording";
+import { MIC_CHECK_SECONDS, MIC_STORAGE_KEY, taskLimits, triageTaskLimits, type RecordingProtocol } from "@/config/recording";
 import { cn } from "@/lib/cn";
 import { useT } from "@/lib/i18n/client";
 import { analyseCheck, deviceMeta, encodeWav, MicFailure, openMic, startCapture, supportsRecording, toDb, type Capture, type CheckResult, type Mic } from "@/lib/recorder/capture";
@@ -17,7 +17,11 @@ import { uploadTask } from "@/lib/recorder/upload";
 
 type Props =
   | { mode: "patient"; token: string; firstName: string; consentGiven: boolean }
-  | { mode: "assisted"; patientId: string; patientName: string; patientCode: string; consent: "active" | "pending" | "revoked" };
+  | {
+      mode: "assisted"; patientId: string; patientName: string; patientCode: string; consent: "active" | "pending" | "revoked";
+      /** "triage" records about 10 seconds (vowel plus one sentence) and hands control back with onUploaded. */
+      protocol?: RecordingProtocol; onUploaded?: (recordingId: string) => void;
+    };
 
 type Step = "consent" | "setup" | "check" | "vowel" | "reading" | "send" | "done";
 type Take = { blob: Blob; url: string; seconds: number };
@@ -189,13 +193,13 @@ export function RecorderFlow(props: Props) {
       )}
 
       {(step === "vowel" || step === "reading") && mic && (
-        <TaskStep key={step} name={step} mic={mic} take={takes[step]} level={level} pushLevel={pushLevel}
+        <TaskStep key={step} name={step} mic={mic} take={takes[step]} level={level} pushLevel={pushLevel} triage={assisted && props.protocol === "triage"}
           onTake={(tk) => record(step, tk)} onRedo={() => drop(step)}
           onNext={() => setStep(step === "vowel" ? "reading" : "send")} last={step === "reading"} assisted={assisted} />
       )}
 
       {step === "send" && mic && takes.vowel && takes.reading && (
-        <SendStep props={props} mic={mic} check={check.result} takes={{ vowel: takes.vowel, reading: takes.reading }} onDone={() => { mic.close(); setStep("done"); }} />
+        <SendStep props={props} mic={mic} check={check.result} takes={{ vowel: takes.vowel, reading: takes.reading }} onDone={(id) => { mic.close(); if (assisted && props.onUploaded) props.onUploaded(id); else setStep("done"); }} />
       )}
 
       {step === "done" && <DoneStep props={props} onRepeat={() => { setTakes({}); setMic(null); setStep("setup"); }} />}
@@ -234,11 +238,13 @@ function CheckOutcome({ r }: { r: CheckResult }) {
   );
 }
 
-function TaskStep({ name, mic, take, level, pushLevel, onTake, onRedo, onNext, last, assisted }: {
-  name: "vowel" | "reading"; mic: Mic; take?: Take; level: number; pushLevel: (rms: number) => void; onTake: (t: Take) => void; onRedo: () => void; onNext: () => void; last: boolean; assisted: boolean;
+function TaskStep({ name, mic, take, level, pushLevel, onTake, onRedo, onNext, last, assisted, triage }: {
+  name: "vowel" | "reading"; mic: Mic; take?: Take; level: number; pushLevel: (rms: number) => void; onTake: (t: Take) => void; onRedo: () => void; onNext: () => void; last: boolean; assisted: boolean; triage?: boolean;
 }) {
   const { t } = useT();
-  const limits = taskLimits[taskId[name]];
+  const limits = (triage ? triageTaskLimits : taskLimits)[taskId[name]];
+  // The triage protocol replaces the reading passage with one short sentence.
+  const k = triage && name === "reading" ? "sentence" : name;
   const [state, setState] = useState<"idle" | "recording">("idle");
   const [seconds, setSeconds] = useState(0);
   const [msg, setMsg] = useState<string | null>(null);
@@ -285,10 +291,10 @@ function TaskStep({ name, mic, take, level, pushLevel, onTake, onRedo, onNext, l
   const canStop = seconds >= limits.min;
   return (
     <Card className="gap-4 p-6">
-      <h2 className="text-[18px] font-medium tracking-[-0.01em]">{t(`rec.task.${name}.name`)}</h2>
-      <p className="text-[13px] leading-[1.5] text-ink-muted">{t(`rec.task.${name}.body`)}</p>
-      {name === "reading" && <blockquote className="rounded-[16px] bg-surface-soft p-4 text-[16px] leading-[1.6]">{t("rec.task.reading.text")}</blockquote>}
-      <p className="text-[12px] text-ink-muted">{t(`rec.task.${name}.hint`, { min: limits.min })}</p>
+      <h2 className="text-[18px] font-medium tracking-[-0.01em]">{t(`rec.task.${k}.name`)}</h2>
+      <p className="text-[13px] leading-[1.5] text-ink-muted">{t(`rec.task.${k}.body`)}</p>
+      {name === "reading" && <blockquote className="rounded-[16px] bg-surface-soft p-4 text-[16px] leading-[1.6]">{t(`rec.task.${k}.text`)}</blockquote>}
+      <p className="text-[12px] text-ink-muted">{t(`rec.task.${k}.hint`, { min: limits.min })}</p>
       {!take && <Meter level={level} label={t("rec.check.level")} />}
       {msg && <Alert state="warning" title={msg} />}
       {!take ? (
@@ -304,7 +310,7 @@ function TaskStep({ name, mic, take, level, pushLevel, onTake, onRedo, onNext, l
         <div className="flex flex-col gap-3">
           <h3 className="text-[14px] font-medium">{t("rec.review.title")}</h3>
           <p className="text-[12px] text-ink-muted">{t("rec.review.body")} · {t("rec.review.length", { s: take.seconds })}</p>
-          <audio controls src={take.url} className="w-full" aria-label={t(`rec.task.${name}.name`)} />
+          <audio controls src={take.url} className="w-full" aria-label={t(`rec.task.${k}.name`)} />
           <div className="flex flex-wrap gap-[10px]">
             <Button onClick={onRedo}><RotateCcw size={14} aria-hidden />{t("rec.review.again")}</Button>
             <Button variant="primary" onClick={onNext}>{last ? (assisted ? t("rec.review.allAssisted") : t("rec.review.all")) : t("rec.review.next")}</Button>
@@ -315,7 +321,7 @@ function TaskStep({ name, mic, take, level, pushLevel, onTake, onRedo, onNext, l
   );
 }
 
-function SendStep({ props, mic, check, takes, onDone }: { props: Props; mic: Mic; check?: CheckResult; takes: { vowel: Take; reading: Take }; onDone: () => void }) {
+function SendStep({ props, mic, check, takes, onDone }: { props: Props; mic: Mic; check?: CheckResult; takes: { vowel: Take; reading: Take }; onDone: (recordingId: string) => void }) {
   const { t } = useT();
   const [pct, setPct] = useState(0);
   const [failed, setFailed] = useState(false);
@@ -330,7 +336,7 @@ function SendStep({ props, mic, check, takes, onDone }: { props: Props; mic: Mic
       if (!session.current) {
         const body = props.mode === "patient"
           ? { mode: "patient", token: props.token, device: deviceMeta(mic.applied, "patient"), micCheck: check ? "passed" : "skipped" }
-          : { mode: "assisted", patientId: props.patientId, consentConfirmed: true, device: deviceMeta(mic.applied, "assisted"), micCheck: check ? "passed" : "skipped" };
+          : { mode: "assisted", patientId: props.patientId, consentConfirmed: true, device: deviceMeta(mic.applied, "assisted"), micCheck: check ? "passed" : "skipped", protocol: props.protocol ?? "monitoring" };
         const res = await fetch("/api/recordings", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
         if (!res.ok) throw new Error("SESSION");
         const created = (await res.json()) as { id: string; secret: string };
@@ -343,7 +349,7 @@ function SendStep({ props, mic, check, takes, onDone }: { props: Props; mic: Mic
       await uploadTask(id, s, "reading_passage", takes.reading.blob, (f) => setPct(50 + Math.round(f * 50)));
       const done = await fetch(`/api/recordings/${id}/complete`, { method: "POST", headers: s ? { "x-recording-secret": s } : {} });
       if (!done.ok) throw new Error("COMPLETE");
-      onDone();
+      onDone(id);
     } catch {
       setFailed(true);
     } finally {

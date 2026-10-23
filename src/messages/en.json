@@ -424,7 +424,9 @@
       "dashboard": "Dashboard",
       "patients": "Patients",
       "alerts": "Alerts",
-      "settings": "Settings"
+      "settings": "Settings",
+      "triage": "Triage",
+      "hospital": "Hospital panel"
     },
     "clinic": "Professional workspace",
     "principle": [
@@ -1486,7 +1488,13 @@
       "recording": "Recording {s}s",
       "tooShort": "Keep going: at least {min} seconds are needed.",
       "auto": "Recording stopped at the maximum length.",
-      "interrupted": "Recording was interrupted. Please record again."
+      "interrupted": "Recording was interrupted. Please record again.",
+      "sentence": {
+        "name": "Short sentence",
+        "body": "Read this sentence aloud at your usual pace and volume.",
+        "text": "Today is a clear day and I am breathing calmly.",
+        "hint": "At least {min} seconds."
+      }
     },
     "review": {
       "title": "Review this recording",
@@ -1551,7 +1559,8 @@
       "free": "A blank greeting",
       "quiet": "Repeat in a quiet place",
       "book": "Book a visit",
-      "stable": "Results look stable"
+      "stable": "Results look stable",
+      "referral": "Spirometry appointment"
     },
     "tpl": {
       "free": "Hi {first}, ",
@@ -1565,5 +1574,156 @@
     "error": "WhatsApp could not open. Try again.",
     "openWithAction": "Open WhatsApp with this message",
     "savedAction": "Action saved. Let the patient know on WhatsApp."
+  },
+  "triage": {
+    "nav": "Triage",
+    "navHospital": "Hospital panel",
+    "eyebrow": "PRIMARY CARE · {n} TRIAGES IN THE LAST 8 WEEKS",
+    "title": "Who should get a breathing test",
+    "new": "New triage",
+    "report": "Accuracy report",
+    "hospital": "Hospital panel",
+    "kpi": {
+      "week": "Triages this week",
+      "referred": "Spirometries booked",
+      "measured": "Results back",
+      "per100": "Cases per 100 spirometries"
+    },
+    "cols": {
+      "person": "Person",
+      "centre": "Centre",
+      "date": "Date",
+      "puma": "PUMA",
+      "voice": "Voice",
+      "priority": "Priority",
+      "status": "Next step"
+    },
+    "status": {
+      "booked": "Spirometry {date}",
+      "result": "Result: {r}",
+      "noShow": "Did not attend",
+      "retriage": "Re-triage {date}",
+      "open": "Decision pending"
+    },
+    "obstruction": "obstruction",
+    "noObstruction": "no obstruction",
+    "empty": "No triages yet. Start the first one with a patient in the waiting room.",
+    "priority": {
+      "high": "High",
+      "medium": "Medium",
+      "low": "Low"
+    },
+    "voice": {
+      "high": "High",
+      "moderate": "Moderate",
+      "low": "Low",
+      "off": "Not used",
+      "processing": "Analysing"
+    },
+    "steps": {
+      "consent": "Consent",
+      "person": "Person",
+      "questions": "Questions",
+      "voice": "Voice",
+      "result": "Priority"
+    },
+    "consentTitle": "Read this to the person",
+    "consentScript": "We will ask you seven short questions and record your voice for about ten seconds. This helps decide whether a breathing test, called spirometry, would be useful for you. It is not a diagnosis. Most people we send for the test turn out not to have a lung disease. You can say no, and it will not change your care.",
+    "consentCheck": "The person agrees to the questions and the voice recording",
+    "consentRequired": "Consent is needed before starting.",
+    "personTitle": "About the person",
+    "name": "Full name",
+    "phone": "Mobile phone (optional)",
+    "phoneHint": "Used only to send the appointment by WhatsApp. Without a phone, print the slip.",
+    "centre": "Health centre",
+    "sex": "Sex",
+    "female": "Female",
+    "male": "Male",
+    "age": "Age",
+    "smoking": "Smoking",
+    "current": "Smokes",
+    "former": "Used to smoke",
+    "never": "Never smoked",
+    "packYears": "Pack-years",
+    "packYearsHint": "Cigarettes per day divided by 20, times years smoked.",
+    "diagnosed": "Already diagnosed with COPD",
+    "questionsTitle": "PUMA questions",
+    "questionsSub": "Seven items. The score is calculated automatically.",
+    "q": {
+      "dyspnea": "Do you get short of breath when you walk fast on level ground or up a slight hill?",
+      "phlegm": "Do you usually bring up phlegm from your chest when you do not have a cold?",
+      "cough": "Do you usually cough when you do not have a cold?",
+      "priorSpirometry": "Has a doctor or nurse ever done a breathing test (spirometry) on you?"
+    },
+    "yes": "Yes",
+    "no": "No",
+    "continue": "Continue",
+    "back": "Back",
+    "notEligible": {
+      "young": "Not in the target group: the triage is for adults aged 40 or over.",
+      "packYears": "Not in the target group: the triage is for people who smoke or smoked at least 10 pack-years.",
+      "never": "Not in the target group: the triage is for people who smoke or used to smoke.",
+      "diagnosed": "Already diagnosed: follow this person up from the patient list instead.",
+      "noSymptoms": "No breathing symptoms today: give quit-smoking advice and ask again at the next visit."
+    },
+    "voiceTitle": "Voice recording",
+    "voiceSub": "About 10 seconds: a sustained vowel and one short sentence. Use the centre's headset.",
+    "skipVoice": "Continue without voice",
+    "voiceOff": "The voice model is switched off. The questionnaire decides on its own.",
+    "resultTitle": "Priority for a breathing test",
+    "pumaScore": "PUMA score {n} of {max}",
+    "pumaCut": "Suggests spirometry from {cut}",
+    "voiceSignal": "Voice signal",
+    "voiceDemo": "Demo model · not validated",
+    "notDiagnosis": "This is not a diagnosis. Only a spirometry can confirm COPD. Avoid the words risk or disease with the person.",
+    "next": {
+      "high": "Book a spirometry now.",
+      "medium": "Re-triage in 3 months, or refer now if a symptom worsens.",
+      "low": "Re-triage in 6 months. Refer at once if breathing gets worse."
+    },
+    "book": "Book spirometry",
+    "referAnyway": "Refer anyway",
+    "worsening": "Symptoms are getting worse",
+    "slots": "Available slots",
+    "noSlots": "No free slots in the next two weeks. Call the hospital.",
+    "retriage": "Schedule re-triage",
+    "retriageSet": "Re-triage on {date}. The case stays open.",
+    "booked": "Spirometry booked",
+    "bookedAt": "{date} · {place}",
+    "override": "Referred anyway · counted as an override",
+    "sendWhatsapp": "Send appointment by WhatsApp",
+    "printSlip": "Print slip",
+    "waText": "Hello {first}, your breathing test is booked for {date} at {place}. Please bring your ID. If you cannot attend, reply to this message.",
+    "slipTitle": "Breathing test appointment",
+    "slipBody": "Bring this slip and your ID. Arrive 15 minutes early. Do not use your inhaler in the 4 hours before, unless you need it.",
+    "resultBack": "Spirometry result",
+    "ratio": "FEV1/FVC {r}",
+    "startMonitoring": "Start follow-up",
+    "monitoringStarted": "Follow-up started with a stable COPD plan",
+    "openPatient": "Open patient",
+    "analysing": "Analysing the voice. The priority updates on its own.",
+    "hospitalTitle": "Spirometry appointments",
+    "hospitalSub": "Date order. The triage priority is hidden so results are entered without bias.",
+    "enter": "Enter result",
+    "ratioLabel": "FEV1/FVC after bronchodilator",
+    "save": "Save",
+    "noShow": "Did not attend",
+    "upcoming": "Upcoming",
+    "past": "Past",
+    "ratioError": "Enter a ratio between 0.20 and 1.20",
+    "reportTitle": "Does the triage find cases?",
+    "reportSub": "Fictional demo data · {n} triages",
+    "per100": "Cases found per 100 spirometries",
+    "referenceNote": "Reference with the weighted PUMA alone: {n} per 100 (expected at 20% prevalence, not measured here)",
+    "completion": "Booked tests completed",
+    "noShows": "Did not attend",
+    "patientReported": "Results reported by the patient (excluded)",
+    "overrides": "Referred anyway",
+    "overridesNote": "{m} measured · {c} with obstruction",
+    "retriageDue": "People waiting for re-triage",
+    "byCentre": "By centre",
+    "casesShort": "cases",
+    "measuredShort": "measured",
+    "reportFoot": "Accuracy counts only the referrals the triage recommended. Every result entered by the hospital is a check on the triage."
   }
 }

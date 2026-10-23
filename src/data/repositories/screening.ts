@@ -3,6 +3,8 @@ import { resolveProvider } from "@/ai/registry";
 import { runScreening, type PipelineDeps } from "@/ai/pipeline";
 import { defaultAlertRules } from "@/ai/postprocess";
 import type { ScreeningResult } from "@/ai/result";
+import { defaultThresholds } from "@/ai/quality/gate";
+import { triageTaskLimits } from "@/config/recording";
 import { signPath } from "@/lib/signed-url";
 import { historyFor, type ResultRecord } from "../fixtures/history";
 import { nextId, recordAudit, store } from "../store";
@@ -44,6 +46,9 @@ function deps(): PipelineDeps {
         },
         // Opaque code only: the model never receives the patient's name or any identifier.
         patientContext: patientContext(s.patientId),
+        gateThresholds: s.protocol === "triage"
+          ? { ...defaultThresholds[s.source], minDurationSec: { sustained_vowel: triageTaskLimits.sustained_vowel.min, reading_passage: triageTaskLimits.reading_passage.min } }
+          : undefined,
       };
     },
     async getBaseline(patientId) { return historyFor(patientId)?.baseline; },

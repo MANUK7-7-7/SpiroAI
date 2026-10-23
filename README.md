@@ -30,6 +30,7 @@ Patient recording link to try without creating a record: `/r/demo-invite`.
 
 ## Flows
 
+- **Triage** (primary care): consent script, eligibility, the seven PUMA items (weighted score, cut-off 25), about 10 s of voice, a priority for a breathing test (never a diagnosis), booking a spirometry with WhatsApp or a printed slip, a hospital panel where the technician enters FEV1/FVC without seeing the priority, and an accuracy report (cases per 100 spirometries). A confirmed case moves into follow-up.
 - **A** registration, verification, login with two-factor, password reset.
 - **B** dashboard, patients, profile, results (S09), trends, compare, add patient.
 - **C** alerts, clinical action, monitoring plan by patient type, report export. Patient contact opens WhatsApp (no in-app messaging).
