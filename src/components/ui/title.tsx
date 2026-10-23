@@ -7,7 +7,7 @@ export function Title({ children, size = 40, as: Tag = "h1", dot = true, classNa
   return (
     <Tag className={cn("font-display font-medium leading-[1.04] text-ink", className)} style={{ fontSize: size, letterSpacing: tracking(size) }}>
       {children}
-      {dot && <span className="text-cobalt">.</span>}
+      {dot && !(typeof children === "string" && /[?!.]$/.test(children)) && <span className="text-cobalt">.</span>}
     </Tag>
   );
 }

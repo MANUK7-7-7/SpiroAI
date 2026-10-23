@@ -8,7 +8,9 @@ import { nextId, recordAudit, store } from "../store";
 import { allPatients } from "./patients";
 
 const DAY = 86_400_000;
-const nowIso = () => new Date().toISOString();
+// New entries follow the demo clock, so they sort after the fictional history and before the open slots.
+const bootedAt = Date.now();
+const nowIso = () => new Date(Date.parse(DEMO_NOW) + (Date.now() - bootedAt)).toISOString();
 
 /** Voice signal for a triage: waits for the analysis, and falls back to the questionnaire alone when there is none. */
 export function voiceOf(t: Triage): VoiceSignal | "processing" {
