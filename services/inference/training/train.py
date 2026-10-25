@@ -151,7 +151,9 @@ def main():
     reference = {f: {str(lbl): [float(v) for v in X.loc[meta["label"] == lbl, f].quantile([0.25, 0.5, 0.75])]
                      for lbl in (0, 1)} for f in ref_feats}
 
-    final = CalibratedClassifierCV(models()[best_name], method="sigmoid", cv=5).fit(X, y)
+    # One calibrated model instead of one per fold: same cross-validated calibration, ~5x less memory
+    # (the free hosting tier has 512 MB).
+    final = CalibratedClassifierCV(models()[best_name], method="sigmoid", cv=5, ensemble=False).fit(X, y)
     joblib.dump({"model": final, "columns": list(X.columns), "tasks": list(TASKS),
                  "train_prevalence": float(y.mean()), "reference": reference}, args.out / "copd_voice_model.joblib", compress=("xz", 6))
     (args.out / "voice_metrics.json").write_text(json.dumps(report, indent=2))

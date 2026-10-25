@@ -6,7 +6,8 @@ services:
     runtime: docker
     rootDir: services/inference
     dockerfilePath: ./Dockerfile
-    plan: starter            # always on; the free plan sleeps after 15 min and the first test then waits ~1 min
+    plan: free               # no payment details needed; sleeps after 15 min idle, the next test waits ~1 min.
+                             # The service peaks at ~400 MB, inside the free 512 MB. Use "starter" for always-on.
     healthCheckPath: /healthz
     envVars:
       - key: AI_API_KEY      # the same value goes in Vercel's AI_API_KEY

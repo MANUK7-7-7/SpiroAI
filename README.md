@@ -62,8 +62,9 @@ installed, `npm run dev` says so and falls back to the Demo model.
 3. Redeploy. Results now come from the real models; if the service is down, results show "analysis unavailable"
    with a retry, never an invented score.
 
-A free Render plan sleeps after 15 minutes idle; the first test after that waits about a minute, which fits inside
-the 60 s timeout. `render.yaml` uses the always-on `starter` plan.
+`render.yaml` uses Render's free plan, so no payment details are asked. It sleeps after 15 minutes idle; the first
+test after that waits about a minute, which fits inside the 60 s timeout. The service peaks at about 400 MB, inside
+the free 512 MB. For an always-on service, change `plan: free` to `plan: starter` (paid).
 
 What each model learned, how well it does and its known biases: `services/inference/models/MODEL_CARD.md`.
 
