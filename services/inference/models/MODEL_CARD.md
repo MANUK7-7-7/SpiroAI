@@ -61,6 +61,8 @@ performance is likely lower.
 * `riskIndex` = mean of the available model probabilities × 100.
 * `confidence` = mean of max(p, 1 − p) per model, multiplied by 1 − 0.5 × |p_voice − p_cough|.
 * Both rules are samples chosen for transparency, not validated choices.
+* Each deployed model is one calibrated model (`ensemble=False`): the sigmoid calibration still comes from
+  5-fold cross-validated predictions, but only one forest is kept, so the service fits in 512 MB of memory.
 
 ## Limits to keep in mind
 
