@@ -6,7 +6,9 @@ Screening support for respiratory care. **Not a diagnosis**: the doctor keeps fi
 
 ```bash
 npm install --legacy-peer-deps
-npm run dev            # http://localhost:3000
+npm run setup:ai       # once: installs the AI service (needs Python 3.10+)
+npm run dev            # http://localhost:3000, web app + AI service, already connected
+npm run dev:web        # web app alone, with the labelled Demo model
 npm test               # unit tests (AI contracts, quality gate, pipeline, WAV measurement)
 npm run test:e2e       # Playwright (uses a fake microphone; set PW_CHROMIUM for a custom browser)
 npm run gen:openapi    # regenerates services/inference/openapi.json from the Zod contracts
@@ -40,14 +42,28 @@ Force the designed states on data screens with `?state=loading|empty|error`.
 
 ## AI integration
 
-Set `AI_PROVIDER=mock|http`, `AI_ENABLED`, `AI_ENDPOINT`, `AI_API_KEY`, `AI_TIMEOUT_MS`, `AI_MODEL_VERSION_PIN`. Switching provider needs no UI change. Every result keeps model id and version, confidence, quality and the disclaimer. See `src/ai/README.md`.
+The real models (voice: vowel + counting, cough) run in `services/inference`, a separate Python service.
+Setting `AI_ENDPOINT` is enough to connect the app to it (`AI_PROVIDER` defaults to `http` when an endpoint is set,
+`mock` otherwise). Other variables: `AI_API_KEY`, `AI_TIMEOUT_MS` (default 60000), `AI_ENABLED`, `AI_MODEL_VERSION_PIN`.
+Every result keeps model id and version, confidence, quality and the disclaimer; the UI labels mock results "Demo model".
+See `src/ai/README.md`.
 
-The real models (voice: vowel + counting, cough) run in `services/inference`. To use them locally:
+**Locally:** `npm run setup:ai` once, then `npm run dev` starts both and connects them. If the AI service is not
+installed, `npm run dev` says so and falls back to the Demo model.
 
-```bash
-cd services/inference && pip install -r requirements.txt && uvicorn app:app --port 8000
-AI_PROVIDER=http AI_ENDPOINT=http://localhost:8000 AI_TIMEOUT_MS=60000 npm run dev
-```
+**Deployed (always connected):**
+
+1. Deploy the AI service: Render dashboard, New, Blueprint, pick this repository. `render.yaml` builds
+   `services/inference/Dockerfile` and generates an `AI_API_KEY`. Any Docker host works the same way.
+2. In Vercel, Settings, Environment Variables, set:
+   - `AI_ENDPOINT`: the service URL, e.g. `https://spiroai-inference.onrender.com`
+   - `AI_API_KEY`: the same value as on Render
+   - `APP_ORIGIN`: the public URL of the web app (the service downloads the recordings from it)
+3. Redeploy. Results now come from the real models; if the service is down, results show "analysis unavailable"
+   with a retry, never an invented score.
+
+A free Render plan sleeps after 15 minutes idle; the first test after that waits about a minute, which fits inside
+the 60 s timeout. `render.yaml` uses the always-on `starter` plan.
 
 What each model learned, how well it does and its known biases: `services/inference/models/MODEL_CARD.md`.
 

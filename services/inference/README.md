@@ -10,7 +10,9 @@ python -m venv .venv && .venv/bin/pip install -r requirements.txt
 .venv/bin/uvicorn app:app --port 8000          # first start takes ~20 s while librosa compiles
 ```
 
-Then run the app with `AI_PROVIDER=http AI_ENDPOINT=http://localhost:8000 AI_TIMEOUT_MS=60000 npm run dev`.
+From the repository root, `npm run setup:ai` (once) and `npm run dev` do all of this for you and connect the app.
+To run it by hand, start the service as above and the app with `AI_ENDPOINT=http://localhost:8000 npm run dev:web`.
+To deploy it, see "Deployed (always connected)" in the root README (`Dockerfile`, `../../render.yaml`).
 Set the same `AI_API_KEY` on both sides outside local development: the app sends it to the service, and
 the service sends it back when it downloads audio.
 

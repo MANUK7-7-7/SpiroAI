@@ -28,10 +28,10 @@ result.ts           ScreeningResult: the only shape the UI reads
    | Variable | Meaning |
    |---|---|
    | `AI_ENABLED` | `false` turns the AI off. The app still works as a monitoring and messaging tool. |
-   | `AI_PROVIDER` | `mock` or `http` |
+   | `AI_PROVIDER` | `mock` or `http`. Optional: `http` when `AI_ENDPOINT` is set, otherwise `mock` |
    | `AI_ENDPOINT` | base URL of the inference service |
    | `AI_API_KEY` | bearer token |
-   | `AI_TIMEOUT_MS` | per-request timeout (default 15000) |
+   | `AI_TIMEOUT_MS` | per-request timeout (default 60000) |
    | `AI_MODEL_VERSION_PIN` | optional exact version, sent as `x-model-version` |
 
 4. Review the quality-gate thresholds (`quality/gate.ts`) and the risk-band thresholds
