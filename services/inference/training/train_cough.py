@@ -172,7 +172,9 @@ def main():
     report["best_model"] = key
     kinds = ["orig"] + [f"aug{k}" for k in range(N_AUG)]
     train = table[table.kind.isin(kinds)]
-    final = CalibratedClassifierCV(models()[name], method="sigmoid", cv=5).fit(train[robust_cols], train["label"])
+    # One calibrated model instead of one per fold: same cross-validated calibration, ~5x less memory
+    # (the free hosting tier has 512 MB).
+    final = CalibratedClassifierCV(models()[name], method="sigmoid", cv=5, ensemble=False).fit(train[robust_cols], train["label"])
 
     # Official train/test split of the dataset, for comparability with the paper.
     tr = table[table.kind.isin(kinds) & (table.split == "train")]

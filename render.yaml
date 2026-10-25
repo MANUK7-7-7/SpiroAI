@@ -1,0 +1,14 @@
+# One-click deploy of the AI inference service on Render (Blueprint).
+# Render dashboard > New > Blueprint > pick this repository. Then copy the service URL into Vercel.
+services:
+  - type: web
+    name: spiroai-inference
+    runtime: docker
+    rootDir: services/inference
+    dockerfilePath: ./Dockerfile
+    plan: free               # no payment details needed; sleeps after 15 min idle, the next test waits ~1 min.
+                             # The service peaks at ~400 MB, inside the free 512 MB. Use "starter" for always-on.
+    healthCheckPath: /healthz
+    envVars:
+      - key: AI_API_KEY      # the same value goes in Vercel's AI_API_KEY
+        generateValue: true

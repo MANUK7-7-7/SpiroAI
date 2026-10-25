@@ -13,6 +13,10 @@ describe("registry", () => {
     expect(p?.id).toBe("http");
     expect(p?.isDemo).toBe(false);
   });
+  it("connects the real models as soon as an endpoint is configured", () => {
+    expect(resolveProvider(loadAiConfig({ AI_ENDPOINT: "http://localhost:8000" }))?.id).toBe("http");
+    expect(resolveProvider(loadAiConfig({ AI_PROVIDER: "mock", AI_ENDPOINT: "http://localhost:8000" }))?.id).toBe("mock-demo");
+  });
   it("requires an endpoint for http", () => {
     expect(() => resolveProvider(loadAiConfig({ AI_PROVIDER: "http" }))).toThrow(/AI_ENDPOINT/);
   });
