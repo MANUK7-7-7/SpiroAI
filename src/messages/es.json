@@ -1,5 +1,7 @@
 {
   "welcome": {
+    "tryPrototype": "Probar prototipo",
+    "tryPrototypeError": "No se pudo abrir el prototipo. Probá de nuevo.",
     "eyebrow": "SCREENING RESPIRATORIO BASADO EN LA VOZ",
     "headline": "Señales tempranas de EPOC en la voz de tus pacientes",
     "body": "Una grabación breve. Una imagen más clara. Incorporá el monitoreo respiratorio remoto a tu práctica diaria, con vos al mando.",
@@ -193,8 +195,7 @@
     "create": "Crear cuenta",
     "encrypted": "Tu conexión está cifrada. A continuación sigue la verificación en dos pasos.",
     "invalid": "Revisá tu email y contraseña e intentá de nuevo.",
-    "demo": "Acceso demo: cualquier email y una contraseña de 8+ caracteres. Solo datos ficticios.",
-    "tryDemo": "Probar demo"
+    "demo": "Acceso demo: cualquier email y una contraseña de 8+ caracteres. Solo datos ficticios."
   },
   "twofa": {
     "title": "Un paso más para cuidar la seguridad",

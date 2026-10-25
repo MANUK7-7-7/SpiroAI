@@ -3,6 +3,7 @@ import Link from "next/link";
 import { Brand } from "@/components/ui/brand";
 import { Button } from "@/components/ui/button";
 import { WelcomeVisual } from "@/components/layout/welcome-visual";
+import { TryPrototypeButton } from "@/components/auth/try-prototype-button";
 import { getT } from "@/lib/i18n/server";
 import { syncStore } from "@/data/persist";
 
@@ -30,8 +31,9 @@ export default async function Welcome() {
               <span className="text-cobalt">.</span>
             </h1>
             <p className="w-[470px] text-[18px] leading-[1.4] tracking-[-0.005em] text-ink-muted">{t("welcome.body")}</p>
-            <div className="flex gap-3">
-              <Button href="/signup/account" variant="primary">{t("welcome.create")}</Button>
+            <div className="flex flex-wrap gap-3">
+              <TryPrototypeButton />
+              <Button href="/signup/account">{t("welcome.create")}</Button>
               <Button href="/login">{t("welcome.login")}</Button>
             </div>
             <Link href="/how-it-works" className="text-[14px] font-medium tracking-[-0.01em] text-cobalt">{t("welcome.how")}</Link>

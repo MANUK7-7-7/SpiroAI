@@ -1,5 +1,7 @@
 {
   "welcome": {
+    "tryPrototype": "Try prototype",
+    "tryPrototypeError": "Could not open the prototype. Try again.",
     "eyebrow": "VOICE-BASED RESPIRATORY SCREENING",
     "headline": "Early COPD signals from your patients’ voice",
     "body": "A small recording. A clearer picture. Bring remote respiratory monitoring into your everyday practice, with you in control.",
@@ -193,8 +195,7 @@
     "create": "Create account",
     "encrypted": "Your connection is encrypted. Two-factor verification follows.",
     "invalid": "Check your email and password and try again.",
-    "demo": "Demo access: any email and a password of 8+ characters. Fictional data only.",
-    "tryDemo": "Try the demo"
+    "demo": "Demo access: any email and a password of 8+ characters. Fictional data only."
   },
   "twofa": {
     "title": "One more step to keep care secure",
