@@ -56,3 +56,7 @@ The real models live in `services/inference` (FastAPI, `POST /v1/screen`). Read
   COPDVD (BTH, Sweden) to get confirmed-COPD voice data and more accents. Patients will count in Spanish
   while the voice model learned English counting; validate or retrain before trusting it.
 - The model `.joblib` files need scikit-learn 1.9.1 exactly.
+- Connection: `npm run dev` (`scripts/dev.mjs`) starts the service from `services/inference/.venv` (created by
+  `npm run setup:ai`) and the app with `AI_ENDPOINT`/`APP_ORIGIN` set; `AI_PROVIDER` defaults to `http` whenever
+  `AI_ENDPOINT` is set. Production: service on Render (`render.yaml`, Docker), Vercel needs `AI_ENDPOINT`,
+  `AI_API_KEY` and `APP_ORIGIN`.
