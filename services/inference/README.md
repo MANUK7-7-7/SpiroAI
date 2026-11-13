@@ -53,3 +53,9 @@ unrar x cc.rar data/
 python training/audit_cough.py --cc "data/Cough-COPD(CC)" --out data/cc_audit_features.csv
 python training/train_cough.py --cc "data/Cough-COPD(CC)" --cache data/cc_table.csv --out models
 ```
+
+**After retraining either model**, recompute the index anchors (about 30 minutes, nested cross-validation):
+
+```
+python training/score_scale.py --voice-features data/features.csv --cough-table data/cc_table.csv --out models
+```
