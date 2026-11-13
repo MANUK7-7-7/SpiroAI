@@ -803,9 +803,15 @@
       "voice": "Voz",
       "cough": "Tos",
       "chronic_lung_disease": "Patrones asociados a enfermedad pulmonar crónica (vocal y conteo)",
-      "copd": "Patrones asociados a EPOC (tos)"
+      "copd": "Patrones asociados a EPOC (tos)",
+      "percentile": "Más alto que el {n}% de las personas sanas del estudio",
+      "studyBand": "En el estudio, {d} de cada 10 personas con {condition} y {h} de cada 10 personas sanas puntuaron en este rango.",
+      "condition": {
+        "chronic_lung_disease": "enfermedad pulmonar crónica",
+        "copd": "EPOC"
+      }
     },
-    "breakdownNote": "Cada modelo se entrenó con un dataset de investigación distinto y reconoce un objetivo distinto. El índice es su promedio. Método de muestra, sin validación clínica.",
+    "breakdownNote": "Cada puntaje es un índice, no una probabilidad: 40 es el corte de cribado de ese modelo (alrededor de 8 de cada 10 personas con la enfermedad puntúan por encima) y 70 su corte de alta especificidad (alrededor de 9 de cada 10 personas sanas puntúan por debajo). El índice combinado es su promedio. Método de muestra, sin validación clínica.",
     "reading": "Lectura de un texto"
   },
   "trends": {

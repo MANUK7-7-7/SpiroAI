@@ -89,9 +89,17 @@ export type Features = z.infer<typeof featuresSchema>;
  * `target` names what that model was trained to recognise; the two differ.
  */
 export const subScoreSchema = z.object({
+  /** Index, not a probability: 40 is the screening cut-off and 70 the high-specificity cut-off of that model. */
   riskIndex: z.number().min(0).max(100),
   target: z.enum(["chronic_lung_disease", "copd"]),
   tasks: z.array(audioTaskIdSchema).min(1),
+  /** Share (0 to 100) of healthy people in the study who scored lower. */
+  healthyPercentile: z.number().min(0).max(100).optional(),
+  /**
+   * How the study's people spread over this patient's band (0 to 1, nested cross-validation): the share of
+   * people with the disease who scored in this band, and the share of healthy people who did.
+   */
+  sameBandInStudy: z.object({ withDisease: z.number().min(0).max(1), healthy: z.number().min(0).max(1) }).optional(),
 });
 export type SubScore = z.infer<typeof subScoreSchema>;
 
