@@ -28,8 +28,8 @@ export class MockProvider implements ScreeningModelProvider {
     const out: ModelOutput = {
       riskIndex,
       subScores: {
-        voice: voice === undefined ? undefined : { riskIndex: voice, target: "chronic_lung_disease", tasks: ["sustained_vowel", "counting"] },
-        cough: cough === undefined ? undefined : { riskIndex: cough, target: "copd", tasks: ["cough"] },
+        voice: voice === undefined ? undefined : { riskIndex: voice, target: "chronic_lung_disease", tasks: ["sustained_vowel", "counting"], ...demoStudy(voice) },
+        cough: cough === undefined ? undefined : { riskIndex: cough, target: "copd", tasks: ["cough"], ...demoStudy(cough) },
       },
       confidence: Math.round((0.8 + unit(3) * 0.17) * 100) / 100,
       quality: { level: "good", reasons: [] },
@@ -53,6 +53,13 @@ export class MockProvider implements ScreeningModelProvider {
 }
 
 const round = (n: number, d: number) => Math.round(n * 10 ** d) / 10 ** d;
+
+/** Plausible, fixed study context per band, so the demo shows the same UI as the real model. */
+function demoStudy(index: number) {
+  const band = index >= 70 ? "high" : index >= 40 ? "moderate" : "low";
+  const sameBandInStudy = { low: { withDisease: 0.2, healthy: 0.75 }, moderate: { withDisease: 0.5, healthy: 0.2 }, high: { withDisease: 0.3, healthy: 0.05 } }[band];
+  return { healthyPercentile: Math.min(99, Math.round(index * 0.9 + 8)), sameBandInStudy };
+}
 
 function hash(s: string) {
   let h = 2166136261;

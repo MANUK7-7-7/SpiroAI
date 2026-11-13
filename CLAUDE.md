@@ -46,6 +46,10 @@ The real models live in `services/inference` (FastAPI, `POST /v1/screen`). Read
 - Two models, two different targets. Voice (vowel + counting) = self-reported chronic lung disease, Coswara.
   Cough = clinically diagnosed COPD, COPD-Cough (CC). The combined `riskIndex` is their mean; the clinician
   sees both in `subScores`. Never call the voice score "COPD".
+- Scores are an index, not a probability: each model's probability is mapped so its screening cut-off
+  (sensitivity >= 0.80) is 40 and its high-specificity cut-off (>= 0.90) is 70 (`models/score_scale.json`,
+  from `training/score_scale.py`, nested CV). Re-run it after retraining a model. Never show the raw probability
+  as a percentage to clinicians.
 - Bias checks are part of the work, not optional. Coswara needed controls matched on sex, age and recording
   year (year alone predicted the label, AUC 0.85). In CC the background noise alone predicts COPD (AUC 0.78),
   so cough features are band-limited, denoised, computed on cough events only, and training uses
