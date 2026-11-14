@@ -16,6 +16,7 @@ Environment:
 """
 from __future__ import annotations
 
+import json
 import math
 import os
 import tempfile
@@ -36,7 +37,7 @@ from spiro.features import SR, extract, load_audio, participant_vector
 
 MODELS = Path(__file__).parent / "models"
 MODEL_ID = "spiroai-voice-cough"
-MODEL_VERSION = "0.1.0"
+MODEL_VERSION = "0.2.0"
 EXTRACTOR_VERSION = "spiro-librosa-0.1.0"
 API_KEY = os.environ.get("AI_API_KEY")
 FETCH_TIMEOUT_S = float(os.environ.get("AUDIO_FETCH_TIMEOUT_S", "10"))
@@ -44,6 +45,35 @@ WARNINGS = ["NOT_CLINICALLY_VALIDATED", "VOICE_MODEL_SELF_REPORTED_LABELS", "COU
 
 voice_bundle = joblib.load(MODELS / "copd_voice_model.joblib")
 cough_bundle = joblib.load(MODELS / "copd_cough_model.joblib")
+# Probability -> clinician-facing index, from training/score_scale.py.
+SCALE = json.loads((MODELS / "score_scale.json").read_text())
+
+
+def to_index(p: float, scale: dict) -> float:
+    """Piecewise-linear map anchored to measured cut-offs: screening -> 40, high specificity -> 70.
+
+    It keeps the order of patients, so it changes how a score reads, not what the model can tell apart.
+    The result is an index, not a probability.
+    """
+    a, at = scale["anchors"], scale["index_at"]
+    return float(np.interp(p, [0.0, a["screen"], a["high"], 1.0], [0.0, at["screen"], at["high"], 100.0]))
+
+
+def sub_score(p: float, model: str, target: str, tasks: list[str]) -> dict:
+    scale = SCALE[model]
+    index = to_index(p, scale)
+    band = "high" if index >= scale["index_at"]["high"] else "moderate" if index >= scale["index_at"]["screen"] else "low"
+    q = scale["healthy_quantiles"]
+    study = scale["nested_cv"]["bands"][band]
+    return {
+        "riskIndex": round(index, 1),
+        "target": target,
+        "tasks": tasks,
+        # Share of healthy people in the study whose score was lower than this one.
+        "healthyPercentile": round(float(np.interp(p, q, np.linspace(0, 100, len(q)))), 0),
+        # Who scored in this same band in the study (nested cross-validation).
+        "sameBandInStudy": {"withDisease": study["with_disease"], "healthy": study["healthy"]},
+    }
 
 
 class ServiceError(Exception):
@@ -130,7 +160,7 @@ def score(req: ScreenRequest, model_version: str | None) -> dict:
     X = pd.DataFrame([row]).reindex(columns=voice_bundle["columns"])
     p = float(voice_bundle["model"].predict_proba(X)[0, 1])
     probs.append(p)
-    sub["voice"] = {"riskIndex": round(p * 100, 1), "target": "chronic_lung_disease", "tasks": ["sustained_vowel", "counting"]}
+    sub["voice"] = sub_score(p, "voice", "chronic_lung_disease", ["sustained_vowel", "counting"])
     if "cough" in urls:
         try:
             feats = extract_cough(fetch_audio(urls["cough"]))
@@ -140,7 +170,7 @@ def score(req: ScreenRequest, model_version: str | None) -> dict:
             X = pd.DataFrame([{f"r__{k}": v for k, v in feats.items()}]).reindex(columns=cough_bundle["columns"])
             p = float(cough_bundle["model"].predict_proba(X)[0, 1])
             probs.append(p)
-            sub["cough"] = {"riskIndex": round(p * 100, 1), "target": "copd", "tasks": ["cough"]}
+            sub["cough"] = sub_score(p, "cough", "copd", ["cough"])
             if feats["n_coughs"] < 2:
                 reasons.append("FEW_COUGHS_DETECTED")
     try:
@@ -156,9 +186,9 @@ def score(req: ScreenRequest, model_version: str | None) -> dict:
         raise ServiceError(422, "QUALITY_REJECTED", "No steady voice found in the sustained vowel.", ["NO_VOICE_IN_VOWEL"])
 
     # Sample combination rules, not clinically validated:
-    #  * index = mean of the available model probabilities;
+    #  * index = mean of the models' indices (both share the same 40 / 70 anchors);
     #  * confidence = how decisive each model is (max(p, 1 - p)), lowered when the two disagree.
-    risk = float(np.mean(probs)) * 100
+    risk = float(np.mean([s["riskIndex"] for s in sub.values()]))
     decisiveness = float(np.mean([max(p, 1 - p) for p in probs]))
     agreement = 1 - 0.5 * abs(probs[0] - probs[1]) if len(probs) == 2 else 1.0
     confidence = round(decisiveness * agreement, 2)

@@ -56,9 +56,32 @@ split: AUC 0.85, 0.81 with swapped backgrounds (172 test recordings).
 The dataset has no patient IDs, so the same person may appear in train and test folds; real-world
 performance is likely lower.
 
+## From probability to the index clinicians read
+
+A raw probability reads badly: a voice score of 0.37 sounds like "probably nothing" while it is above the
+screening cut-off. So each model's calibrated probability is mapped to a 0 to 100 index with two measured
+anchors and straight lines in between (patient order unchanged). It is an index, not a probability.
+
+| Anchor | Rule | Index | Voice probability | Cough probability |
+|---|---|---|---|---|
+| Screening | sensitivity >= 0.80 | 40 (Low / Moderate) | 0.343 | 0.065 |
+| High | specificity >= 0.90 | 70 (Moderate / High) | 0.403 | 0.375 |
+
+How the rule performs, with nested cross-validation (anchors chosen on the training part only):
+
+| | Voice (29 / 69) | Cough (221 / 632) |
+|---|---|---|
+| Index >= 40: sensitivity / specificity | 0.77 / 0.70 | 0.82 / 0.60 |
+| Index >= 70: sensitivity / specificity | 0.62 / 0.92 | 0.43 / 0.91 |
+
+Each sub-score also reports the share of healthy people in the study who scored lower, and how people
+with and without the disease spread over its band. Computed by `training/score_scale.py`, stored in
+`score_scale.json`. 40 and 70 match the default bands in `src/config/risk-bands.ts`; an institution that
+changes its bands should know the anchors no longer sit on the boundaries.
+
 ## Combined index (inference service)
 
-* `riskIndex` = mean of the available model probabilities × 100.
+* `riskIndex` = mean of the available model indices (both use the same 40 / 70 anchors).
 * `confidence` = mean of max(p, 1 − p) per model, multiplied by 1 − 0.5 × |p_voice − p_cough|.
 * Both rules are samples chosen for transparency, not validated choices.
 * Each deployed model is one calibrated model (`ensemble=False`): the sigmoid calibration still comes from

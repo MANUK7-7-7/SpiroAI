@@ -402,6 +402,31 @@
                         "cough"
                       ]
                     }
+                  },
+                  "healthyPercentile": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  },
+                  "sameBandInStudy": {
+                    "type": "object",
+                    "properties": {
+                      "withDisease": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "healthy": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      }
+                    },
+                    "required": [
+                      "withDisease",
+                      "healthy"
+                    ],
+                    "additionalProperties": false
                   }
                 },
                 "required": [
@@ -437,6 +462,31 @@
                         "cough"
                       ]
                     }
+                  },
+                  "healthyPercentile": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100
+                  },
+                  "sameBandInStudy": {
+                    "type": "object",
+                    "properties": {
+                      "withDisease": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      },
+                      "healthy": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                      }
+                    },
+                    "required": [
+                      "withDisease",
+                      "healthy"
+                    ],
+                    "additionalProperties": false
                   }
                 },
                 "required": [

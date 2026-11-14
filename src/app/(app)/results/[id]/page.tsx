@@ -102,13 +102,21 @@ export default async function ResultPage({ params, searchParams }: { params: Pro
                       if (!s) return null;
                       const b = bandOf(s.riskIndex);
                       return (
-                        <div key={k} className="flex items-center gap-4 rounded-[12px] bg-surface-soft px-4 py-3 text-[12px] leading-[1.45]">
-                          <div className="flex min-w-0 flex-1 flex-col">
-                            <p className="font-medium">{t(`result.breakdown.${k}`)}</p>
-                            <p className="text-ink-muted">{t(`result.breakdown.${s.target}`)}</p>
+                        <div key={k} className="flex flex-col gap-2 rounded-[12px] bg-surface-soft px-4 py-3 text-[12px] leading-[1.45]">
+                          <div className="flex items-center gap-4">
+                            <div className="flex min-w-0 flex-1 flex-col">
+                              <p className="font-medium">{t(`result.breakdown.${k}`)}</p>
+                              <p className="text-ink-muted">{t(`result.breakdown.${s.target}`)}</p>
+                            </div>
+                            <p className="font-display text-[24px] font-medium tracking-[-0.03em]">{Math.round(s.riskIndex)}</p>
+                            <RiskBadge band={b} label={bandWord(b)} />
                           </div>
-                          <p className="font-display text-[24px] font-medium tracking-[-0.03em]">{Math.round(s.riskIndex)}</p>
-                          <RiskBadge band={b} label={bandWord(b)} />
+                          {s.healthyPercentile !== undefined && <p>{t("result.breakdown.percentile", { n: Math.round(s.healthyPercentile) })}</p>}
+                          {s.sameBandInStudy && (
+                            <p className="text-ink-muted">
+                              {t("result.breakdown.studyBand", { d: Math.round(s.sameBandInStudy.withDisease * 10), h: Math.round(s.sameBandInStudy.healthy * 10), condition: t(`result.breakdown.condition.${s.target}`) })}
+                            </p>
+                          )}
                         </div>
                       );
                     })}

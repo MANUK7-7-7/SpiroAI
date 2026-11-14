@@ -803,9 +803,15 @@
       "voice": "Voice",
       "cough": "Cough",
       "chronic_lung_disease": "Patterns linked to chronic lung disease (vowel and counting)",
-      "copd": "Patterns linked to COPD (cough)"
+      "copd": "Patterns linked to COPD (cough)",
+      "percentile": "Higher than {n}% of healthy people in the study",
+      "studyBand": "In the study, {d} of 10 people with {condition} and {h} of 10 healthy people scored in this range.",
+      "condition": {
+        "chronic_lung_disease": "chronic lung disease",
+        "copd": "COPD"
+      }
     },
-    "breakdownNote": "Each model was trained on a different research dataset and recognises a different target. The index is their average. Sample method, not clinically validated.",
+    "breakdownNote": "Each score is an index, not a probability: 40 is that model's screening cut-off (about 8 of 10 people with the disease score above it) and 70 its high-specificity cut-off (about 9 of 10 healthy people score below it). The combined index is their average. Sample method, not clinically validated.",
     "reading": "Reading passage"
   },
   "trends": {
