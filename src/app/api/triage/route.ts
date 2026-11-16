@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { hasSession, unauthorized } from "@/lib/api-auth";
+import { hasSession, sessionOf, unauthorized } from "@/lib/api-auth";
+import { AGENT, AGENT_SESSION } from "@/data/fixtures/agent";
 import { createTriage } from "@/data/repositories/triage";
 import { withStore } from "@/data/persist";
 
@@ -16,7 +17,9 @@ async function handlePOST(req: Request) {
   if (!hasSession(req)) return unauthorized();
   const parsed = body.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return NextResponse.json({ error: "INVALID" }, { status: 400 });
-  const t = createTriage(parsed.data, "Dr. Elena Morales");
+  // A health agent triages on home visits; the result goes to the doctor at the centre.
+  const agent = sessionOf(req) === AGENT_SESSION;
+  const t = agent ? createTriage(parsed.data, AGENT.name, { homeVisit: true }) : createTriage(parsed.data, "Dr. Elena Morales");
   return NextResponse.json({ id: t.id, patientId: t.patientId, code: t.code }, { status: 201 });
 }
 

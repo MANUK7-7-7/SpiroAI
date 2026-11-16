@@ -38,7 +38,7 @@ export default async function TriagePage({ searchParams }: { searchParams: Promi
               {list.slice(0, 40).map((x) => (
                 <tr key={x.id} className="border-t border-line">
                   <td className="px-3 py-3"><Link href={`/triage/${x.id}`} className="font-medium text-ink hover:text-cobalt">{x.patientName}</Link><p className="text-[11px] text-ink-muted">{x.code}</p></td>
-                  <td className="px-3 py-3 text-ink-muted">{x.centre}</td>
+                  <td className="px-3 py-3 text-ink-muted">{x.centre}{x.homeVisit && <p className="text-[11px] text-cobalt">{t("agent.homeVisit")} · {x.by}</p>}</td>
                   <td className="px-3 py-3 text-ink-muted">{formatShortDate(x.at, locale)}</td>
                   <td className="px-3 py-3 font-mono">{x.pumaScore}/{puma.max}</td>
                   <td className="px-3 py-3">{t(`triage.voice.${x.voiceState}`)}</td>

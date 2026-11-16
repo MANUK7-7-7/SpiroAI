@@ -43,7 +43,7 @@ export const getTriage = (id: string) => { const t = store.triages.find((x) => x
 export type NewTriage = { name: string; phone?: string; centre: string; answers: PumaAnswers; consent: true };
 
 /** The person is triaged in person: consent is given there, so the record starts active. */
-export function createTriage(input: NewTriage, by: string): Triage {
+export function createTriage(input: NewTriage, by: string, opts: { homeVisit?: boolean } = {}): Triage {
   const n = store.triages.length + 2400;
   const patient: Patient = patientSchema.parse({
     id: `p-t${n}`, code: `SP-T${n}`, name: input.name.trim(), initials: input.name.trim().split(/\s+/).map((x) => x[0]).slice(0, 2).join("").toUpperCase(),
@@ -54,9 +54,18 @@ export function createTriage(input: NewTriage, by: string): Triage {
   const t = triageSchema.parse({
     id: nextId("tr"), code: `TR-${n}`, patientId: patient.id, patientName: patient.name, centre: input.centre, by, at: nowIso(),
     answers: input.answers, pumaScore: score, voice: "off", priority: priorityFor(score, "off"), override: false, worsening: false, monitoringStarted: false,
+    homeVisit: !!opts.homeVisit,
   });
   store.triages.unshift(t);
-  recordAudit({ action: "triage.created", subject: t.id, detail: `consent in person · ${input.centre}` });
+  recordAudit({ action: "triage.created", subject: t.id, detail: `consent in person · ${input.centre}${opts.homeVisit ? " · home visit" : ""}`, actor: by });
+  // A home-visit triage reaches the doctor at the centre as a notification that opens the triage.
+  if (opts.homeVisit) {
+    store.alerts.unshift({
+      id: nextId("a"), code: `AL-${300 + store.alerts.length}`, patientId: patient.id, patientName: patient.name, severity: "info",
+      rule: "home_triage", params: { agent: by }, triageId: t.id, state: "open", firedAt: nowIso(),
+    });
+    recordAudit({ action: "doctor.notified", subject: t.id, detail: "home visit triage", actor: "system" });
+  }
   return t;
 }
 

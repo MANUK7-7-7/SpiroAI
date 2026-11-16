@@ -31,7 +31,7 @@ function person(i: number, now: number): Triage {
   const t: Triage = {
     id: `tr-${100 + i}`, code: `TR-${2400 + i}`, patientId: `tp-${100 + i}`, patientName: `${pick(first)} ${pick(last)}`, centre: pick(CENTRES), by: pick(["Agente sanitario M. López", "Enf. R. Castro", "Dra. P. Ibáñez"]),
     at: iso(at), answers, pumaScore: score, voice, priority, override, worsening: false,
-    retriageOn: priority !== "high" && !override ? iso(at + RETRIAGE_MONTHS[priority] * 30 * DAY).slice(0, 10) : undefined, monitoringStarted: false,
+    retriageOn: priority !== "high" && !override ? iso(at + RETRIAGE_MONTHS[priority] * 30 * DAY).slice(0, 10) : undefined, monitoringStarted: false, homeVisit: false,
   };
   if (referred) {
     // Appointments sit on the hospital's morning slots (08:00 to 10:30, Buenos Aires time).

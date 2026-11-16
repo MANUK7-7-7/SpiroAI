@@ -40,7 +40,8 @@ export default async function AlertsPage({ searchParams }: { searchParams: Promi
     const p = await getPatient(a.patientId);
     const r = p?.latest;
     const params = { ...a.params, high: getBands().highFrom } as Record<string, string | number>;
-    const meta = a.rule === "missed_tests" ? t("alertsCenter.lastResult", { conf: Math.round((r?.confidence ?? 0) * 100), quality: t(`quality.${r?.quality ?? "good"}`), disclaimer: t("common.disclaimer") })
+    const meta = a.rule === "home_triage" ? t("alertsCenter.homeTriageMeta")
+      : a.rule === "missed_tests" ? t("alertsCenter.lastResult", { conf: Math.round((r?.confidence ?? 0) * 100), quality: t(`quality.${r?.quality ?? "good"}`), disclaimer: t("common.disclaimer") })
       : a.rule === "poor_quality" ? t("alertsCenter.lastReliable", { conf: Math.round((r?.confidence ?? 0) * 100), quality: t(`quality.${r?.quality ?? "good"}`), disclaimer: t("common.disclaimer") })
       : t("alertsCenter.aiMeta", { conf: Math.round((r?.confidence ?? 0) * 100), quality: t(`quality.${r?.quality ?? "good"}`), j: t(`judgment.${r?.judgment ?? "pending"}`), disclaimer: t("common.disclaimer") });
     return (
@@ -51,11 +52,13 @@ export default async function AlertsPage({ searchParams }: { searchParams: Promi
             <p className="text-[15px] font-medium tracking-[-0.01em]">{t(`alertsCenter.titles.${a.rule}`, params)}</p>
             <p className="text-[11px] text-ink-muted">{relativeDayTime(a.firedAt, DEMO_NOW, locale, labels)}{ago(a.firedAt) ? ` · ${ago(a.firedAt)}` : ""} · {t(`alertsCenter.rules.${a.rule}`, params)}</p>
           </div>
-          {r && <RiskBadge band={r.band} label={`${r.riskIndex} · ${t(`risk.${r.band}`)}`} />}
+          {r && !a.triageId && <RiskBadge band={r.band} label={`${r.riskIndex} · ${t(`risk.${r.band}`)}`} />}
         </div>
         <p className="text-[11px] leading-[1.45] text-ink-muted">{meta}</p>
         <div className="flex flex-wrap gap-[10px]">
-          <Button size="sm" radius="lg" href={a.resultId ? `/results/${a.resultId}` : `/patients/${a.patientId}`}>{t("alertsCenter.openResult")}</Button>
+          {a.triageId
+            ? <Button size="sm" radius="lg" href={`/triage/${a.triageId}`}>{t("alertsCenter.openTriage")}</Button>
+            : <Button size="sm" radius="lg" href={a.resultId ? `/results/${a.resultId}` : `/patients/${a.patientId}`}>{t("alertsCenter.openResult")}</Button>}
           <Button size="sm" variant="primary" radius="lg" href={`?panel=action&patient=${a.patientId}&alert=${a.id}`}>{t("alertsCenter.takeAction")}</Button>
           {p && <WhatsAppContact patientId={p.id} firstName={p.name.split(" ")[0]} hasPhone={!!p.phone} locked={p.consent === "revoked"} className="rounded-[18px]" />}
           <DismissAlert alertId={a.id} sub={t("alertsCenter.dismissSub", { name: a.patientName, code: p?.code ?? "", what: t(`alertsCenter.titles.${a.rule}`, params).split(" · ")[0], date: formatDayYear(a.firedAt, locale) })} />

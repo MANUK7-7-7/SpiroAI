@@ -28,7 +28,8 @@
       "note": "Illustrative · no patient data · not a diagnosis"
     },
     "extra": "An extra signal, not a diagnosis",
-    "footer": "SpiroAI · Professional voice screening support · Fictional demonstration, not clinically validated."
+    "footer": "SpiroAI · Professional voice screening support · Fictional demonstration, not clinically validated.",
+    "tryAgent": "Health agent demo"
   },
   "risk": {
     "low": "Low",
@@ -591,6 +592,10 @@
       "poor_quality": {
         "title": "Repeated poor-quality recordings",
         "body": "{count} recordings in a row were too low in quality."
+      },
+      "home_triage": {
+        "title": "Home-visit triage",
+        "body": "Triaged by {agent} on a home visit. Open the triage to see the priority."
       }
     }
   },
@@ -1010,7 +1015,8 @@
       "missed_tests": "{count} scheduled tests missed",
       "poor_quality": "Repeated poor-quality recordings",
       "result_received": "New test result to review",
-      "analysis_failed": "Test received, analysis failed"
+      "analysis_failed": "Test received, analysis failed",
+      "home_triage": "Home-visit triage to review"
     },
     "rules": {
       "risk_rise": "Rule: High result · Risk ≥ {high}",
@@ -1018,7 +1024,8 @@
       "missed_tests": "Rule: Adherence · {count} consecutive missed tests",
       "poor_quality": "Rule: Recording quality · {count} poor recordings in 7 days",
       "result_received": "The patient completed the test sent by link",
-      "analysis_failed": "Open the result to retry the analysis"
+      "analysis_failed": "Open the result to retry the analysis",
+      "home_triage": "Triaged by {agent} on a home visit"
     },
     "ago": {
       "min": "{n} min ago",
@@ -1058,7 +1065,9 @@
     "dismissError": "The alert could not be dismissed. Try again.",
     "auditTitle": "Audit trail",
     "auditEmpty": "No audit events for this alert.",
-    "reviewedReason": "The doctor reviewed the result"
+    "reviewedReason": "The doctor reviewed the result",
+    "openTriage": "Open triage",
+    "homeTriageMeta": "Done on a home visit. The priority is a priority for a breathing test, not a diagnosis."
   },
   "action": {
     "title": "Plan the next step",
@@ -1763,5 +1772,26 @@
     "casesShort": "cases",
     "measuredShort": "measured",
     "reportFoot": "Accuracy counts only the referrals the triage recommended. Every result entered by the hospital is a check on the triage."
+  },
+  "agent": {
+    "badge": "Health agent",
+    "exit": "Leave the demo",
+    "eyebrow": "{name} · {centre}",
+    "title": "Today's home visits",
+    "intro": "Triage at the person's home. Every result goes to {doctor} at the centre.",
+    "toVisit": "To visit · {n}",
+    "reason": {
+      "due": "Triage due",
+      "retriage": "Re-triage today"
+    },
+    "allDone": "All visits for today are done.",
+    "newTriage": "New triage at this home",
+    "done": "Done today · {n}",
+    "sentTo": "sent to {doctor}",
+    "doctorViewHint": "See what {doctor} receives at the centre.",
+    "doctorView": "Open the doctor's view",
+    "homeVisit": "Home visit",
+    "sentNotice": "Sent to {doctor} at the centre. It appears in the doctor's triage list and notifications.",
+    "nextVisit": "Next home visit"
   }
 }

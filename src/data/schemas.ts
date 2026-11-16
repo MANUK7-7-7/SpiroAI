@@ -168,6 +168,8 @@ export const alertSchema = z.object({
   rule: z.string(),
   params: z.record(z.string(), z.union([z.string(), z.number()])).default({}),
   resultId: z.string().optional(),
+  /** A home-visit triage the doctor should look at. */
+  triageId: z.string().optional(),
   state: z.enum(["open", "resolved", "dismissed"]),
   firedAt: z.string().datetime({ offset: true }),
   resolvedAt: z.string().datetime({ offset: true }).optional(),
@@ -270,6 +272,8 @@ export const triageSchema = z.object({
     enteredAt: z.string().datetime({ offset: true }),
   }).optional(),
   monitoringStarted: z.boolean().default(false),
+  /** Done by a health agent on a home visit; the doctor is notified. */
+  homeVisit: z.boolean().default(false),
 });
 export type Triage = z.infer<typeof triageSchema>;
 

@@ -17,13 +17,19 @@ const order: Step[] = ["consent", "person", "questions", "voice"];
 type YesNo = "dyspnea" | "phlegm" | "cough" | "priorSpirometry";
 
 /** Consent, the person, the seven PUMA items, then about 10 seconds of voice. Every step is done with the person present. */
-export function TriageFlow({ centres, voiceEnabled }: { centres: string[]; voiceEnabled: boolean }) {
+export function TriageFlow({ centres, voiceEnabled, basePath = "/triage", initial }: {
+  centres: string[]; voiceEnabled: boolean;
+  /** Where the result opens: the doctor's /triage or the health agent's /agent/triage. */
+  basePath?: string;
+  /** Details already known from the home-visit list. */
+  initial?: { name?: string; age?: number; sex?: "f" | "m" };
+}) {
   const { t } = useT();
   const router = useRouter();
   const [step, setStep] = useState<Step>("consent");
   const [consent, setConsent] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [person, setPerson] = useState({ name: "", phone: "", centre: centres[0], sex: "f" as "f" | "m", age: "", smoking: "current" as "current" | "former" | "never", packYears: "", diagnosed: false });
+  const [person, setPerson] = useState({ name: initial?.name ?? "", phone: "", centre: centres[0], sex: (initial?.sex ?? "f") as "f" | "m", age: initial?.age ? String(initial.age) : "", smoking: "current" as "current" | "former" | "never", packYears: "", diagnosed: false });
   const [yes, setYes] = useState<Record<YesNo, boolean | undefined>>({ dyspnea: undefined, phlegm: undefined, cough: undefined, priorSpirometry: undefined });
   const [created, setCreated] = useState<{ id: string; patientId: string; code: string } | null>(null);
   const [saving, setSaving] = useState(false);
@@ -51,7 +57,7 @@ export function TriageFlow({ centres, voiceEnabled }: { centres: string[]; voice
     if (!res.ok) return setError(t("settings.save.error"));
     const c = (await res.json()) as { id: string; patientId: string; code: string };
     setCreated(c);
-    if (!voiceEnabled) return router.push(`/triage/${c.id}`);
+    if (!voiceEnabled) return router.push(`${basePath}/${c.id}`);
     setStep("voice");
   }
 
@@ -95,7 +101,7 @@ export function TriageFlow({ centres, voiceEnabled }: { centres: string[]; voice
           <div className="grid grid-cols-2 gap-4 max-lg:grid-cols-1">
             <Field label={t("triage.name")} value={person.name} onChange={(e) => setPerson({ ...person, name: e.target.value })} autoComplete="off" />
             <Field label={t("triage.phone")} type="tel" value={person.phone} onChange={(e) => setPerson({ ...person, phone: e.target.value })} hint={t("triage.phoneHint")} autoComplete="off" />
-            <SelectField label={t("triage.centre")} value={person.centre} onChange={(e) => setPerson({ ...person, centre: e.target.value })} options={centres} />
+            {centres.length > 1 && <SelectField label={t("triage.centre")} value={person.centre} onChange={(e) => setPerson({ ...person, centre: e.target.value })} options={centres} />}
             <SelectField label={t("triage.sex")} value={person.sex} onChange={(e) => setPerson({ ...person, sex: e.target.value as "f" | "m" })} options={[{ value: "f", label: t("triage.female") }, { value: "m", label: t("triage.male") }]} />
             <Field label={t("triage.age")} type="number" inputMode="numeric" min={18} max={110} value={person.age} onChange={(e) => setPerson({ ...person, age: e.target.value })} />
             <SelectField label={t("triage.smoking")} value={person.smoking} onChange={(e) => setPerson({ ...person, smoking: e.target.value as typeof person.smoking })} options={(["current", "former", "never"] as const).map((v) => ({ value: v, label: t(`triage.${v}`) }))} />
@@ -129,9 +135,9 @@ export function TriageFlow({ centres, voiceEnabled }: { centres: string[]; voice
           <RecorderFlow mode="assisted" protocol="triage" patientId={created.patientId} patientName={person.name} patientCode={created.code} consent="active"
             onUploaded={async (recordingId) => {
               await fetch(`/api/triage/${created.id}`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ action: "voice", recordingId }) });
-              router.push(`/triage/${created.id}`);
+              router.push(`${basePath}/${created.id}`);
             }} />
-          <div><Button onClick={() => router.push(`/triage/${created.id}`)}>{t("triage.skipVoice")}</Button></div>
+          <div><Button onClick={() => router.push(`${basePath}/${created.id}`)}>{t("triage.skipVoice")}</Button></div>
         </div>
       )}
     </div>

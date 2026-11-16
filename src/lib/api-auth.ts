@@ -13,3 +13,7 @@ export const isModelService = (req: Request) => {
   const key = process.env.AI_API_KEY;
   return !key || req.headers.get("authorization") === `Bearer ${key}`;
 };
+
+/** The demo session value: "demo-clinician" for the doctor, "demo-agent" for the health agent. */
+export const sessionOf = (req: Request) =>
+  (req.headers.get("cookie") ?? "").split(/;\s*/).find((c) => c.startsWith(`${SESSION_COOKIE}=`))?.slice(SESSION_COOKIE.length + 1);

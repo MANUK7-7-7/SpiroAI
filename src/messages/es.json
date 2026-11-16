@@ -28,7 +28,8 @@
       "note": "Ilustrativo · sin datos de pacientes · no es un diagnóstico"
     },
     "extra": "Una señal adicional, no un diagnóstico",
-    "footer": "SpiroAI · Apoyo profesional al screening por voz · Demostración ficticia, sin validación clínica."
+    "footer": "SpiroAI · Apoyo profesional al screening por voz · Demostración ficticia, sin validación clínica.",
+    "tryAgent": "Demo agente sanitario"
   },
   "risk": {
     "low": "Bajo",
@@ -591,6 +592,10 @@
       "poor_quality": {
         "title": "Grabaciones de mala calidad repetidas",
         "body": "{count} grabaciones seguidas con calidad insuficiente."
+      },
+      "home_triage": {
+        "title": "Triage de visita domiciliaria",
+        "body": "Hecho por {agent} en una visita domiciliaria. Abrí el triage para ver la prioridad."
       }
     }
   },
@@ -1010,7 +1015,8 @@
       "missed_tests": "{count} controles programados omitidos",
       "poor_quality": "Grabaciones de mala calidad repetidas",
       "result_received": "Nuevo resultado de test para revisar",
-      "analysis_failed": "Test recibido, el análisis falló"
+      "analysis_failed": "Test recibido, el análisis falló",
+      "home_triage": "Triage de visita domiciliaria para revisar"
     },
     "rules": {
       "risk_rise": "Regla: Resultado alto · Riesgo ≥ {high}",
@@ -1018,7 +1024,8 @@
       "missed_tests": "Regla: Adherencia · {count} controles omitidos consecutivos",
       "poor_quality": "Regla: Calidad de grabación · {count} grabaciones malas en 7 días",
       "result_received": "El paciente completó el test enviado por link",
-      "analysis_failed": "Abrí el resultado para reintentar el análisis"
+      "analysis_failed": "Abrí el resultado para reintentar el análisis",
+      "home_triage": "Hecho por {agent} en una visita domiciliaria"
     },
     "ago": {
       "min": "hace {n} min",
@@ -1058,7 +1065,9 @@
     "dismissError": "No se pudo descartar la alerta. Intentá de nuevo.",
     "auditTitle": "Registro de auditoría",
     "auditEmpty": "No hay eventos de auditoría para esta alerta.",
-    "reviewedReason": "El médico revisó el resultado"
+    "reviewedReason": "El médico revisó el resultado",
+    "openTriage": "Abrir triage",
+    "homeTriageMeta": "Hecho en una visita domiciliaria. Es una prioridad para un estudio de respiración, no un diagnóstico."
   },
   "action": {
     "title": "Planificá el próximo paso",
@@ -1763,5 +1772,26 @@
     "casesShort": "casos",
     "measuredShort": "medidos",
     "reportFoot": "La precisión cuenta solo las derivaciones que recomendó el triage. Cada resultado que carga el hospital es un control del triage."
+  },
+  "agent": {
+    "badge": "Agente sanitario",
+    "exit": "Salir de la demo",
+    "eyebrow": "{name} · {centre}",
+    "title": "Visitas de hoy",
+    "intro": "Triage en la casa de la persona. Cada resultado le llega a {doctor} en el centro.",
+    "toVisit": "Por visitar · {n}",
+    "reason": {
+      "due": "Triage pendiente",
+      "retriage": "Re-triage hoy"
+    },
+    "allDone": "Ya hiciste todas las visitas de hoy.",
+    "newTriage": "Nuevo triage en esta casa",
+    "done": "Hechos hoy · {n}",
+    "sentTo": "enviado a {doctor}",
+    "doctorViewHint": "Mirá lo que recibe {doctor} en el centro.",
+    "doctorView": "Abrir la vista del médico",
+    "homeVisit": "Visita domiciliaria",
+    "sentNotice": "Enviado a {doctor} en el centro. Aparece en su lista de triages y en sus notificaciones.",
+    "nextVisit": "Siguiente visita"
   }
 }
