@@ -10,7 +10,8 @@ const body = z.object({
   phone: z.string().trim().max(40).optional(),
   centre: z.string().min(1),
   consent: z.literal(true),
-  answers: z.object({ sex: z.enum(["f", "m"]), age: z.number().int().min(40).max(110), packYears: z.number().min(10).max(200), dyspnea: z.boolean(), phlegm: z.boolean(), cough: z.boolean(), priorSpirometry: z.boolean() }),
+  smoking: z.enum(["current", "former", "never"]).optional(),
+  answers: z.object({ sex: z.enum(["f", "m"]), age: z.number().int().min(0).max(110), packYears: z.number().min(0).max(200), dyspnea: z.boolean(), phlegm: z.boolean(), cough: z.boolean(), priorSpirometry: z.boolean() }),
 });
 
 async function handlePOST(req: Request) {

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, SelectField } from "@/components/ui/field";
-import { eligibility, puma, pumaScore, type PumaAnswers } from "@/config/triage";
+import { puma, pumaScore, type PumaAnswers } from "@/config/triage";
 import { cn } from "@/lib/cn";
 import { useT } from "@/lib/i18n/client";
 
@@ -35,15 +35,14 @@ export function TriageFlow({ centres, voiceEnabled, basePath = "/triage", initia
   const [saving, setSaving] = useState(false);
 
   const age = Number(person.age);
-  const packYears = Number(person.packYears);
+  const packYears = person.smoking === "never" ? 0 : Number(person.packYears);
   const answers: PumaAnswers = { sex: person.sex, age, packYears, dyspnea: !!yes.dyspnea, phlegm: !!yes.phlegm, cough: !!yes.cough, priorSpirometry: !!yes.priorSpirometry };
   const answeredAll = (Object.keys(yes) as YesNo[]).every((k) => yes[k] !== undefined);
 
   function personGate(): string | null {
     if (person.name.trim().length < 2 || !person.age) return t("signup.errors.required");
-    if (age < eligibility.minAge) return t("triage.notEligible.young");
-    if (person.smoking === "never") return t("triage.notEligible.never");
-    if (!(packYears >= eligibility.minPackYears)) return t("triage.notEligible.packYears");
+    if (!(age >= 0 && age <= 110)) return t("signup.errors.required");
+    if (person.smoking !== "never" && (person.packYears.trim() === "" || !(packYears >= 0))) return t("signup.errors.required");
     if (person.diagnosed) return t("triage.notEligible.diagnosed");
     return null;
   }
@@ -52,7 +51,7 @@ export function TriageFlow({ centres, voiceEnabled, basePath = "/triage", initia
     if (!answeredAll) return setError(t("signup.errors.required"));
     if (!yes.dyspnea && !yes.phlegm && !yes.cough) return setError(t("triage.notEligible.noSymptoms"));
     setSaving(true);
-    const res = await fetch("/api/triage", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: person.name, phone: person.phone || undefined, centre: person.centre, consent: true, answers }) });
+    const res = await fetch("/api/triage", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ name: person.name, phone: person.phone || undefined, centre: person.centre, consent: true, smoking: person.smoking, answers }) });
     setSaving(false);
     if (!res.ok) return setError(t("settings.save.error"));
     const c = (await res.json()) as { id: string; patientId: string; code: string };
@@ -103,7 +102,7 @@ export function TriageFlow({ centres, voiceEnabled, basePath = "/triage", initia
             <Field label={t("triage.phone")} type="tel" value={person.phone} onChange={(e) => setPerson({ ...person, phone: e.target.value })} hint={t("triage.phoneHint")} autoComplete="off" />
             {centres.length > 1 && <SelectField label={t("triage.centre")} value={person.centre} onChange={(e) => setPerson({ ...person, centre: e.target.value })} options={centres} />}
             <SelectField label={t("triage.sex")} value={person.sex} onChange={(e) => setPerson({ ...person, sex: e.target.value as "f" | "m" })} options={[{ value: "f", label: t("triage.female") }, { value: "m", label: t("triage.male") }]} />
-            <Field label={t("triage.age")} type="number" inputMode="numeric" min={18} max={110} value={person.age} onChange={(e) => setPerson({ ...person, age: e.target.value })} />
+            <Field label={t("triage.age")} type="number" inputMode="numeric" min={0} max={110} value={person.age} onChange={(e) => setPerson({ ...person, age: e.target.value })} />
             <SelectField label={t("triage.smoking")} value={person.smoking} onChange={(e) => setPerson({ ...person, smoking: e.target.value as typeof person.smoking })} options={(["current", "former", "never"] as const).map((v) => ({ value: v, label: t(`triage.${v}`) }))} />
             {person.smoking !== "never" && <Field label={t("triage.packYears")} type="number" inputMode="decimal" min={0} value={person.packYears} onChange={(e) => setPerson({ ...person, packYears: e.target.value })} hint={t("triage.packYearsHint")} />}
           </div>

@@ -49,14 +49,14 @@ function nextTriageId() {
   return `tr-${max + 1}`;
 }
 
-export type NewTriage = { name: string; phone?: string; centre: string; answers: PumaAnswers; consent: true };
+export type NewTriage = { name: string; phone?: string; centre: string; smoking?: "current" | "former" | "never"; answers: PumaAnswers; consent: true };
 
 /** The person is triaged in person: consent is given there, so the record starts active. */
 export function createTriage(input: NewTriage, by: string, opts: { homeVisit?: boolean } = {}): Triage {
   const n = store.triages.length + 2400;
   const patient: Patient = patientSchema.parse({
     id: `p-t${n}`, code: `SP-T${n}`, name: input.name.trim(), initials: input.name.trim().split(/\s+/).map((x) => x[0]).slice(0, 2).join("").toUpperCase(),
-    age: input.answers.age, sex: input.answers.sex, status: "at_risk", smoker: "current", consent: "active", invitePending: false, phone: input.phone,
+    age: input.answers.age, sex: input.answers.sex, status: "at_risk", smoker: input.smoking ?? (input.answers.packYears > 0 ? "current" : "never"), consent: "active", invitePending: false, phone: input.phone,
   });
   store.patients.unshift(patient);
   const score = pumaScore(input.answers);
