@@ -40,6 +40,15 @@ export async function listTriages(demo?: DemoState) {
 
 export const getTriage = (id: string) => { const t = store.triages.find((x) => x.id === id); return t && view(t); };
 
+/**
+ * Next free triage id. The shared counter starts at 100, the same range the seed uses (tr-100...), so ids are
+ * taken from the highest numeric suffix already in the store instead. This also holds for a store loaded from Redis.
+ */
+function nextTriageId() {
+  const max = store.triages.reduce((m, t) => { const k = /^tr-(\d+)$/.exec(t.id); return k ? Math.max(m, Number(k[1])) : m; }, 99);
+  return `tr-${max + 1}`;
+}
+
 export type NewTriage = { name: string; phone?: string; centre: string; answers: PumaAnswers; consent: true };
 
 /** The person is triaged in person: consent is given there, so the record starts active. */
@@ -52,7 +61,7 @@ export function createTriage(input: NewTriage, by: string, opts: { homeVisit?: b
   store.patients.unshift(patient);
   const score = pumaScore(input.answers);
   const t = triageSchema.parse({
-    id: nextId("tr"), code: `TR-${n}`, patientId: patient.id, patientName: patient.name, centre: input.centre, by, at: nowIso(),
+    id: nextTriageId(), code: `TR-${n}`, patientId: patient.id, patientName: patient.name, centre: input.centre, by, at: nowIso(),
     answers: input.answers, pumaScore: score, voice: "off", priority: priorityFor(score, "off"), override: false, worsening: false, monitoringStarted: false,
     homeVisit: !!opts.homeVisit,
   });
