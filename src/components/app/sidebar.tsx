@@ -9,7 +9,7 @@ export async function Sidebar() {
   const [{ t }, me] = await Promise.all([getT(), getCurrentClinician()]);
   return (
     <aside className="flex min-h-[1028px] w-[204px] shrink-0 flex-col gap-[30px] self-stretch rounded-panel bg-surface p-[18px]">
-      <Brand shape="pill" />
+      <Brand />
       <p className="text-[10px] font-medium leading-[1.45] tracking-[0.06em] text-ink-muted">{t("app.workspace")}</p>
       <SidebarNav
         alertCount={me.unreadAlerts}

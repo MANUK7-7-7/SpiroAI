@@ -26,7 +26,7 @@ export default async function DesignSystem() {
   );
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col gap-10 rounded-shell bg-surface-sunken p-10">
-      <Brand shape="pill" />
+      <Brand />
       <div className="flex flex-col gap-2"><Title size={40}>Design system</Title><p className="text-[14px] text-ink-muted">Tokens, type, primitives and the four screen states. Fictional sample data. {t("common.disclaimer")}</p></div>
 
       {section("Colour tokens", (

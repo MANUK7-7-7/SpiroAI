@@ -8,7 +8,7 @@ export async function PublicShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col gap-8 rounded-shell bg-surface-sunken p-10">
       <header className="flex items-center justify-between">
-        <Brand shape="pill" />
+        <Brand />
         <nav className="flex items-center gap-6">
           <span className="whitespace-nowrap text-[14px] tracking-[-0.005em] text-ink-muted">{t("public.forProfessionals")}</span>
           <LocaleToggle />

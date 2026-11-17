@@ -14,7 +14,7 @@ export default async function Slip({ params }: { params: Promise<{ id: string }>
   if (!x?.referral) notFound();
   return (
     <main className="mx-auto flex max-w-[560px] flex-col gap-5 bg-surface p-10 print:p-0">
-      <Brand shape="pill" />
+      <Brand />
       <h1 className="font-display text-[26px] font-medium tracking-[-0.03em]">{t("triage.slipTitle")}</h1>
       <p className="text-[18px] font-medium">{x.patientName}</p>
       <p className="text-[16px]">{formatLongDate(x.referral.at, locale)}, {formatTime(x.referral.at, locale)}</p>

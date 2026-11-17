@@ -24,7 +24,7 @@ export default async function Welcome() {
     <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col gap-[18px] bg-canvas px-3 pb-5 pt-3 sm:px-8 sm:pb-7 sm:pt-8 lg:rounded-shell">
       <div className="flex flex-col gap-6 overflow-hidden rounded-[28px] bg-surface p-5 sm:rounded-shell sm:p-8 lg:h-[940px] lg:flex-row lg:py-5 lg:pl-14 lg:pr-5">
         <div className="flex min-w-px flex-1 flex-col justify-between gap-8 lg:h-full lg:gap-0 lg:pb-9 lg:pt-6">
-          <Brand />
+          <Brand height={72} />
           <div className="flex flex-col items-start gap-5 lg:gap-7">
             <p className="text-[12px] font-medium tracking-[0.06em] text-cobalt">{t("welcome.eyebrow")}</p>
             <h1 className="max-w-[610px] font-display text-[40px] font-medium leading-[1.02] tracking-[-0.045em] text-ink sm:text-[56px] lg:text-[72px] lg:leading-[0.98] lg:tracking-[-0.05em]">

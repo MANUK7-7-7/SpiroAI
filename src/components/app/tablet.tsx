@@ -12,7 +12,7 @@ export async function TabletHeader() {
   return (
     <header className="flex flex-col gap-4 lg:hidden">
       <div className="flex items-center justify-between">
-        <Brand shape="pill" />
+        <Brand />
         <Link href="/alerts" aria-label={`${t("app.notifications")}: ${me.unreadAlerts}`} className="relative">
           <Bell size={20} strokeWidth={1.8} aria-hidden />
           <span className="absolute -right-3 -top-2 flex size-4 items-center justify-center rounded-full bg-cobalt text-[9px] font-medium text-on-accent">{me.unreadAlerts}</span>
