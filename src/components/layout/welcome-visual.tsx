@@ -1,13 +1,13 @@
 import Image from "next/image";
 import { Pin } from "@/components/ui/pin";
-import { RiskBadge } from "@/components/ui/risk-badge";
+import { PriorityBadge } from "@/components/triage/priority-badge";
 import { getT } from "@/lib/i18n/server";
 
 function CircleButton({ children }: { children: React.ReactNode }) {
   return <div className="flex size-14 items-center justify-center rounded-full bg-surface-soft text-[14px] font-medium tracking-[0.02em]">{children}</div>;
 }
 
-/** S01 notched image panel: top-left corner cut out with inverse 36px fillets. */
+/** S01 notched image panel: top-left corner cut out with inverse 36px fillets. The card shows a triage priority, never a risk score. */
 export async function WelcomeVisual() {
   const { t } = await getT();
   return (
@@ -30,16 +30,13 @@ export async function WelcomeVisual() {
       <Pin label={t("welcome.pins.followup")} side="left" className="left-[445px] top-[600px]" />
 
       <div className="absolute bottom-5 right-5 flex w-[318px] flex-col gap-[14px] rounded-card bg-surface px-[22px] pb-[18px] pt-5">
-        <div className="flex items-center justify-between">
-          <span className="text-[15px] font-medium tracking-[-0.02em]">{t("welcome.trend.title")}</span>
-          <RiskBadge band="low" label={t("risk.low")} />
+        <span className="text-[15px] font-medium tracking-[-0.02em]">{t("welcome.card.title")}</span>
+        <div><PriorityBadge priority="high" label={t("welcome.card.priority")} /></div>
+        <div className="flex flex-col divide-y divide-line text-[13px]">
+          <p className="pb-2">{t("welcome.card.puma")}</p>
+          <p className="pt-2 text-cobalt">{t("welcome.card.booked")}</p>
         </div>
-        <Image src="/assets/s01/area-chart.svg" alt="" width={274} height={76} />
-        <div className="flex items-center gap-[18px] text-[12px] text-ink-muted">
-          <span className="flex items-center gap-[6px]"><Image src="/assets/s01/ellipse.svg" alt="" width={7} height={7} />{t("welcome.trend.baseline")}</span>
-          <span className="flex items-center gap-[6px]"><Image src="/assets/s01/accent-dot.svg" alt="" width={7} height={7} />{t("welcome.trend.today")}</span>
-        </div>
-        <p className="text-[11px] text-ink-muted">{t("welcome.trend.note")}</p>
+        <p className="text-[11px] text-ink-muted">{t("welcome.card.note")}</p>
       </div>
       <p className="absolute bottom-[28px] left-[28px] text-[12px] font-medium uppercase tracking-[0.04em] text-ink">{t("welcome.extra")}</p>
     </div>

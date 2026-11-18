@@ -11,8 +11,9 @@ const url = process.env.KV_REST_API_URL ?? process.env.UPSTASH_REDIS_REST_URL;
 const token = process.env.KV_REST_API_TOKEN ?? process.env.UPSTASH_REDIS_REST_TOKEN;
 export const persistEnabled = Boolean(url && token);
 
-const STATE = "spiro:state";
-const VERSION = "spiro:ver";
+// Bump the suffix when the demo data changes shape or content, so every instance starts from the new seed.
+const STATE = "spiro:state:v2";
+const VERSION = "spiro:ver:v2";
 const AUDIO_TTL = 7 * 24 * 3600;
 
 type Cmd = (string | number)[];

@@ -2,34 +2,35 @@
   "welcome": {
     "tryPrototype": "Probar prototipo",
     "tryPrototypeError": "No se pudo abrir el prototipo. Probá de nuevo.",
-    "eyebrow": "SCREENING RESPIRATORIO BASADO EN LA VOZ",
-    "headline": "Señales tempranas de EPOC en la voz de tus pacientes",
-    "body": "Una grabación breve. Una imagen más clara. Incorporá el monitoreo respiratorio remoto a tu práctica diaria, con vos al mando.",
+    "eyebrow": "TRIAGE DE EPOC EN ATENCIÓN PRIMARIA",
+    "headline": "Cada espirometría para quien la necesita",
+    "body": "Un triage de tres minutos en el centro de salud o en una visita domiciliaria decide quién hace primero un estudio de respiración, reserva el turno en el momento y recibe el resultado del hospital. Nunca diagnostica.",
     "create": "Crear cuenta profesional",
     "login": "Iniciar sesión",
     "how": "Cómo funciona ↗",
     "tags": {
-      "remote": "Monitoreo remoto",
-      "alerts": "Alertas tempranas",
+      "remote": "Preguntas PUMA y voz",
+      "alerts": "Espirometría reservada en el momento",
       "missed": "Menos casos sin detectar",
-      "licensed": "Profesionales matriculados",
+      "licensed": "Centros y visitas domiciliarias",
       "consent": "Basado en el consentimiento",
       "judgment": "Primero el criterio clínico"
     },
     "pins": {
-      "biomarkers": "Biomarcadores de voz",
-      "baseline": "Línea de base personal",
-      "followup": "Seguimiento clínico"
+      "biomarkers": "Preguntas PUMA",
+      "baseline": "Prioridad para un estudio",
+      "followup": "El resultado vuelve"
     },
-    "trend": {
-      "title": "Puntaje de riesgo de voz",
-      "baseline": "Base 18",
-      "today": "Hoy 23 / 100",
-      "note": "Ilustrativo · sin datos de pacientes · no es un diagnóstico"
-    },
-    "extra": "Una señal adicional, no un diagnóstico",
+    "extra": "Una prioridad para un estudio, nunca un diagnóstico",
     "footer": "SpiroAI · Apoyo profesional al screening por voz · Demostración ficticia, sin validación clínica.",
-    "tryAgent": "Demo agente sanitario"
+    "tryAgent": "Demo agente sanitario",
+    "card": {
+      "title": "Prioridad para un estudio de respiración",
+      "priority": "Alta",
+      "puma": "Puntaje PUMA 28 de 44",
+      "booked": "Espirometría reservada · jue 09:30",
+      "note": "Ilustrativo · sin datos de pacientes · no es un diagnóstico"
+    }
   },
   "risk": {
     "low": "Bajo",
@@ -41,7 +42,7 @@
     "next": "Siguiente",
     "back": "Atrás",
     "cancel": "Cancelar",
-    "footer": "SpiroAI · Apoyo profesional al screening por voz · Demostración ficticia, sin validación clínica.",
+    "footer": "SpiroAI · Apoyo al triage de EPOC en atención primaria · Demostración ficticia, sin validación clínica.",
     "disclaimer": "Apoyo al screening, no es un diagnóstico",
     "required": "Los campos obligatorios están marcados con *",
     "sampleNotice": "Datos de muestra ficticios · El modelo de IA, los rangos de ejemplo y los umbrales no están validados clínicamente. Apoyo al screening, no es un diagnóstico. El médico tiene la decisión final."
@@ -50,27 +51,31 @@
     "forProfessionals": "Para profesionales de la salud"
   },
   "howItWorks": {
-    "title": "Una grabación de voz se convierte en una conversación clínica",
-    "subtitle": "Cómo SpiroAI apoya tu flujo de trabajo",
+    "title": "De un triage de tres minutos al resultado de la espirometría",
+    "subtitle": "Cómo funciona SpiroAI en atención primaria",
     "steps": [
       {
-        "title": "Invitar y obtener consentimiento",
-        "body": "Tu paciente se une desde la app móvil y controla su consentimiento."
+        "title": "Triage en el centro o en la casa",
+        "body": "Un agente sanitario, una enfermera o un médico lee el consentimiento, hace las siete preguntas PUMA y graba unos 20 segundos de voz y tos."
       },
       {
-        "title": "Grabar y evaluar",
-        "body": "Una /a/ sostenida, contar hasta 20 y una tos breve son analizadas por modelos de IA independientes."
+        "title": "Prioridad para un estudio de respiración",
+        "body": "Alta, media o baja. El cuestionario decide solo; la voz cuenta recién cuando esté validada en pacientes argentinos."
       },
       {
-        "title": "Revisar y decidir",
-        "body": "Inspeccioná riesgo, confianza, calidad y tendencias. Vos elegís el próximo paso."
+        "title": "Espirometría reservada en el momento",
+        "body": "La prioridad alta reserva el turno por defecto. El turno llega por WhatsApp o en un comprobante impreso, solo con la fecha y el lugar."
+      },
+      {
+        "title": "El resultado vuelve",
+        "body": "El hospital carga el FEV1/FVC sin ver la prioridad. Cada centro ve los casos encontrados cada 100 espirometrías, y los casos confirmados pasan a seguimiento."
       }
     ],
-    "confidence": "Confianza de la IA: se muestra en cada resultado",
-    "quality": "Calidad de la grabación: se verifica antes de interpretar",
-    "judgment": "Juicio final: siempre del médico tratante",
+    "confidence": "El paciente nunca ve un puntaje",
+    "quality": "La calidad de la grabación se verifica antes de cualquier análisis",
+    "judgment": "Siempre decide el profesional de salud. Una prioridad baja nunca cierra el caso: se puede derivar igual o repetir el triage en 3 o 6 meses.",
     "create": "Crear cuenta profesional",
-    "note": "Modal estático complementario de S01 · No se muestran datos reales de pacientes antes de iniciar sesión. Las sesiones guardadas omiten la bienvenida y vuelven al Panel."
+    "note": "Datos de demostración ficticios. Las cifras de precisión son metas, todavía sin probar."
   },
   "signup": {
     "steps": {
@@ -1581,7 +1586,8 @@
         "LOW_SAMPLE_RATE": "frecuencia de muestreo baja",
         "MISSING_TASK": "falta una tarea"
       }
-    }
+    },
+    "part": "Grabación · parte {n} de {total}"
   },
   "contact": {
     "whatsapp": "WhatsApp",

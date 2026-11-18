@@ -121,7 +121,7 @@ export function RecorderFlow(props: Props) {
 
   const header = (
     <div className="flex flex-col gap-1">
-      <p className="text-[11px] font-medium uppercase tracking-[0.06em] text-ink-muted">{t("rec.step", { n: stepNumber, total })}</p>
+      <p className="text-[11px] font-medium uppercase tracking-[0.06em] text-ink-muted">{t(assisted && props.protocol === "triage" ? "rec.part" : "rec.step", { n: stepNumber, total })}</p>
       <h1 className="font-display text-[28px] font-medium leading-[1.2] tracking-[-0.035em]">{assisted ? t("rec.assistedTitle") : t("rec.patientTitle")}</h1>
       {assisted ? <p className="text-[13px] text-ink-muted">{t("rec.assisted.patient")}: {props.patientName} · {props.patientCode}</p> : <p className="text-[13px] text-ink-muted">{t("rec.hello", { name: props.firstName })}</p>}
     </div>

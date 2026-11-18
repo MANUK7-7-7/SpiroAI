@@ -13,6 +13,16 @@ const pick = <T,>(a: readonly T[]) => a[Math.floor(rnd() * a.length)];
 const first = ["Ana", "Carlos", "Marta", "Jorge", "Silvia", "Raúl", "Norma", "Héctor", "Graciela", "Oscar", "Liliana", "Miguel", "Susana", "Rubén", "Alicia", "Daniel"];
 const last = ["Gómez", "Díaz", "Pereyra", "Sosa", "Romero", "Álvarez", "Benítez", "Acosta", "Medina", "Herrera", "Suárez", "Aguirre"];
 const iso = (ms: number) => new Date(ms).toISOString();
+// Every fictional person gets a different name. The random draws stay the same, so the rest of the history does not change.
+const usedNames = new Set<string>();
+function uniqueName() {
+  const f = Math.floor(rnd() * first.length), l = Math.floor(rnd() * last.length);
+  for (let k = 0; k < first.length * last.length; k++) {
+    const name = `${first[(f + Math.floor((l + k) / last.length)) % first.length]} ${last[(l + k) % last.length]}`;
+    if (!usedNames.has(name)) { usedNames.add(name); return name; }
+  }
+  return `${first[f]} ${last[l]}`;
+}
 
 function person(i: number, now: number): Triage {
   const copd = rnd() < 0.2;
@@ -29,7 +39,7 @@ function person(i: number, now: number): Triage {
   const override = !BOOK_BY_DEFAULT[priority] && rnd() < (priority === "medium" ? 0.3 : 0.05);
   const referred = BOOK_BY_DEFAULT[priority] || override;
   const t: Triage = {
-    id: `tr-${100 + i}`, code: `TR-${2400 + i}`, patientId: `tp-${100 + i}`, patientName: `${pick(first)} ${pick(last)}`, centre: pick(CENTRES), by: pick(["Agente sanitario M. López", "Enf. R. Castro", "Dra. P. Ibáñez"]),
+    id: `tr-${100 + i}`, code: `TR-${2400 + i}`, patientId: `tp-${100 + i}`, patientName: uniqueName(), centre: pick(CENTRES), by: pick(["Agente sanitario M. López", "Enf. R. Castro", "Dra. P. Ibáñez"]),
     at: iso(at), answers, pumaScore: score, voice, priority, override, worsening: false,
     retriageOn: priority !== "high" && !override ? iso(at + RETRIAGE_MONTHS[priority] * 30 * DAY).slice(0, 10) : undefined, monitoringStarted: false, homeVisit: false,
   };

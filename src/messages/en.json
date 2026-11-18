@@ -2,34 +2,35 @@
   "welcome": {
     "tryPrototype": "Try prototype",
     "tryPrototypeError": "Could not open the prototype. Try again.",
-    "eyebrow": "VOICE-BASED RESPIRATORY SCREENING",
-    "headline": "Early COPD signals from your patients’ voice",
-    "body": "A small recording. A clearer picture. Bring remote respiratory monitoring into your everyday practice, with you in control.",
+    "eyebrow": "COPD TRIAGE IN PRIMARY CARE",
+    "headline": "Every spirometry for someone who needs it",
+    "body": "A three-minute triage at the health centre or on a home visit decides who gets a breathing test first, books it on the spot and gets the hospital's result back. It never diagnoses.",
     "create": "Create professional account",
     "login": "Log in",
     "how": "How it works ↗",
     "tags": {
-      "remote": "Remote monitoring",
-      "alerts": "Early alerts",
+      "remote": "PUMA questions plus voice",
+      "alerts": "Spirometry booked on the spot",
       "missed": "Fewer missed cases",
-      "licensed": "Licensed professionals",
+      "licensed": "Centres and home visits",
       "consent": "Consent-led",
       "judgment": "Clinical judgment first"
     },
     "pins": {
-      "biomarkers": "Voice biomarkers",
-      "baseline": "Personal baseline",
-      "followup": "Clinical follow-up"
+      "biomarkers": "PUMA questions",
+      "baseline": "Priority for a breathing test",
+      "followup": "Result comes back"
     },
-    "trend": {
-      "title": "Voice risk score",
-      "baseline": "Baseline 18",
-      "today": "Today 23 / 100",
-      "note": "Illustrative · no patient data · not a diagnosis"
-    },
-    "extra": "An extra signal, not a diagnosis",
+    "extra": "A priority for a test, never a diagnosis",
     "footer": "SpiroAI · Professional voice screening support · Fictional demonstration, not clinically validated.",
-    "tryAgent": "Health agent demo"
+    "tryAgent": "Health agent demo",
+    "card": {
+      "title": "Priority for a breathing test",
+      "priority": "High",
+      "puma": "PUMA score 28 of 44",
+      "booked": "Spirometry booked · Thu 09:30",
+      "note": "Illustrative · no patient data · not a diagnosis"
+    }
   },
   "risk": {
     "low": "Low",
@@ -41,7 +42,7 @@
     "next": "Next",
     "back": "Back",
     "cancel": "Cancel",
-    "footer": "SpiroAI · Professional voice screening support · Fictional demonstration, not clinically validated.",
+    "footer": "SpiroAI · COPD triage support for primary care · Fictional demonstration, not clinically validated.",
     "disclaimer": "Screening support, not a diagnosis",
     "required": "Required fields marked *",
     "sampleNotice": "Fictional sample data · AI model, example ranges and thresholds are clinically unvalidated. Screening support, not a diagnosis. Doctor has final judgment."
@@ -50,27 +51,31 @@
     "forProfessionals": "For healthcare professionals"
   },
   "howItWorks": {
-    "title": "A voice recording becomes a clinical conversation",
-    "subtitle": "How SpiroAI supports your workflow",
+    "title": "From a three-minute triage to a spirometry result",
+    "subtitle": "How SpiroAI works in primary care",
     "steps": [
       {
-        "title": "Invite & get consent",
-        "body": "Your patient joins the mobile app and controls their consent."
+        "title": "Triage at the centre or at home",
+        "body": "A health agent, nurse or doctor reads the consent, asks the seven PUMA questions and records about 20 seconds of voice and cough."
       },
       {
-        "title": "Record & screen",
-        "body": "A sustained /a/, counting to 20 and a short cough are analyzed by separate AI models."
+        "title": "Priority for a breathing test",
+        "body": "High, medium or low. The questionnaire decides on its own; the voice only counts once it is validated in Argentine patients."
       },
       {
-        "title": "Review & decide",
-        "body": "Inspect risk, confidence, quality and trends. You choose the next step."
+        "title": "Spirometry booked on the spot",
+        "body": "High priority books by default. The appointment goes by WhatsApp or a printed slip, with only the date and place."
+      },
+      {
+        "title": "The result comes back",
+        "body": "The hospital enters FEV1/FVC without seeing the priority. Each centre sees cases found per 100 spirometries, and confirmed cases move into follow-up."
       }
     ],
-    "confidence": "AI confidence: Shown with every result",
-    "quality": "Recording quality: Checked before interpretation",
-    "judgment": "Final judgment: Always the treating doctor",
+    "confidence": "Patients never see a score",
+    "quality": "Recording quality is checked before any analysis",
+    "judgment": "The health professional always decides. A low priority never closes the case: refer anyway, or re-triage in 3 or 6 months.",
     "create": "Create professional account",
-    "note": "Static modal companion to S01 · No actual patient data is shown before login. Saved sessions skip welcome and return to Dashboard."
+    "note": "Fictional demo data. The accuracy figures are targets, not yet tested."
   },
   "signup": {
     "steps": {
@@ -1581,7 +1586,8 @@
         "LOW_SAMPLE_RATE": "low sample rate",
         "MISSING_TASK": "missing task"
       }
-    }
+    },
+    "part": "Recording · part {n} of {total}"
   },
   "contact": {
     "whatsapp": "WhatsApp",
