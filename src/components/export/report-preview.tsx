@@ -16,7 +16,7 @@ export function ReportPreview({ model, t }: { model: ReportModel; t: T }) {
   return (
     <div className="flex flex-col gap-5 rounded-[28px] bg-surface-soft p-7 shadow-[inset_0_0_0_1px_var(--line)]" aria-label={model.title}>
       <div className="flex items-start justify-between">
-        <Brand shape="pill" />
+        <Brand />
         <p className="text-right text-[10px] leading-[1.45] text-ink-muted">{model.label}<br />{t("export.doc.pageOf", { p: 1, n: model.pages })}</p>
       </div>
       <h3 className="font-display text-[26px] font-medium tracking-[-0.03em]">{model.title}</h3>

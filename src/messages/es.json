@@ -1713,11 +1713,8 @@
     "continue": "Continuar",
     "back": "Volver",
     "notEligible": {
-      "young": "No está en el grupo objetivo: el triage es para adultos de 40 años o más.",
-      "packYears": "No está en el grupo objetivo: el triage es para personas que fuman o fumaron al menos 10 paquetes-año.",
-      "never": "No está en el grupo objetivo: el triage es para personas que fuman o fumaban.",
       "diagnosed": "Ya tiene diagnóstico: seguilo desde la lista de pacientes.",
-      "noSymptoms": "Hoy no tiene síntomas respiratorios: dale consejo para dejar de fumar y volvé a preguntar en la próxima visita."
+      "noSymptoms": "Hoy no tiene síntomas respiratorios: volvé a preguntar en la próxima visita y, si fuma, dale consejo para dejar de fumar."
     },
     "voiceTitle": "Grabación de voz",
     "voiceSub": "Unos 20 segundos: una vocal sostenida, contar hasta 20 y toser. Usá el auricular del centro.",

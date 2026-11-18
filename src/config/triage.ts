@@ -2,7 +2,10 @@
  * Triage rules. SAMPLE, UNVALIDATED: the clinical study decides whether the voice signal is used at all.
  * Changing the priority logic needs product and clinical sign-off.
  */
-export const eligibility = { minAge: 40, minPackYears: 10 } as const;
+/**
+ * Anyone can be triaged, whatever their age or smoking history. The PUMA score was validated in adults aged 40
+ * or over who smoke or smoked at least 10 pack-years; outside that group it is used as is, without validation.
+ */
 
 /**
  * PUMA questionnaire, WEIGHTED score (López Varela et al., Respirology 2016;21:1227-34).

@@ -40,19 +40,28 @@ export async function listTriages(demo?: DemoState) {
 
 export const getTriage = (id: string) => { const t = store.triages.find((x) => x.id === id); return t && view(t); };
 
-export type NewTriage = { name: string; phone?: string; centre: string; answers: PumaAnswers; consent: true };
+/**
+ * Next free triage id. The shared counter starts at 100, the same range the seed uses (tr-100...), so ids are
+ * taken from the highest numeric suffix already in the store instead. This also holds for a store loaded from Redis.
+ */
+function nextTriageId() {
+  const max = store.triages.reduce((m, t) => { const k = /^tr-(\d+)$/.exec(t.id); return k ? Math.max(m, Number(k[1])) : m; }, 99);
+  return `tr-${max + 1}`;
+}
+
+export type NewTriage = { name: string; phone?: string; centre: string; smoking?: "current" | "former" | "never"; answers: PumaAnswers; consent: true };
 
 /** The person is triaged in person: consent is given there, so the record starts active. */
 export function createTriage(input: NewTriage, by: string, opts: { homeVisit?: boolean } = {}): Triage {
   const n = store.triages.length + 2400;
   const patient: Patient = patientSchema.parse({
     id: `p-t${n}`, code: `SP-T${n}`, name: input.name.trim(), initials: input.name.trim().split(/\s+/).map((x) => x[0]).slice(0, 2).join("").toUpperCase(),
-    age: input.answers.age, sex: input.answers.sex, status: "at_risk", smoker: "current", consent: "active", invitePending: false, phone: input.phone,
+    age: input.answers.age, sex: input.answers.sex, status: "at_risk", smoker: input.smoking ?? (input.answers.packYears > 0 ? "current" : "never"), consent: "active", invitePending: false, phone: input.phone,
   });
   store.patients.unshift(patient);
   const score = pumaScore(input.answers);
   const t = triageSchema.parse({
-    id: nextId("tr"), code: `TR-${n}`, patientId: patient.id, patientName: patient.name, centre: input.centre, by, at: nowIso(),
+    id: nextTriageId(), code: `TR-${n}`, patientId: patient.id, patientName: patient.name, centre: input.centre, by, at: nowIso(),
     answers: input.answers, pumaScore: score, voice: "off", priority: priorityFor(score, "off"), override: false, worsening: false, monitoringStarted: false,
     homeVisit: !!opts.homeVisit,
   });

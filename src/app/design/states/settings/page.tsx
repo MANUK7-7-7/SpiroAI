@@ -14,7 +14,7 @@ export default async function SettingsStateLibrary() {
   const { t } = await getT();
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col gap-8 rounded-shell bg-surface-sunken p-10">
-      <Brand shape="pill" />
+      <Brand />
       <div className="flex flex-col gap-2"><Title size={40}>{t("settings.stateBoard.title")}</Title><p className="text-[14px] text-ink-muted">{t("settings.stateBoard.sub")}</p></div>
       <section className="flex flex-col gap-4">
         <h2 className="text-[18px] font-medium tracking-[-0.01em]">{t("settings.stateBoard.section")}</h2>

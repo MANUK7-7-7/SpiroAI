@@ -1713,11 +1713,8 @@
     "continue": "Continue",
     "back": "Back",
     "notEligible": {
-      "young": "Not in the target group: the triage is for adults aged 40 or over.",
-      "packYears": "Not in the target group: the triage is for people who smoke or smoked at least 10 pack-years.",
-      "never": "Not in the target group: the triage is for people who smoke or used to smoke.",
       "diagnosed": "Already diagnosed: follow this person up from the patient list instead.",
-      "noSymptoms": "No breathing symptoms today: give quit-smoking advice and ask again at the next visit."
+      "noSymptoms": "No breathing symptoms today: ask again at the next visit, and give quit-smoking advice if the person smokes."
     },
     "voiceTitle": "Voice recording",
     "voiceSub": "About 20 seconds: a sustained vowel, counting to 20 and a cough. Use the centre's headset.",

@@ -15,7 +15,7 @@ export default async function StateLibrary() {
   const { t } = await getT();
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-[1440px] flex-col gap-8 rounded-shell bg-surface-sunken p-10">
-      <Brand shape="pill" />
+      <Brand />
       <div className="flex flex-col gap-2">
         <Title size={40}>{t("states.boardTitle")}</Title>
         <p className="text-[14px] text-ink-muted">{t("states.boardSubtitle")}</p>
